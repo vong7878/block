@@ -4,7 +4,7 @@
   <!-- Viewport & Metadata for Responsive Lao Blog & Book Reader -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ສາລະຄະດີແນະນຳຕົນເອງ</title>
+  <title>ໜັງສືແນະນຳຕົນເອງ</title>
 
   <!-- Tailwind CSS CDN for Fast, Responsive Styling -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -787,42 +787,169 @@
         'ໃນຊ່ວງທີ່ຕ້ອງປັບຕົວກັບສະພາບແວດລ້ອມໃໝ່'
       ];
 
+      const UNIQUE_CONTEXTS = [
+        'ຕອນນັ່ງຈິບກາເຟຕອນເຊົ້າກ່ອນເປີດຄອມພິວເຕີ',
+        'ຫຼັງຈາກປິດໄຟຫ້ອງທົດລອງໃນຄືນທີ່ຝົນຕົກ',
+        'ຕອນເດີນຜ່ານຕະຫຼາດເຊົ້າແລ້ວເຫັນວິຖີຊີວິດປະຈຳວັນ',
+        'ເວລານັ່ງລົດກັບບ້ານແລ້ວເບິ່ງວິວສອງຂ້າງທາງ',
+        'ຕອນທົດສອບວົງຈອນຄັ້ງທີສາມຫຼັງປ່ຽນຕົວຕ້ານທານ',
+        'ເວລາອ່ານບັນທຶກເກົ່າທີ່ຂຽນໄວ້ຕັ້ງແຕ່ປີກ່ອນ',
+        'ຕອນພັກກິນເຂົ້າທ່ຽງກັບໝູ່ຮ່ວມງານທີ່ດານັງ',
+        'ເວລາເຫັນແສງແດດຍາມແລງຕົກກະທົບໜ້າຕ່າງ',
+        'ຕອນນັ່ງຈັດໂຕະເຮັດວຽກໃໝ່ໃຫ້ໂລ່ງ ແລະ ເປັນລະບຽບ',
+        'ເວລາລໍຖ້າໂຄດຄອມພິວເລີ່ມເຮັດວຽກເທິງບອດ',
+        'ຕອນເປີດກ່ອງອຸປະກອນເຊັນເຊີທີ່ສັ່ງມາໃໝ່',
+        'ເວລາໄດ້ຟັງຄຳແນະນຳສັ້ນໆແຕ່ກົງຈຸດຈາກຜູ້ມີປະສົບການ'
+      ];
+
+      const UNIQUE_ACTIONS = [
+        'ຈຶ່ງເລືອກຈົດບັນທຶກລາຍລະອຽດທີ່ສຳຄັນໄວ້ທັນທີ',
+        'ຈຶ່ງລອງປ່ຽນມຸມມອງແລ້ວເລີ່ມທົດສອບອີກຄັ້ງ',
+        'ຈຶ່ງແບ່ງງານໃຫຍ່ອອກເປັນຂັ້ນຕອນນ້ອຍໆທີ່ຈັບຕ້ອງໄດ້',
+        'ຈຶ່ງກວດສອບສາຍສັນຍານ ແລະ ຄ່າພາຣາມິເຕີທຸກຈຸດ',
+        'ຈຶ່ງລົມກັບທີມໃຫ້ຊັດເຈນກ່ອນລົງມືປັບໂຄງສ້າງ',
+        'ຈຶ່ງພັກຫາຍໃຈສັ້ນໆກ່ອນກັບມາວິເຄາະສາເຫດຫຼັກ',
+        'ຈຶ່ງທົດລອງໃຊ້ງານຈິງໃນສະຖານະການທີ່ໃກ້ຄຽງໜ້າງານ',
+        'ຈຶ່ງປັບວິທີສື່ສານໃຫ້ສັ້ນ ກະທັດ ແລະ ເຂົ້າໃຈງ່າຍຂຶ້ນ',
+        'ຈຶ່ງຈັດເກັບໄຟລ໌ ແລະ ເອກະສານໃຫ້ຄົ້ນຫາໄດ້ງ່າຍໃນອະນາຄົດ',
+        'ຈຶ່ງຖາມຕົນເອງວ່າສິ່ງນີ້ຊ່ວຍຜູ້ໃຊ້ງານໄດ້ແທ້ຫຼືບໍ່'
+      ];
+
+      const UNIQUE_OUTCOMES = [
+        'ເຊິ່ງຊ່ວຍໃຫ້ເຫັນທິດທາງທີ່ຊັດເຈນຂຶ້ນໂດຍບໍ່ຕ້ອງເດົາ',
+        'ເຮັດໃຫ້ຫຼຸດຄວາມຜິດພາດຊ້ຳໆທີ່ເຄີຍເກີດຂຶ້ນກ່ອນໜ້ານີ້',
+        'ສ້າງຄວາມໝັ້ນໃຈໃຫ້ກັບການຕັດສິນໃຈໃນຂັ້ນຕໍ່ໄປ',
+        'ຊ່ວຍປະຢັດເວລາໄດ້ຫຼາຍເມື່ອຕ້ອງກັບມາແກ້ໄຂງານ',
+        'ເຮັດໃຫ້ການເຮັດວຽກຮ່ວມກັນລື່ນໄຫຼ ແລະ ມີຈັງຫວະຫຼາຍຂຶ້ນ',
+        'ເປີດມຸມມອງໃໝ່ທີ່ບໍ່ເຄີຍສັງເກດເຫັນມາກ່ອນ',
+        'ເຮັດໃຫ້ລະບົບເຮັດວຽກໄດ້ນິ່ງ ແລະ ຄາດເດົາຜົນໄດ້ດີຂຶ້ນ',
+        'ຊ່ວຍຮັກສາພະລັງງານໃຈໄວ້ໄດ້ໃນມື້ທີ່ງານຫຼາຍ'
+      ];
+
+      const EXTRA_OPENERS = [
+        'ບາງຄັ້ງຄວາມເຂົ້າໃຈບໍ່ໄດ້ມາຕອນກຳລັງເລັ່ງ ແຕ່ມາຕອນທີ່ຢຸດຟັງສິ່ງອ້ອມຕົວ',
+        'ຖ້າຖາມວ່າສິ່ງໃດເຮັດໃຫ້ຍັງຢາກສ້າງສິ່ງໃໝ່ ຄຳຕອບມັກຢູ່ໃນຄວາມຢາກຮູ້ເລັກໆນ້ອຍໆ',
+        'ຄວາມແຕກຕ່າງລະຫວ່າງການຮູ້ທິດສະດີກັບການລົງມືເຮັດ ຈະເຫັນຊັດຕອນເຈີສະຖານະການຈິງ',
+        'ບໍ່ມີເສັ້ນທາງໃດທີ່ລຽບຕະຫຼອດ ແຕ່ການຮູ້ວ່າເຮົາເດີນໄປເພື່ອຫຍັງກໍຊ່ວຍໄດ້ຫຼາຍ',
+        'ໃນຫຼາຍມື້ ຄວາມກ້າວໜ້າບໍ່ໄດ້ວັດຈາກຜົນລັບໃຫຍ່ໂຕ ແຕ່ວັດຈາກການບໍ່ຖອຍຫຼັງ',
+        'ການເລົ່າເລື່ອງຂອງຕົນເອງແບບຕົງໄປຕົງມາ ເຮັດໃຫ້ເຫັນທັງຈຸດແຂງ ແລະ ຈຸດທີ່ຍັງຕ້ອງປັບ',
+        'ເມື່ອລອງປ່ຽນວິທີເບິ່ງບັນຫາ ບາງເລື່ອງທີ່ເບິ່ງຄືຕັນກໍເລີ່ມມີທາງອອກ',
+        'ສິ່ງທີ່ເຮັດໃຫ້ວຽກມີຄຸນນະພາບມັກມາຈາກຄວາມໃສ່ໃຈໃນລາຍລະອຽດທີ່ຄົນອື່ນອາດຂ້າມໄປ',
+        'ການຮຽນຮູ້ຈາກປະສົບການຂອງຄົນອື່ນຊ່ວຍຫຼຸດທາງອ້ອມໄດ້ຫຼາຍ ແຕ່ການລົງມືເອງຍັງຈຳເປັນ',
+        'ໃນແຕ່ລະໄລຍະຂອງຊີວິດ ຄວາມໝາຍຂອງຄຳວ່າສຳເລັດກໍຄ່ອຍໆປ່ຽນໄປຕາມປະສົບການ',
+        'ການຮັກສາຈັງຫວະທີ່ພໍດີກັບຕົນເອງ ສຳຄັນກວ່າການແລ່ນຕາມຈັງຫວະຂອງຄົນອື່ນ',
+        'ບັນທຶກແຕ່ລະໜ້າຄືພາບຖ່າຍຂອງຄວາມຄິດໃນຊ່ວງເວລານັ້ນ ທີ່ເອົາກັບມາອ່ານເມື່ອໃດກໍມີຄວາມໝາຍ'
+      ];
+
+      const EXTRA_DETAILS = [
+        'ໂດຍບໍ່ລືມກວດເບິ່ງທັງຂໍ້ມູນພື້ນຖານ ແລະ ຜົນກະທົບຕໍ່ຜູ້ໃຊ້ງານ',
+        'ພ້ອມທັງປັບການຕັ້ງຄ່າໃຫ້ເໝາະກັບສະພາບແວດລ້ອມທີ່ປ່ຽນໄປ',
+        'ໂດຍໃຊ້ເວລາທົບທວນຈຸດທີ່ເຄີຍພາດກ່ອນຈະເລີ່ມຂັ້ນຕອນຖັດໄປ',
+        'ພ້ອມກັບຈົດບັນທຶກສາເຫດ ແລະ ວິທີແກ້ໄຂໄວ້ໃຫ້ຊັດເຈນ',
+        'ໂດຍເນັ້ນຄວາມໝັ້ນຄົງ ແລະ ຄວາມງ່າຍຕໍ່ການບຳລຸງຮັກສາໃນໄລຍະຍາວ',
+        'ພ້ອມທັງຟັງຄວາມຄິດເຫັນທີ່ແຕກຕ່າງເພື່ອເຕີມເຕັມມຸມທີ່ຍັງຂາດ',
+        'ໂດຍຈັດລຳດັບສິ່ງທີ່ຄວນເຮັດກ່ອນຫຼັງຢ່າງມີເຫດຜົນ',
+        'ພ້ອມກັບຮັກສາຄວາມສົມດຸນລະຫວ່າງຄວາມໄວ ແລະ ຄວາມລະອຽດຮອບຄອບ',
+        'ໂດຍບໍ່ປ່ອຍໃຫ້ຄວາມກັງວົນນ້ອຍໆມາປິດກັ້ນການລົງມືເຮັດ',
+        'ພ້ອມທັງທົດສອບກັບສະຖານະການຈິງຫຼາຍຮູບແບບກ່ອນສະຫຼຸບຜົນ'
+      ];
+
+      const EXTRA_CLOSINGS = [
+        'ເພື່ອໃຫ້ທຸກບາດກ້າວຕໍ່ໄປມີພື້ນຖານທີ່ແໜ້ນຂຶ້ນ',
+        'ເພື່ອໃຫ້ວຽກທີ່ສ້າງອອກມາໃຊ້ງານໄດ້ຈິງ ແລະ ເຊື່ອຖືໄດ້',
+        'ເພື່ອໃຫ້ຕົນເອງຍັງຮັກສາຄວາມສົນໃຈ ແລະ ຄວາມຕັ້ງໃຈໄວ້ໄດ້ດົນ',
+        'ເພື່ອໃຫ້ການສື່ສານ ແລະ ການເຮັດວຽກຮ່ວມກັນເຂົ້າໃຈກັນງ່າຍຂຶ້ນ',
+        'ເພື່ອໃຫ້ບົດຮຽນໃນມື້ນີ້ກາຍເປັນແຮງສົ່ງໃນວັນຂ້າງໜ້າ',
+        'ເພື່ອໃຫ້ທຸກຄວາມພະຍາຍາມມີຄວາມໝາຍຕໍ່ທັງຕົນເອງ ແລະ ທີມ'
+      ];
+
       /**
-       * Builds 2,000 lines across the 20 chapters (100 lines per chapter)
-       * without repeating mechanical numbering labels or robotic templates.
+       * Builds 2,000 distinct lines across the 20 chapters (100 lines per chapter)
+       * using multi-pool combinations and varied structures so lines don't repeat
+       * back-and-forth across the book.
        */
       function buildAll2000Lines() {
         const lines = [];
         let counter = 1;
+        const usedTexts = new Set();
 
         for (const ch of CHAPTERS) {
           const basePool = THEME_SENTENCES[ch.theme];
           const topicName = ch.title.split(':')[1] ? ch.title.split(':')[1].trim() : ch.title;
 
           for (let i = 1; i <= 100; i++) {
-            const s1 = basePool[(i - 1) % basePool.length];
-            const s2 = basePool[(i + Math.floor(i / 3)) % basePool.length];
-            const angle = SUB_ANGLES[(i * 3 + ch.id) % SUB_ANGLES.length];
+            const idx1 = (i * 7 + ch.id * 3) % basePool.length;
+            const idx2 = (i * 11 + ch.id * 5 + 2) % basePool.length;
+            const s1 = basePool[idx1];
+            const s2 = basePool[idx2 === idx1 ? (idx2 + 1) % basePool.length : idx2];
 
-            // Varied natural phrasing without repeating "ບັນທຶກລຳດັບທີ..." or "ສະຫຼຸບຈາກປະສົບການຈິງ"
+            const angle = SUB_ANGLES[(i * 13 + ch.id * 7 + Math.floor(i / 10)) % SUB_ANGLES.length];
+            const ctx = UNIQUE_CONTEXTS[(i * 17 + ch.id * 11 + i) % UNIQUE_CONTEXTS.length];
+            const act = UNIQUE_ACTIONS[(i * 19 + ch.id * 13 + ch.id) % UNIQUE_ACTIONS.length];
+            const out = UNIQUE_OUTCOMES[(i * 23 + ch.id * 17 + i * 2) % UNIQUE_OUTCOMES.length];
+            const opener = EXTRA_OPENERS[(i * 29 + ch.id * 19 + i * 3) % EXTRA_OPENERS.length];
+            const detail = EXTRA_DETAILS[(i * 31 + ch.id * 23 + i * 5) % EXTRA_DETAILS.length];
+            const closing = EXTRA_CLOSINGS[(i * 37 + ch.id * 29 + i * 7) % EXTRA_CLOSINGS.length];
+
+            const cleanAct = act.replace(/^ຈຶ່ງ/, '');
+            const lowerS1 = s1.charAt(0).toLowerCase() + s1.slice(1);
+            const lowerS2 = s2.charAt(0).toLowerCase() + s2.slice(1);
+            const lowerCtx = ctx.charAt(0).toLowerCase() + ctx.slice(1);
+            const lowerAngle = angle.charAt(0).toLowerCase() + angle.slice(1);
+
             let lineText = '';
-            const mode = i % 6;
-            if (mode === 1) {
-              lineText = `${s1}.`;
-            } else if (mode === 2) {
-              lineText = `${angle}, ${s1.charAt(0).toLowerCase() + s1.slice(1)}.`;
-            } else if (mode === 3) {
-              lineText = `${s1} — ${s2.charAt(0).toLowerCase() + s2.slice(1)}.`;
-            } else if (mode === 4) {
-              lineText = `ເມື່ອເວົ້າເຖິງ${topicName}, ${s2.charAt(0).toLowerCase() + s2.slice(1)}.`;
-            } else if (mode === 5) {
-              lineText = `ຫຼາຍຄັ້ງ${angle}, ${s2.charAt(0).toLowerCase() + s2.slice(1)}.`;
-            } else {
-              lineText = `${s2}.`;
+            const pattern = (i * 3 + ch.id * 5) % 12;
+
+            switch (pattern) {
+              case 0:
+                lineText = `${ctx}, ${lowerS1} — ${act}, ${out}.`;
+                break;
+              case 1:
+                lineText = `${angle}, ຂ້ອຍມັກຄິດເຖິງ${topicName} ເພາະ${lowerS2}, ຈຶ່ງ${cleanAct}.`;
+                break;
+              case 2:
+                lineText = `${s1} ແຕ່${lowerCtx} ກໍເຮັດໃຫ້${out}.`;
+                break;
+              case 3:
+                lineText = `ໃນມุมຂອງ${topicName}, ${lowerS2}; ${lowerAngle}, ຂ້ອຍ${cleanAct}.`;
+                break;
+              case 4:
+                lineText = `${ctx} ໄດ້ສອນໃຫ້ເຫັນວ່າ ${lowerS1} ແລະ ${out}.`;
+                break;
+              case 5:
+                lineText = `${s2} ໂດຍສະເພາະ${lowerAngle}, ${act}, ${out}.`;
+                break;
+              case 6:
+                lineText = `ເລື່ອງຂອງ${topicName} ບໍ່ໄດ້ຢຸດຢູ່ແຄ່ທິດສະດີ; ${lowerCtx}, ${lowerS1}.`;
+                break;
+              case 7:
+                lineText = `${angle}, ${lowerS2} ພ້ອມກັບ${lowerCtx}, ເຊິ່ງ${out}.`;
+                break;
+              case 8:
+                lineText = `${opener}, ຂ້ອຍຈຶ່ງ${cleanAct} ${detail} ${closing}.`;
+                break;
+              case 9:
+                lineText = `ເມື່ອເວົ້າເຖິງ${topicName}, ${lowerS1} ${detail}, ຈຶ່ງ${cleanAct}.`;
+                break;
+              case 10:
+                lineText = `${ctx} ເຮັດໃຫ້${lowerS2} ${closing}, ບໍ່ແມ່ນພຽງ${lowerS1}.`;
+                break;
+              default:
+                lineText = `${opener}; ${lowerAngle}, ຂ້ອຍ${cleanAct} ${detail}, ເຊິ່ງ${out}.`;
+                break;
             }
 
-            // Clean punctuation spacing
-            lineText = lineText.replace(/\.\./g, '.').replace(/\s+\./g, '.');
+            lineText = lineText
+              .replace(/\.\./g, '.')
+              .replace(/\s+\./g, '.')
+              .replace(/\s+,/g, ',');
+
+            // Guarantee zero duplicate lines across all 2,000 lines
+            if (usedTexts.has(lineText)) {
+              const fallbackSuffix = EXTRA_OPENERS[counter % EXTRA_OPENERS.length].split(',')[0];
+              lineText = `${lineText.slice(0, -1)} — ${fallbackSuffix}.`;
+            }
+            usedTexts.add(lineText);
 
             lines.push({
               globalLine: counter,
