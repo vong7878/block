@@ -102,18 +102,18 @@
 
           <div class="min-w-0">
             <div class="flex items-center gap-2">
-              <!-- Header Profile Avatar Badge for Saisathone Vongvilay -->
+              <!-- Header Profile Avatar Badge for Vongvilay Saisathone -->
               <button
                 id="btn-header-avatar"
                 type="button"
                 class="relative w-8 h-8 rounded-full overflow-hidden ring-2 ring-indigo-500/70 bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 hover:scale-105 transition"
-                title="ເບິ່ງຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
-                aria-label="ເບິ່ງຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+                title="ເບິ່ງຮູບໂປຣໄຟລ໌ ວົງວິໄລ ໃສສະທອນ"
+                aria-label="ເບິ່ງຮູບໂປຣໄຟລ໌ ວົງວິໄລ ໃສສະທອນ"
               >
                 <img
                   id="header-avatar-img"
                   src="https://drive.google.com/thumbnail?id=14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw&sz=w800"
-                  alt="ຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+                  alt="ຮູບໂປຣໄຟລ໌ ວົງວິໄລ ໃສສະທອນ"
                   class="w-full h-full object-cover"
                 />
                 <span id="header-avatar-fallback" class="hidden select-none">SV</span>
@@ -127,7 +127,7 @@
               </span>
             </div>
             <p id="status-subtext" class="text-xs text-slate-500 dark:text-slate-400 truncate">
-              ສາຍສະຖອນ ວົງວິໄລ • ຄວາມຄືບໜ້າ: 0% • ບົດທີ 1
+              ວົງວິໄລ ໃສສະທອນ • ຄວາມຄືບໜ້າ: 0% • ບົດທີ 1
             </p>
           </div>
         </div>
@@ -146,7 +146,7 @@
             <button
               id="btn-mode-ledger"
               type="button"
-              class="px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition"
+              class="hidden px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition"
             >
               2,000 ແຖວ
             </button>
@@ -186,6 +186,17 @@
             <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
             </svg>
+          </button>
+
+          <!-- Duplicate Word Checker Button -->
+          <button
+            id="btn-check-duplicates"
+            type="button"
+            class="px-2.5 sm:px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-800/70 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-medium transition whitespace-nowrap"
+            title="ກວດຄຳທີ່ຊ້ຳກັນໃນ 2,000 ແຖວ"
+            aria-label="ກວດຄຳທີ່ຊ້ຳກັນ"
+          >
+            ກວດຄຳຊ້ຳ
           </button>
 
           <!-- Dark / Light Theme Toggle -->
@@ -300,12 +311,12 @@
                   type="button"
                   class="group relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden ring-4 ring-white/25 shadow-xl bg-indigo-800/80 flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-amber-300 transition"
                   title="ກົດເພື່ອຂະຫຍາຍເບິ່ງຮູບໂປຣໄຟລ໌"
-                  aria-label="ຂະຫຍາຍເບິ່ງຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+                  aria-label="ຂະຫຍາຍເບິ່ງຮູບໂປຣໄຟລ໌ ວົງວິໄລ ໃສສະທອນ"
                 >
                   <img
                     id="hero-avatar-img"
                     src="https://drive.google.com/thumbnail?id=14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw&sz=w800"
-                    alt="ສາຍສະຖອນ ວົງວິໄລ (Saisathone Vongvilay)"
+                    alt="ວົງວິໄລ ໃສສະທອນ"
                     class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                   />
                   <span id="hero-avatar-fallback" class="hidden text-2xl font-bold tracking-wider text-white select-none">SV</span>
@@ -317,7 +328,7 @@
 
               <div class="space-y-2">
                 <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-xs font-medium">
-                  <span>ສາຍສະຖອນ ວົງວິໄລ (Saisathone Vongvilay)</span>
+                  <span>ວົງວິໄລ ໃສສະທອນ</span>
                   <span>•</span>
                   <span>2,000 ແຖວເຕັມຮູບແບບ</span>
                 </div>
@@ -359,14 +370,14 @@
                 <img
                   id="about-avatar-img"
                   src="https://drive.google.com/thumbnail?id=14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw&sz=w800"
-                  alt="ຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+                  alt="ຮູບໂປຣໄຟລ໌ ວົງວິໄລ ໃສສະທອນ"
                   class="w-full h-full object-cover"
                 />
                 <span id="about-avatar-fallback" class="hidden text-lg select-none">SV</span>
               </div>
               <div class="min-w-0">
                 <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate">
-                  ກ່ຽວກັບຜູ້ຂຽນ: ສາຍສະຖອນ ວົງວິໄລ (Saisathone Vongvilay)
+                  ກ່ຽວກັບຜູ້ຂຽນ: ວົງວິໄລ ໃສສະທອນ
                 </h2>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                   ວິສະວະກອນລະບົບຝັງຕົວ &amp; IoT • ຮາກເຫງົ້າພາກໃຕ້ (ຈຳປາສັກ – ສາລະວັນ) • ປະສົບການເຮັດວຽກ ແລະ ຮຽນຮູ້ທີ່ນະຄອນດານັງ
@@ -456,7 +467,7 @@
 
         <!-- Footer -->
         <footer class="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 text-center text-xs sm:text-sm text-slate-500 dark:text-slate-400 space-y-1">
-          <p>ໜັງສືແນະນຳຕົນເອງ — ສາຍສະຖອນ ວົງວິໄລ • ສະບັບຄົບຖ້ວນ 20 ບົດ • 2,000 ແຖວບັນທຶກ</p>
+          <p>ໜັງສືແນະນຳຕົນເອງ — ວົງວິໄລ ໃສສະທອນ • ສະບັບຄົບຖ້ວນ 20 ບົດ • 2,000 ແຖວບັນທຶກ</p>
           <p>ສ້າງຂຶ້ນເພື່ອແບ່ງປັນເລື່ອງລາວຊີວິດ, ວິສະວະກຳລະບົບຝັງຕົວ &amp; IoT, ແລະ ແຮງບັນດານໃຈ</p>
         </footer>
       </main>
@@ -474,7 +485,7 @@
     <div class="w-full max-w-md rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden">
       <div class="px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
         <h3 id="photo-modal-title" class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
-          ສາຍສະຖອນ ວົງວິໄລ — ຮູບໂປຣໄຟລ໌
+          ວົງວິໄລ ໃສສະທອນ — ຮູບໂປຣໄຟລ໌
         </h3>
         <button
           id="btn-close-photo-modal"
@@ -490,7 +501,7 @@
           <img
             id="modal-avatar-img"
             src="https://drive.google.com/thumbnail?id=14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw&sz=w800"
-            alt="ຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+            alt="ຮູບໂປຣໄຟລ໌ ວົງວິໄລ ໃສສະທອນ"
             class="w-full h-full object-cover"
           />
           <span id="modal-avatar-fallback" class="hidden text-4xl font-bold select-none">SV</span>
@@ -499,6 +510,66 @@
           ແຫຼ່ງຮູບ: Google Drive (ID: 14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw)
         </p>
       </div>
+    </div>
+  </div>
+
+  <!-- Duplicate Word Checker Modal -->
+  <div
+    id="duplicate-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/75 backdrop-blur-sm p-3 sm:p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="duplicate-modal-title"
+  >
+    <div class="w-full max-w-3xl max-h-[88vh] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col overflow-hidden">
+      <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+        <div>
+          <h3 id="duplicate-modal-title" class="font-bold text-base sm:text-lg text-slate-900 dark:text-white">
+            ຜົນການກວດຄຳທີ່ຊ້ຳກັນ (2,000 ແຖວ)
+          </h3>
+          <p id="duplicate-summary" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            ກຳລັງວິເຄາະຄຳຊ້ຳ...
+          </p>
+        </div>
+        <button
+          id="btn-close-duplicate-modal"
+          type="button"
+          class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+          aria-label="ປິດໜ້າຕ່າງກວດຄຳຊ້ຳ"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Filter Tabs & Search inside Duplicate Modal -->
+      <div class="px-5 py-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div class="inline-flex rounded-xl p-1 bg-slate-200/70 dark:bg-slate-800 border border-slate-300/60 dark:border-slate-700 self-start">
+          <button
+            id="btn-dup-tab-all"
+            type="button"
+            class="px-3 py-1 text-xs font-semibold rounded-lg bg-white dark:bg-slate-700 text-rose-600 dark:text-rose-300 shadow-sm transition"
+          >
+            ຄຳຊ້ຳທັງໝົດ
+          </button>
+          <button
+            id="btn-dup-tab-adjacent"
+            type="button"
+            class="px-3 py-1 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition"
+          >
+            ຄຳຕິດກັນຊ້ຳ
+          </button>
+        </div>
+
+        <input
+          id="duplicate-filter-input"
+          type="search"
+          placeholder="ກັ່ນຕອງຄຳທີ່ພົບ..."
+          class="w-full sm:w-56 px-3 py-1.5 text-xs sm:text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-rose-500"
+        />
+      </div>
+
+      <!-- Results List -->
+      <div id="duplicate-results-list" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3"></div>
     </div>
   </div>
 
@@ -518,7 +589,7 @@
       // 1. 20 CHAPTERS & THEMATIC SENTENCE POOLS FOR 2,000 LINES
       // =========================================================================
       const CHAPTERS = [
-        { id: 1, title: 'ບົດທີ 1: ການເປີດບັນທຶກແນະນຳຕົນເອງ', theme: 'identity', summary: 'ຄວາມຕັ້ງໃຈໃນການບັນທຶກເລື່ອງລາວຊີວິດ, ຕົວຕົນ ແລະ ການເດີນທາງຂອງ ສາຍສະຖອນ ວົງວິໄລ.' },
+        { id: 1, title: 'ບົດທີ 1: ການເປີດບັນທຶກແນະນຳຕົນເອງ', theme: 'identity', summary: 'ຄວາມຕັ້ງໃຈໃນການບັນທຶກເລື່ອງລາວຊີວິດ, ຕົວຕົນ ແລະ ການເດີນທາງຂອງ ວົງວິໄລ ໃສສະທອນ.' },
         { id: 2, title: 'ບົດທີ 2: ຮາກເຫງົ້າຈາກດິນແດນພາກໃຕ້ (ຈຳປາສັກ – ສາລະວັນ)', theme: 'roots', summary: 'ຄວາມຜູກພັນກັບບ້ານເກີດ, ທຳມະຊາດ, ວັດທະນະທຳ ແລະ ຄອບຄົວພາກໃຕ້.' },
         { id: 3, title: 'ບົດທີ 3: ໄວເດັກ ແລະ ບົດຮຽນທຳອິດຈາກຊີວິດຈິງ', theme: 'childhood', summary: 'ຄວາມຊົງຈຳໄວເດັກ, ຄວາມຢາກຮູ້ຢາກເຫັນ ແລະ ຄຸນຄ່າຂອງຄວາມອົດທົນ.' },
         { id: 4, title: 'ບົດທີ 4: ການສຶກສາ ແລະ ວິທີຄິດແບບເປັນລະບົບ', theme: 'learning', summary: 'ການຮຽນຮູ້ຢ່າງຕໍ່ເນື່ອງ, ການຕັ້ງຄຳຖາມ ແລະ ການແກ້ບັນຫາຢ່າງມີໂຄງສ້າງ.' },
@@ -537,13 +608,13 @@
         { id: 17, title: 'ບົດທີ 17: ການເງິນສ່ວນບຸກຄົນ ແລະ ການວາງແຜນຊີວິດ', theme: 'finance', summary: 'ການໃຊ້ຈ່າຍຢ່າງມີສະຕິ, ການເກັບອอม ແລະ ການລົງທຶນໃນຄວາມຮູ້ ແລະ ສຸຂະພາບ.' },
         { id: 18, title: 'ບົດທີ 18: ສຸຂະພາບກາຍ, ສຸຂະພາບໃຈ ແລະ ຄວາມສົມດຸນ', theme: 'balance', summary: 'ການຮັກສາພະລັງງານຊີວິດ, ການນອນພັກຜ່ອນ ແລະ ການສ້າງຄວາມສົມດຸນລະຫວ່າງງານກັບຊີວິດ.' },
         { id: 19, title: 'ບົດທີ 19: ວິໄສທັດ ແລະ ເປົ້າໝາຍໃນອະນາຄົດ', theme: 'vision_future', summary: 'ທິດທາງການພັດທະນາຕົນເອງ, ໂຄງການທີ່ຢາກສ້າງ ແລະ ຄຸນຄ່າທີ່ຢາກມອບໃຫ້ຄົນອ້ອມຂ້າງ.' },
-        { id: 20, title: 'ບົດທີ 20: ບົດສະຫຼຸບ 2,000 ແຖວ ແລະ ຄຳຂອບໃຈ', theme: 'conclusion', summary: 'ການທົບທວນການເດີນທາງທັງໝົດ, ຄຳຂອບໃຈ ແລະ ບາດກ້າວຕໍ່ໄປຂອງ ສາຍສະຖອນ ວົງວິໄລ.' }
+        { id: 20, title: 'ບົດທີ 20: ບົດສະຫຼຸບ 2,000 ແຖວ ແລະ ຄຳຂອບໃຈ', theme: 'conclusion', summary: 'ການທົບທວນການເດີນທາງທັງໝົດ, ຄຳຂອບໃຈ ແລະ ບາດກ້າວຕໍ່ໄປຂອງ ວົງວິໄລ ໃສສະທອນ.' }
       ];
 
       const THEME_SENTENCES = {
         identity: [
           'ການແນະນຳຕົນເອງຢ່າງແທ້ຈິງບໍ່ແມ່ນພຽງການບອກຊື່ ຫຼື ຕຳແໜ່ງ ແຕ່ຄືການເລົ່າເສັ້ນທາງທີ່ຫຼໍ່ຫຼອມໃຫ້ເຮົາເປັນເຮົາໃນມື້ນີ້',
-          'ທຸກບັນທຶກໃນໜັງສືເຫຼັ້ມນີ້ຖືກຂຽນຂຶ້ນຈາກຄວາມຈິງໃຈ ແລະ ການທົບທວນຊີວິດຂອງ ສາຍສະຖອນ ວົງວິໄລ',
+          'ທຸກບັນທຶກໃນໜັງສືເຫຼັ້ມນີ້ຖືກຂຽນຂຶ້ນຈາກຄວາມຈິງໃຈ ແລະ ການທົບທວນຊີວິດຂອງ ວົງວິໄລ ໃສສະທອນ',
           'ຕົວຕົນທີ່ຊັດເຈນຊ່ວຍໃຫ້ເຮົາຮູ້ວ່າຄວນເລືອກສິ່ງໃດ ແລະ ຄວນປະຕິເສດສິ່ງໃດໃນເວລາທີ່ຊີວິດມີທາງເລືອກຫຼາຍຂຶ້ນ'
         ],
         roots: [
@@ -725,7 +796,7 @@
       const state = {
         theme: localStorage.getItem(STORAGE_KEYS.THEME) || 'light',
         fontScale: Number(localStorage.getItem(STORAGE_KEYS.FONT_SCALE)) || 100,
-        viewMode: localStorage.getItem(STORAGE_KEYS.VIEW_MODE) || 'prose', // 'prose' | 'ledger'
+        viewMode: 'prose', // Always keep '2,000 ແຖວ' button hidden and default to 'prose'
         searchQuery: '',
         activeChapter: Number(localStorage.getItem(STORAGE_KEYS.LAST_CHAPTER)) || 1,
         bookmark: JSON.parse(localStorage.getItem(STORAGE_KEYS.BOOKMARK) || 'null') || {
@@ -750,6 +821,14 @@
         btnClosePhotoModal: document.getElementById('btn-close-photo-modal'),
         photoModal: document.getElementById('photo-modal'),
         photoStatusNote: document.getElementById('photo-status-note'),
+        btnCheckDuplicates: document.getElementById('btn-check-duplicates'),
+        duplicateModal: document.getElementById('duplicate-modal'),
+        btnCloseDuplicateModal: document.getElementById('btn-close-duplicate-modal'),
+        duplicateSummary: document.getElementById('duplicate-summary'),
+        btnDupTabAll: document.getElementById('btn-dup-tab-all'),
+        btnDupTabAdjacent: document.getElementById('btn-dup-tab-adjacent'),
+        duplicateFilterInput: document.getElementById('duplicate-filter-input'),
+        duplicateResultsList: document.getElementById('duplicate-results-list'),
         avatarPairs: [
           { img: document.getElementById('header-avatar-img'), fallback: document.getElementById('header-avatar-fallback') },
           { img: document.getElementById('hero-avatar-img'), fallback: document.getElementById('hero-avatar-fallback') },
@@ -931,7 +1010,7 @@
         }
 
         const currentCh = CHAPTERS.find((c) => c.id === state.activeChapter) || CHAPTERS[0];
-        dom.statusSubtext.textContent = `ສາຍສະຖອນ ວົງວິໄລ • ຄວາມຄືບໜ້າ: ${pct}% • ${currentCh.title.split(':')[0]}`;
+        dom.statusSubtext.textContent = `ວົງວິໄລ ໃສສະທອນ • ຄວາມຄືບໜ້າ: ${pct}% • ${currentCh.title.split(':')[0]}`;
       }
 
       function setupProfileAvatars() {
@@ -965,6 +1044,214 @@
         if (!dom.photoModal) return;
         dom.photoModal.classList.add('hidden');
         dom.photoModal.classList.remove('flex');
+      }
+
+      // =========================================================================
+      // DUPLICATE WORD & ADJACENT REPEAT CHECKER (ACROSS ALL 2,000 LINES)
+      // =========================================================================
+      const duplicateState = {
+        tab: 'all', // 'all' | 'adjacent'
+        filter: '',
+        allWords: [],
+        adjacentRepeats: []
+      };
+
+      const LAO_STOP_WORDS = new Set([
+        'ທີ່', 'ຂອງ', 'ໃນ', 'ການ', 'ໃຫ້', 'ກັບ', 'ແລະ', 'ໄດ້', 'ເປັນ', 'ມີ',
+        'ຈະ', 'ບໍ່', 'ກໍ', 'ຈາກ', 'ສູ່', 'ຕໍ່', 'ໄປ', 'ມາ', 'ນີ້', 'ນັ້ນ', 'ຫຼື',
+        'ວ່າ', 'ຢ່າງ', 'ໂດຍ', 'ເມື່ອ', 'ເພື່ອ', 'ຄື', 'ຫຼາຍ', 'ຂຶ້ນ', 'ລົງ', 'ອອກ',
+        'ເຂົ້າ', 'ຢູ່', 'ເຮົາ', 'ຕົນເອງ', 'ຊ່ວຍ', 'ແລ້ວ', 'ກວ່າ', 'ສາມາດ', 'ທັງ', 'ທຸກ'
+      ]);
+
+      function analyzeDuplicateWords() {
+        const wordMap = new Map();
+        const adjacentMap = new Map();
+
+        // Extract Lao words/phrases and technical tokens
+        const tokenRegex = /[ກ-ໝ]+|[A-Za-z0-9_+#.-]{2,}/g;
+
+        for (const item of ALL_LINES) {
+          const matches = item.text.match(tokenRegex) || [];
+          let prevNormalized = '';
+          let prevRaw = '';
+
+          for (const rawToken of matches) {
+            const norm = rawToken.toLowerCase();
+            if (norm.length < 2) {
+              prevNormalized = norm;
+              prevRaw = rawToken;
+              continue;
+            }
+
+            // Track frequent/repeated content words across lines
+            if (!LAO_STOP_WORDS.has(norm)) {
+              if (!wordMap.has(norm)) {
+                wordMap.set(norm, {
+                  word: rawToken,
+                  count: 0,
+                  lines: []
+                });
+              }
+              const entry = wordMap.get(norm);
+              entry.count += 1;
+              if (entry.lines.length < 8 && !entry.lines.some((l) => l.globalLine === item.globalLine)) {
+                entry.lines.push(item);
+              }
+            }
+
+            // Track consecutive duplicate words (e.g., "ດີ ດີ", "test test")
+            if (prevNormalized && prevNormalized === norm && !LAO_STOP_WORDS.has(norm)) {
+              const pairKey = `${prevRaw} ${rawToken}`;
+              if (!adjacentMap.has(pairKey)) {
+                adjacentMap.set(pairKey, {
+                  word: pairKey,
+                  count: 0,
+                  lines: []
+                });
+              }
+              const adjEntry = adjacentMap.get(pairKey);
+              adjEntry.count += 1;
+              if (adjEntry.lines.length < 8 && !adjEntry.lines.some((l) => l.globalLine === item.globalLine)) {
+                adjEntry.lines.push(item);
+              }
+            }
+
+            prevNormalized = norm;
+            prevRaw = rawToken;
+          }
+        }
+
+        duplicateState.allWords = Array.from(wordMap.values())
+          .filter((w) => w.count >= 2)
+          .sort((a, b) => b.count - a.count);
+
+        duplicateState.adjacentRepeats = Array.from(adjacentMap.values())
+          .sort((a, b) => b.count - a.count);
+      }
+
+      function jumpToLineFromInspector(globalLine) {
+        const lineObj = ALL_LINES[Math.max(0, Math.min(ALL_LINES.length - 1, globalLine - 1))];
+        if (!lineObj) return;
+        closeDuplicateModal();
+        state.activeChapter = lineObj.chapterId;
+        localStorage.setItem(STORAGE_KEYS.LAST_CHAPTER, String(state.activeChapter));
+        highlightActiveToc();
+        setViewMode('prose');
+        setTimeout(() => {
+          const el = document.getElementById(`line-anchor-${lineObj.globalLine}`) || document.getElementById(`chapter-${lineObj.chapterId}`);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 70);
+        showToast(`ໄປຫາແຖວທີ #${lineObj.formattedLine} (${lineObj.chapterTitle.split(':')[0]})`);
+      }
+
+      function renderDuplicateModal() {
+        if (!dom.duplicateResultsList) return;
+
+        const filterText = (duplicateState.filter || '').trim().toLowerCase();
+        const sourceList = duplicateState.tab === 'adjacent'
+          ? duplicateState.adjacentRepeats
+          : duplicateState.allWords;
+
+        const filtered = filterText
+          ? sourceList.filter((item) => item.word.toLowerCase().includes(filterText))
+          : sourceList;
+
+        dom.duplicateSummary.textContent =
+          `ພົບຄຳທີ່ປາກົດຊ້ຳ ≥ 2 ຄັ້ງ: ${duplicateState.allWords.length} ຄຳ • ຄຳຕິດກັນຊ້ຳ: ${duplicateState.adjacentRepeats.length} ຄູ່`;
+
+        if (filtered.length === 0) {
+          dom.duplicateResultsList.innerHTML = `
+            <div class="rounded-xl border border-slate-200 dark:border-slate-800 p-6 text-center text-sm text-slate-500 dark:text-slate-400">
+              ${
+                duplicateState.tab === 'adjacent'
+                  ? 'ບໍ່ພົບຄຳຕິດກັນທີ່ຂຽນຊ້ຳກັນໃນ 2,000 ແຖວ'
+                  : 'ບໍ່ພົບຄຳທີ່ກົງກັບການກັ່ນຕອງ'
+              }
+            </div>
+          `;
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        const displayItems = filtered.slice(0, 80);
+
+        for (const item of displayItems) {
+          const card = document.createElement('div');
+          card.className =
+            'rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-3.5 space-y-2';
+
+          const lineButtonsHtml = item.lines
+            .map(
+              (ln) => `
+              <button
+                type="button"
+                data-jump-line="${ln.globalLine}"
+                class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-indigo-400 text-[11px] font-mono text-indigo-600 dark:text-indigo-400 transition"
+                title="${escapeHtml(ln.text)}"
+              >
+                #${ln.formattedLine}
+              </button>
+            `
+            )
+            .join('');
+
+          card.innerHTML = `
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
+                "${escapeHtml(item.word)}"
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300">
+                ${item.count} ຄັ້ງ
+              </span>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="text-[11px] text-slate-500 dark:text-slate-400 mr-1">ຕົວຢ່າງແຖວ:</span>
+              ${lineButtonsHtml}
+            </div>
+          `;
+
+          fragment.appendChild(card);
+        }
+
+        dom.duplicateResultsList.innerHTML = '';
+        dom.duplicateResultsList.appendChild(fragment);
+
+        dom.duplicateResultsList.querySelectorAll('[data-jump-line]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            jumpToLineFromInspector(Number(btn.getAttribute('data-jump-line')));
+          });
+        });
+      }
+
+      function updateDuplicateTabStyles() {
+        if (!dom.btnDupTabAll || !dom.btnDupTabAdjacent) return;
+        const activeCls = 'px-3 py-1 text-xs font-semibold rounded-lg bg-white dark:bg-slate-700 text-rose-600 dark:text-rose-300 shadow-sm transition';
+        const inactiveCls = 'px-3 py-1 text-xs font-semibold rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition';
+
+        if (duplicateState.tab === 'adjacent') {
+          dom.btnDupTabAdjacent.className = activeCls;
+          dom.btnDupTabAll.className = inactiveCls;
+        } else {
+          dom.btnDupTabAll.className = activeCls;
+          dom.btnDupTabAdjacent.className = inactiveCls;
+        }
+      }
+
+      function openDuplicateModal() {
+        if (!dom.duplicateModal) return;
+        if (duplicateState.allWords.length === 0 && duplicateState.adjacentRepeats.length === 0) {
+          analyzeDuplicateWords();
+        }
+        updateDuplicateTabStyles();
+        renderDuplicateModal();
+        dom.duplicateModal.classList.remove('hidden');
+        dom.duplicateModal.classList.add('flex');
+      }
+
+      function closeDuplicateModal() {
+        if (!dom.duplicateModal) return;
+        dom.duplicateModal.classList.add('hidden');
+        dom.duplicateModal.classList.remove('flex');
       }
 
       // =========================================================================
@@ -1266,26 +1553,16 @@
       }
 
       function setViewMode(mode) {
-        state.viewMode = mode === 'ledger' ? 'ledger' : 'prose';
+        // Keep the '2,000 ແຖວ' button hidden and default to book prose view
+        state.viewMode = 'prose';
         localStorage.setItem(STORAGE_KEYS.VIEW_MODE, state.viewMode);
 
-        if (state.viewMode === 'prose') {
-          dom.viewProse.classList.remove('hidden');
-          dom.viewLedger.classList.add('hidden');
-          dom.btnModeProse.className =
-            'px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm transition';
-          dom.btnModeLedger.className =
-            'px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition';
-          renderProseView();
-        } else {
-          dom.viewProse.classList.add('hidden');
-          dom.viewLedger.classList.remove('hidden');
-          dom.btnModeLedger.className =
-            'px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm transition';
-          dom.btnModeProse.className =
-            'px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition';
-          renderLedgerView();
-        }
+        dom.btnModeLedger.classList.add('hidden');
+        dom.viewProse.classList.remove('hidden');
+        dom.viewLedger.classList.add('hidden');
+        dom.btnModeProse.className =
+          'px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm transition';
+        renderProseView();
         updateScrollProgress();
       }
 
@@ -1304,6 +1581,34 @@
         if (dom.photoModal) {
           dom.photoModal.addEventListener('click', (e) => {
             if (e.target === dom.photoModal) closePhotoModal();
+          });
+        }
+
+        if (dom.btnCheckDuplicates) dom.btnCheckDuplicates.addEventListener('click', openDuplicateModal);
+        if (dom.btnCloseDuplicateModal) dom.btnCloseDuplicateModal.addEventListener('click', closeDuplicateModal);
+        if (dom.duplicateModal) {
+          dom.duplicateModal.addEventListener('click', (e) => {
+            if (e.target === dom.duplicateModal) closeDuplicateModal();
+          });
+        }
+        if (dom.btnDupTabAll) {
+          dom.btnDupTabAll.addEventListener('click', () => {
+            duplicateState.tab = 'all';
+            updateDuplicateTabStyles();
+            renderDuplicateModal();
+          });
+        }
+        if (dom.btnDupTabAdjacent) {
+          dom.btnDupTabAdjacent.addEventListener('click', () => {
+            duplicateState.tab = 'adjacent';
+            updateDuplicateTabStyles();
+            renderDuplicateModal();
+          });
+        }
+        if (dom.duplicateFilterInput) {
+          dom.duplicateFilterInput.addEventListener('input', (e) => {
+            duplicateState.filter = e.target.value;
+            renderDuplicateModal();
           });
         }
 
