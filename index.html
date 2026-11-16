@@ -2918,101 +2918,31 @@ service firebase.storage {
           el.authErrorText.textContent = d.auth.errAuthFailed;
           el.authErrorText.classList.remove('hidden');
         } finally {
-          submitBtn.disabled = false;
-          document.getElementById('signInBtnText').textContent = originalLabel;
-        }
+      el.closeLightboxBtn.addEventListener('click', closeLightbox);
+      el.lightboxModal.addEventListener('click', (e) => {
+        if (e.target === el.lightboxModal) closeLightbox();
       });
 
-      document.getElementById('signOutBtn').addEventListener('click', async () => {
-        const d = I18N[state.lang];
-        if (state.fbConnected && state.fbAuth) {
-          try {
-            await signOut(state.fbAuth);
-          } catch (_err) {
-            // Ignore sign-out error
-          }
-        }
-        closeAuthModal();
-        showToast(d.auth.toastSignedOut);
+      // Blog filter & search listeners
+      document.querySelectorAll('.post-filter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.blogFilter = btn.dataset.filter || 'all';
+          renderPosts();
+        });
       });
 
-      el.toggleLocalOwnerBtn.addEventListener('click', () => {
-        setLocalOwnerPref(!state.localOwnerEnabled);
+      el.postSearchInput.addEventListener('input', (e) => {
+        state.searchQuery = e.target.value || '';
+        renderPosts();
       });
 
-      el.openFirebaseModalBtn.addEventListener('click', openFirebaseModal);
-      document.getElementById('closeFirebaseModalBtn').addEventListener('click', closeFirebaseModal);
-      document.getElementById('cancelFirebaseBtn').addEventListener('click', closeFirebaseModal);
-      el.firebaseModal.addEventListener('click', (e) => {
-        if (e.target === el.firebaseModal) closeFirebaseModal();
-      });
-
-      el.firebaseConfigForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const cfg = {
-          apiKey: el.fbApiKey.value.trim(),
-          authDomain: el.fbAuthDomain.value.trim(),
-          projectId: el.fbProjectId.value.trim(),
-          storageBucket: el.fbStorageBucket.value.trim(),
-          appId: el.fbAppId.value.trim(),
-          imageMode: el.fbImageModeSelect.value,
-        };
-        const ok = await connectFirebase(cfg, true);
-        if (ok) {
-          closeFirebaseModal();
-        }
-      });
-
-      document.getElementById('disconnectFirebaseBtn').addEventListener('click', async () => {
-        await disconnectFirebase(true);
-        closeFirebaseModal();
-      });
-
-      document.getElementById('copyRulesBtn').addEventListener('click', () => {
-        const rulesText = document.getElementById('securityRulesCode').textContent || '';
-        const d = I18N[state.lang];
-        try {
-          const ta = document.createElement('textarea');
-          ta.value = rulesText;
-          ta.style.position = 'fixed';
-          ta.style.left = '-9999px';
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          document.getElementById('copyRulesBtnText').textContent = d.firebase.copiedRules;
-          setTimeout(() => {
-            document.getElementById('copyRulesBtnText').textContent = d.firebase.copyRules;
-          }, 1800);
-        } catch (_err) {
-          showToast(rulesText.slice(0, 80));
-        }
-      });
-
-      el.removePhotoBtn.addEventListener('click', () => {
-        state.draftPhotoDataUrl = '';
-        state.draftPhotoMeta = '';
-        el.postPhotoInput.value = '';
-        el.photoPreviewImg.src = '';
-        el.photoPreviewWrapper.classList.add('hidden');
-        el.removePhotoBtn.classList.add('hidden');
-      });
-
-      el.postPhotoInput.addEventListener('change', async (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        const d = I18N[state.lang];
-        try {
-          const { dataUrl, meta } = await compressImageFile(file);
-          state.draftPhotoDataUrl = dataUrl;
-          state.draftPhotoMeta = meta;
-          el.photoPreviewImg.src = dataUrl;
-          el.photoMetaCaption.textContent = `${file.name} (${meta})`;
-          el.photoPreviewWrapper.classList.remove('hidden');
-          el.removePhotoBtn.classList.remove('hidden');
-          showToast(d.toast.photoCompressed);
-        } catch (_err) {
-          showToast(d.toast.photoError);
+      // Escape key closes active modals
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (!el.lightboxModal.classList.contains('hidden')) closeLightbox();
+          else if (!el.composerModal.classList.contains('hidden')) closeComposer();
+          else if (!el.authModal.classList.contains('hidden')) closeAuthModal();
+          else if (!el.firebaseModal.classList.contains('hidden')) closeFirebaseModal();
         }
       });
 
@@ -3029,6 +2959,76 @@ service firebase.storage {
           el.postTitleInput.focus();
           return;
         }
+
+        state.isSubmittingPost = true;
+        el.submitPostBtn.disabled = true;
+        document.getElementById('publishBtnText').textContent = d.composer.publishing;
+
+        const placement = el.postPlacementSelect.value || 'blog';
+        const section = el.postSectionSelect.value || '';
+        const caption = el.postCaptionInput.value.trim();
+        const tags = (el.postTagsInput.value || '')
+          .split(',')
+          .map((t) => t.trim().replace(/^#/, ''))
+          .filter(Boolean);
+
+        let photoDataUrl = state.draftPhotoDataUrl || '';
+        let storagePath = '';
+
+        try {
+          if (
+            state.fbConnected &&
+            state.fbStorage &&
+            state.fbConfig &&
+            state.fbConfig.imageMode === 'storage' &&
+            photoDataUrl &&
+            photoDataUrl.startsWith('data:image')
+          ) {
+            const uid = state.fbUser ? state.fbUser.uid : 'owner';
+            storagePath = `blog_images/${uid}/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`;
+            const storageRef = ref(state.fbStorage, storagePath);
+            await uploadString(storageRef, photoDataUrl, 'data_url');
+            photoDataUrl = await getDownloadURL(storageRef);
+          }
+
+          const newPost = {
+            title,
+            caption,
+            tags,
+            placement,
+            section,
+            photoDataUrl,
+            storagePath,
+            createdAt: Date.now(),
+          };
+
+          if (state.fbConnected && state.fbDb) {
+            await addDoc(collection(state.fbDb, FIRESTORE_COLLECTION), newPost);
+          } else {
+            const localPost = {
+              id: `post-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+              ...newPost,
+            };
+            state.posts.unshift(localPost);
+            savePosts();
+            renderPosts();
+          }
+
+          closeComposer();
+          showToast(d.toast.published);
+        } catch (_err) {
+          showToast(d.toast.photoError);
+        } finally {
+          state.isSubmittingPost = false;
+          el.submitPostBtn.disabled = false;
+          document.getElementById('publishBtnText').textContent = d.composer.publish;
+        }
+      });
+    }
+
+    // Expose inline card handlers on window for module scope compatibility
+    window.openLightbox = openLightbox;
+    window.deletePost = deletePost;
 
     function loadLanguage() {
       try {
