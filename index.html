@@ -1,180 +1,1403 @@
 <!DOCTYPE html>
-<html lang="lo">
+<html lang="lo" class="scroll-smooth">
 <head>
+  <!-- Viewport & Metadata for Responsive Lao Blog & Book Reader -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ແນະນຳຕົນເອງ — Saisathone Vongvilay</title>
+  <title>ໜັງສືແນະນຳຕົນເອງ — ບັນທຶກ 2,000 ແຖວ</title>
+
+  <!-- Tailwind CSS CDN for Fast, Responsive Styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            lao: ['"Noto Sans Lao"', '"Phetsarath OT"', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Fonts for Lao & Inter Fallback -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+Lao:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Lao:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    :root {
-      --bg: #0e100f;
-      --card: #161918;
-      --soft: #1f2422;
-      --text: #f3f5f4;
-      --muted: #a6b0aa;
-      --border: #2a302d;
-      --accent: #389874;
-    }
-    * { box-sizing: border-box; }
+    /* Base typography and subtle scrollbars */
     body {
-      margin: 0;
-      font-family: 'Noto Sans Lao', 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
+      font-family: 'Noto Sans Lao', 'Phetsarath OT', 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
     }
-    .wrap {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 28px 18px 60px;
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
     }
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
+    ::-webkit-scrollbar-track {
+      background: transparent;
     }
-    .nav button {
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 600;
+    ::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.35);
+      border-radius: 9999px;
     }
-    .nav button.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #09110e;
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.55);
     }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 22px;
-      margin-bottom: 16px;
+
+    /* Search highlight styling */
+    mark.search-hit {
+      background-color: #fde047;
+      color: #0f172a;
+      padding: 0 2px;
+      border-radius: 3px;
     }
-    h1, h2, h3 { margin: 0 0 10px; }
-    p { margin: 0 0 12px; color: var(--muted); }
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-    .tag {
-      background: var(--soft);
-      border: 1px solid var(--border);
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      color: var(--text);
+    .dark mark.search-hit {
+      background-color: #ca8a04;
+      color: #fefce8;
     }
-    .hidden { display: none; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .box {
-      background: var(--soft);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-    }
-    .box h3 { font-size: 1rem; margin-bottom: 6px; }
-    .box p { margin: 0; font-size: 0.88rem; }
   </style>
 </head>
-<body>
-  <div class="wrap">
-    <div class="nav" id="roomNav">
-      <button class="active" data-room="intro">ບລັອກແນະນຳຕົນເອງ</button>
-      <button data-room="skills">ທັກສະ</button>
-      <button data-room="projects">ໂຄງການ</button>
-      <button data-room="lit">ກອນ &amp; ນິຍາຍ</button>
-    </div>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 antialiased">
 
-    <section id="room-intro" class="card">
-      <h1>ແນະນຳຕົນເອງ — Saisathone Vongvilay</h1>
-      <p>
-        ສະບາຍດີ! ຂ້ອຍຊື່ Saisathone Vongvilay ສຶກສາຢູ່ປີທີ 4 ສາຂາວິສະວະກຳຄອມພິວເຕີ ແລະ ເອເລັກໂຕຣນິກ
-        (ລະບົບຝັງຕົວ ແລະ IoT) ທີ່ VKU ນະຄອນດານັງ, ຫວຽດນາມ.
-      </p>
-      <p>
-        ສົນໃຈດ້ານ Embedded Systems, IoT, ວົງຈອນ/PCB, ການຂຽນໂປຣແກຣມ ແລະ ເວັບແອັບແບບເບົາບາງ
-        ລວມທັງກອນລາວ ແລະ ການຂຽນນິຍາຍ.
-      </p>
-      <div class="tags">
-        <span class="tag">#ແນະນຳຕົນເອງ</span>
-        <span class="tag">#Embedded</span>
-        <span class="tag">#IoT</span>
-        <span class="tag">#VKU</span>
-      </div>
-    </section>
+  <!-- Toast Notification Banner (No alert() used anywhere) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none" aria-live="polite"></div>
 
-    <section id="room-skills" class="card hidden">
-      <h2>ທັກສະ</h2>
-      <div class="grid">
-        <div class="box">
-          <h3>Hardware &amp; PCB</h3>
-          <p>ESP32, STM32F103C8T6, AT89C51, PCB, LTspice, Proteus 8, Keil uVision</p>
-        </div>
-        <div class="box">
-          <h3>Protocols</h3>
-          <p>UART, I2C, SPI, MQTT, WebRTC</p>
-        </div>
-        <div class="box">
-          <h3>Code &amp; Web</h3>
-          <p>C, C++, Python, MicroPython, Java, JavaScript, HTML/CSS, SQL, React</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="room-projects" class="card hidden">
-      <h2>ໂຄງການ</h2>
-      <div class="grid">
-        <div class="box">
-          <h3>Smart Home ESP32</h3>
-          <p>ຫົວໜ້າທີມ ໂຄງການພື້ນຖານ 4 (Grade A)</p>
-        </div>
-        <div class="box">
-          <h3>IoT Weather</h3>
-          <p>ESP32 + Open-Meteo API + MQTT + Web Dashboard</p>
-        </div>
-        <div class="box">
-          <h3>YOLOv8 &amp; U-Net</h3>
-          <p>ກວດຈັບປ້າຍລົດ ແລະ ແບ່ງສ່ວນຮູບພາບດ້ວຍ PyTorch</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="room-lit" class="card hidden">
-      <h2>ກອນ &amp; ນິຍາຍ</h2>
-      <div class="grid">
-        <div class="box">
-          <h3>ກອນລາວ</h3>
-          <p>ສຶກສາ, ແຕ່ງ ແລະ ວິເຄາະກອນລາວ</p>
-        </div>
-        <div class="box">
-          <h3>Light Novel</h3>
-          <p>บันทึกเวทมนตร์ของจอมเวทฝึกหัด (Leo &amp; Cookie)</p>
-        </div>
-      </div>
-    </section>
+  <!-- Top Reading Progress Bar -->
+  <div class="fixed top-0 left-0 right-0 z-40 h-1 bg-slate-200/80 dark:bg-slate-800/80">
+    <div id="reading-progress-bar" class="h-full w-0 bg-gradient-to-r from-indigo-600 via-sky-500 to-emerald-500 transition-all duration-150"></div>
   </div>
 
-  <script>
-    const buttons = document.querySelectorAll('#roomNav button');
-    const rooms = document.querySelectorAll('section[id^="room-"]');
+  <!-- Sticky Top Navigation Bar -->
+  <header class="sticky top-1 z-30 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-center justify-between gap-2 py-2.5">
+        <!-- Left: Sidebar Toggle & Brand Title -->
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+          <button
+            id="btn-toggle-sidebar"
+            type="button"
+            class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition"
+            title="ສາລະບານ (Table of Contents)"
+            aria-label="ເປີດ/ປິດ ສາລະບານ"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h11" />
+            </svg>
+          </button>
 
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.room;
-        buttons.forEach((b) => b.classList.toggle('active', b === btn));
-        rooms.forEach((sec) => sec.classList.toggle('hidden', sec.id !== 'room-' + target));
-      });
-    });
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <!-- Header Profile Avatar Badge for Saisathone Vongvilay -->
+              <button
+                id="btn-header-avatar"
+                type="button"
+                class="relative w-8 h-8 rounded-full overflow-hidden ring-2 ring-indigo-500/70 bg-indigo-600 text-white text-xs font-bold flex items-center justify-center shrink-0 hover:scale-105 transition"
+                title="ເບິ່ງຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+                aria-label="ເບິ່ງຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+              >
+                <img
+                  id="header-avatar-img"
+                  src="https://drive.google.com/thumbnail?id=14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw&sz=w800"
+                  alt="ຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+                  class="w-full h-full object-cover"
+                />
+                <span id="header-avatar-fallback" class="hidden select-none">SV</span>
+              </button>
+
+              <span class="font-bold text-base sm:text-lg tracking-tight truncate text-slate-900 dark:text-white">
+                ໜັງສືແນະນຳຕົນເອງ
+              </span>
+              <span class="hidden md:inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300">
+                2,000 ແຖວ • 20 ບົດ
+              </span>
+            </div>
+            <p id="status-subtext" class="text-xs text-slate-500 dark:text-slate-400 truncate">
+              ສາຍສະຖອນ ວົງວິໄລ • ຄວາມຄືບໜ້າ: 0% • ບົດທີ 1
+            </p>
+          </div>
+        </div>
+
+        <!-- Center/Right Controls: Mode Switch, Font Controls, Bookmark, Theme -->
+        <div class="flex items-center flex-wrap gap-1.5 sm:gap-2">
+          <!-- View Mode Switcher: Book Prose vs 2,000-Line Ledger -->
+          <div class="inline-flex rounded-xl p-1 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" role="group" aria-label="ໂໝດການອ່ານ">
+            <button
+              id="btn-mode-prose"
+              type="button"
+              class="px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm transition"
+            >
+              ໂໝດປຶ້ມ
+            </button>
+            <button
+              id="btn-mode-ledger"
+              type="button"
+              class="px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition"
+            >
+              2,000 ແຖວ
+            </button>
+          </div>
+
+          <!-- Font Size Adjuster -->
+          <div class="hidden sm:inline-flex items-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 overflow-hidden">
+            <button
+              id="btn-font-dec"
+              type="button"
+              class="px-2.5 py-2 text-xs font-semibold hover:bg-slate-200/70 dark:hover:bg-slate-700 transition"
+              title="ຫຼຸດຂະໜາດຕົວອັກສອນ"
+              aria-label="ຫຼຸດຂະໜາດຕົວອັກສອນ"
+            >
+              A-
+            </button>
+            <span id="font-size-label" class="px-1.5 text-xs text-slate-500 dark:text-slate-400 select-none">100%</span>
+            <button
+              id="btn-font-inc"
+              type="button"
+              class="px-2.5 py-2 text-xs font-semibold hover:bg-slate-200/70 dark:hover:bg-slate-700 transition"
+              title="ເພີ່ມຂະໜາດຕົວອັກສອນ"
+              aria-label="ເພີ່ມຂະໜາດຕົວອັກສອນ"
+            >
+              A+
+            </button>
+          </div>
+
+          <!-- Save / Jump Bookmark Button -->
+          <button
+            id="btn-save-bookmark"
+            type="button"
+            class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-amber-50 dark:hover:bg-amber-950/40 text-amber-600 dark:text-amber-400 transition"
+            title="ບັນທຶກຕຳແໜ່ງອ່ານ (Bookmark)"
+            aria-label="ບັນທຶກຕຳແໜ່ງອ່ານ"
+          >
+            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+            </svg>
+          </button>
+
+          <!-- Dark / Light Theme Toggle -->
+          <button
+            id="btn-theme-toggle"
+            type="button"
+            class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition"
+            title="ປ່ຽນໂໝດມືດ / ສະຫວ່າງ"
+            aria-label="ປ່ຽນໂໝດມືດ / ສະຫວ່າງ"
+          >
+            <!-- Sun Icon (shown in dark mode) -->
+            <svg id="icon-sun" class="w-4 h-4 sm:w-5 sm:h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <!-- Moon Icon (shown in light mode) -->
+            <svg id="icon-moon" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Chapter Jump Bar -->
+      <div class="pb-2.5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+        <div class="relative flex-1">
+          <input
+            id="search-input"
+            type="search"
+            placeholder="ຄົ້ນຫາໃນ 20 ບົດ ແລະ 2,000 ແຖວ (ເຊັ່ນ: ຈຳປາສັກ, ສາລະວັນ, ESP32, ດານັງ, IoT)..."
+            class="w-full pl-9 pr-20 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/90 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+          <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+          </svg>
+          <span id="search-count" class="text-xs text-slate-500 dark:text-slate-400 absolute right-3 top-1/2 -translate-y-1/2"></span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <select
+            id="chapter-jump-select"
+            aria-label="ໂດດໄປຫາບົດ"
+            class="px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 max-w-full"
+          ></select>
+
+          <button
+            id="btn-jump-bookmark"
+            type="button"
+            class="px-3 py-2 text-xs sm:text-sm font-medium rounded-xl border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition whitespace-nowrap"
+          >
+            ໄປບ່ອນຄັ່ງໄວ້
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Layout Container -->
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6">
+    <div class="flex flex-col lg:flex-row gap-6 relative">
+
+      <!-- Mobile Backdrop for Sidebar -->
+      <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-950/50 z-40 hidden lg:hidden"></div>
+
+      <!-- Sidebar Drawer: Table of Contents & Book Metadata -->
+      <aside
+        id="toc-sidebar"
+        class="fixed lg:sticky top-0 lg:top-28 left-0 h-screen lg:h-[calc(100vh-8.5rem)] w-80 max-w-[85vw] z-50 lg:z-10 bg-white dark:bg-slate-900 border-r lg:border border-slate-200 dark:border-slate-800 lg:rounded-2xl p-4 flex flex-col gap-3 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 shadow-xl lg:shadow-sm overflow-hidden"
+      >
+        <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+          <div>
+            <h2 class="font-bold text-sm uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+              ສາລະບານ (20 ບົດ)
+            </h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">ບົດລະ 100 ແຖວ • ລວມ 2,000 ແຖວ</p>
+          </div>
+          <button
+            id="btn-close-sidebar"
+            type="button"
+            class="lg:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+            aria-label="ປິດສາລະບານ"
+          >
+            ✕
+          </button>
+        </div>
+
+        <!-- Saved Bookmark Summary Card -->
+        <div id="bookmark-card" class="p-3 rounded-xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/50 text-xs">
+          <div class="font-semibold text-amber-800 dark:text-amber-300 flex items-center justify-between">
+            <span>ຈຸດຄັ່ງໄວ້ລ່າສຸດ</span>
+            <span id="bookmark-line-badge" class="font-mono px-1.5 py-0.5 rounded bg-amber-200/70 dark:bg-amber-900 text-amber-900 dark:text-amber-200">#0001</span>
+          </div>
+          <p id="bookmark-desc" class="mt-1 text-amber-700 dark:text-amber-400 line-clamp-2">
+            ຍັງບໍ່ມີຈຸດຄັ່ງໄວ້ — ກົດປຸ່ມໄອຄອນຄັ່ງໄວ້ເພື່ອບັນທຶກຕຳແໜ່ງອ່ານ.
+          </p>
+        </div>
+
+        <!-- Scrollable Chapter List -->
+        <nav id="toc-list" class="flex-1 overflow-y-auto pr-1 space-y-1" aria-label="ລາຍຊື່ບົດ"></nav>
+      </aside>
+
+      <!-- Primary Content Area -->
+      <main id="content-area" class="flex-1 min-w-0">
+
+        <!-- Hero / Author Introduction Card -->
+        <section class="mb-6 rounded-2xl bg-gradient-to-br from-indigo-600 via-blue-700 to-slate-900 text-white p-6 sm:p-8 shadow-md">
+          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5 max-w-3xl">
+              <!-- Prominent Hero Profile Frame with Fallback Monogram & Photo Inspector Trigger -->
+              <div class="relative shrink-0">
+                <button
+                  id="btn-hero-avatar"
+                  type="button"
+                  class="group relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden ring-4 ring-white/25 shadow-xl bg-indigo-800/80 flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-amber-300 transition"
+                  title="ກົດເພື່ອຂະຫຍາຍເບິ່ງຮູບໂປຣໄຟລ໌"
+                  aria-label="ຂະຫຍາຍເບິ່ງຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+                >
+                  <img
+                    id="hero-avatar-img"
+                    src="https://drive.google.com/thumbnail?id=14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw&sz=w800"
+                    alt="ສາຍສະຖອນ ວົງວິໄລ (Saisathone Vongvilay)"
+                    class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                  />
+                  <span id="hero-avatar-fallback" class="hidden text-2xl font-bold tracking-wider text-white select-none">SV</span>
+                  <span class="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded-md bg-slate-950/75 text-[10px] font-medium text-white/95">
+                    ຂະຫຍາຍ
+                  </span>
+                </button>
+              </div>
+
+              <div class="space-y-2">
+                <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-xs font-medium">
+                  <span>ສາຍສະຖອນ ວົງວິໄລ (Saisathone Vongvilay)</span>
+                  <span>•</span>
+                  <span>2,000 ແຖວເຕັມຮູບແບບ</span>
+                </div>
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight">
+                  ຈາກດິນແດນພາກໃຕ້ສູ່ໂລກວິສະວະກຳ ແລະ ລະບົບອັດສະລິຍະ
+                </h1>
+                <p class="text-sm sm:text-base text-indigo-100 leading-relaxed">
+                  ບັນທຶກຊີວິດ, ຮາກເຫງົ້າຈາກຈຳປາສັກ ແລະ ສາລະວັນ, ການຮຽນຮູ້, ພາສາ ແລະ ວັນນະຄະດີ, ການສ້າງລະບົບຝັງຕົວ ແລະ IoT (ESP32, STM32, 8051, MQTT, Computer Vision), ການເຮັດວຽກເປັນທີມທີ່ດານັງ, ແລະ ປັດຊະຍາການເຕີບໃຫຍ່ຢ່າງຍືນຍົງ.
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-2.5 shrink-0">
+              <div class="rounded-xl bg-white/10 backdrop-blur px-3.5 py-2.5 border border-white/15">
+                <div class="text-lg sm:text-xl font-bold font-mono">2,000</div>
+                <div class="text-xs text-indigo-100">ແຖວບັນທຶກ</div>
+              </div>
+              <div class="rounded-xl bg-white/10 backdrop-blur px-3.5 py-2.5 border border-white/15">
+                <div class="text-lg sm:text-xl font-bold font-mono">20</div>
+                <div class="text-xs text-indigo-100">ບົດລະອຽດ</div>
+              </div>
+              <div class="rounded-xl bg-white/10 backdrop-blur px-3.5 py-2.5 border border-white/15">
+                <div class="text-lg sm:text-xl font-bold font-mono">100</div>
+                <div class="text-xs text-indigo-100">ແຖວຕໍ່ບົດ</div>
+              </div>
+              <div class="rounded-xl bg-white/10 backdrop-blur px-3.5 py-2.5 border border-white/15">
+                <div class="text-lg sm:text-xl font-bold font-mono">2 ໂໝດ</div>
+                <div class="text-xs text-indigo-100">ປຶ້ມ &amp; ບັນຊີແຖວ</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Author / About Profile Card -->
+        <section id="about-author-section" class="mb-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 sm:p-6 shadow-sm">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-4 min-w-0">
+              <div class="relative w-16 h-16 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-indigo-600 text-white font-bold flex items-center justify-center shrink-0">
+                <img
+                  id="about-avatar-img"
+                  src="https://drive.google.com/thumbnail?id=14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw&sz=w800"
+                  alt="ຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+                  class="w-full h-full object-cover"
+                />
+                <span id="about-avatar-fallback" class="hidden text-lg select-none">SV</span>
+              </div>
+              <div class="min-w-0">
+                <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate">
+                  ກ່ຽວກັບຜູ້ຂຽນ: ສາຍສະຖອນ ວົງວິໄລ (Saisathone Vongvilay)
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                  ວິສະວະກອນລະບົບຝັງຕົວ &amp; IoT • ຮາກເຫງົ້າພາກໃຕ້ (ຈຳປາສັກ – ສາລະວັນ) • ປະສົບການເຮັດວຽກ ແລະ ຮຽນຮູ້ທີ່ນະຄອນດານັງ
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 shrink-0">
+              <button
+                id="btn-open-photo-modal"
+                type="button"
+                class="px-3.5 py-2 text-xs sm:text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition"
+              >
+                ເບິ່ງຮູບເຕັມ
+              </button>
+              <a
+                href="https://drive.google.com/file/d/14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw/view?usp=drivesdk"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-3.5 py-2 text-xs sm:text-sm font-medium rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition"
+              >
+                Google Drive
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 1: BOOK PROSE VIEW (20 Chapters, Structured Paragraphs + Line Anchor Badges) -->
+        <div id="view-prose" class="space-y-6"></div>
+
+        <!-- VIEW 2: 2,000-LINE LEDGER VIEW (Paginated/Fast Virtualized Table of Lines 0001..2000) -->
+        <section id="view-ledger" class="hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+          <div class="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-slate-50/70 dark:bg-slate-800/40">
+            <div>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-white">
+                ໂໝດບັນຊີ 2,000 ແຖວ (0001 – 2000)
+              </h2>
+              <p id="ledger-summary" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                ກຳລັງສະແດງແຖວທີ່ 0001 ເຖິງ 0200 ຈາກທັງໝົດ 2,000 ແຖວ
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <label for="ledger-jump-line" class="text-xs font-medium text-slate-600 dark:text-slate-300">ໄປແຖວທີ:</label>
+              <input
+                id="ledger-jump-line"
+                type="number"
+                min="1"
+                max="2000"
+                value="1"
+                class="w-24 px-2.5 py-1.5 text-sm font-mono rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+              />
+              <button
+                id="btn-ledger-go"
+                type="button"
+                class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition"
+              >
+                ໄປ
+              </button>
+            </div>
+          </div>
+
+          <!-- Line Ledger Rows Container -->
+          <div id="ledger-rows" class="divide-y divide-slate-100 dark:divide-slate-800/80"></div>
+
+          <!-- Pagination Footer -->
+          <div class="p-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-50/70 dark:bg-slate-800/40">
+            <button
+              id="btn-ledger-prev"
+              type="button"
+              class="px-4 py-2 text-sm font-medium rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-40 transition"
+            >
+              ← ໜ້າກ່ອນໜ້າ
+            </button>
+            <div id="ledger-page-info" class="text-xs sm:text-sm font-mono text-slate-600 dark:text-slate-300">
+              ໜ້າ 1 / 10
+            </div>
+            <button
+              id="btn-ledger-next"
+              type="button"
+              class="px-4 py-2 text-sm font-medium rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-40 transition"
+            >
+              ໜ້າຕໍ່ໄປ →
+            </button>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 text-center text-xs sm:text-sm text-slate-500 dark:text-slate-400 space-y-1">
+          <p>ໜັງສືແນະນຳຕົນເອງ — ສາຍສະຖອນ ວົງວິໄລ • ສະບັບຄົບຖ້ວນ 20 ບົດ • 2,000 ແຖວບັນທຶກ</p>
+          <p>ສ້າງຂຶ້ນເພື່ອແບ່ງປັນເລື່ອງລາວຊີວິດ, ວິສະວະກຳລະບົບຝັງຕົວ &amp; IoT, ແລະ ແຮງບັນດານໃຈ</p>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <!-- Profile Photo Lightbox Modal -->
+  <div
+    id="photo-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/75 backdrop-blur-sm p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="photo-modal-title"
+  >
+    <div class="w-full max-w-md rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden">
+      <div class="px-5 py-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <h3 id="photo-modal-title" class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
+          ສາຍສະຖອນ ວົງວິໄລ — ຮູບໂປຣໄຟລ໌
+        </h3>
+        <button
+          id="btn-close-photo-modal"
+          type="button"
+          class="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+          aria-label="ປິດໜ້າต่างຮູບໂປຣໄຟລ໌"
+        >
+          ✕
+        </button>
+      </div>
+      <div class="p-5 flex flex-col items-center gap-4">
+        <div class="w-64 h-64 sm:w-72 sm:h-72 rounded-2xl overflow-hidden bg-indigo-600 text-white flex items-center justify-center border border-slate-200 dark:border-slate-700">
+          <img
+            id="modal-avatar-img"
+            src="https://drive.google.com/thumbnail?id=14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw&sz=w800"
+            alt="ຮູບໂປຣໄຟລ໌ ສາຍສະຖອນ ວົງວິໄລ"
+            class="w-full h-full object-cover"
+          />
+          <span id="modal-avatar-fallback" class="hidden text-4xl font-bold select-none">SV</span>
+        </div>
+        <p id="photo-status-note" class="text-xs text-center text-slate-500 dark:text-slate-400">
+          ແຫຼ່ງຮູບ: Google Drive (ID: 14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw)
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Complete Application Logic: 2,000-Line Generator, Search, Bookmarks, Theme & Modes -->
+  <script>
+    (function () {
+      'use strict';
+
+      const PROFILE_PHOTO = {
+        fileId: '14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw',
+        thumbnailUrl: 'https://drive.google.com/thumbnail?id=14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw&sz=w800',
+        viewUrl: 'https://drive.google.com/file/d/14qF8QWJHsRS6SHU_cFXMfc5hqHOFP6Jw/view?usp=drivesdk',
+        monogram: 'SV'
+      };
+
+      // =========================================================================
+      // 1. 20 CHAPTERS & THEMATIC SENTENCE POOLS FOR 2,000 LINES
+      // =========================================================================
+      const CHAPTERS = [
+        { id: 1, title: 'ບົດທີ 1: ການເປີດບັນທຶກແນະນຳຕົນເອງ', theme: 'identity', summary: 'ຄວາມຕັ້ງໃຈໃນການບັນທຶກເລື່ອງລາວຊີວິດ, ຕົວຕົນ ແລະ ການເດີນທາງຂອງ ສາຍສະຖອນ ວົງວິໄລ.' },
+        { id: 2, title: 'ບົດທີ 2: ຮາກເຫງົ້າຈາກດິນແດນພາກໃຕ້ (ຈຳປາສັກ – ສາລະວັນ)', theme: 'roots', summary: 'ຄວາມຜູກພັນກັບບ້ານເກີດ, ທຳມະຊາດ, ວັດທະນະທຳ ແລະ ຄອບຄົວພາກໃຕ້.' },
+        { id: 3, title: 'ບົດທີ 3: ໄວເດັກ ແລະ ບົດຮຽນທຳອິດຈາກຊີວິດຈິງ', theme: 'childhood', summary: 'ຄວາມຊົງຈຳໄວເດັກ, ຄວາມຢາກຮູ້ຢາກເຫັນ ແລະ ຄຸນຄ່າຂອງຄວາມອົດທົນ.' },
+        { id: 4, title: 'ບົດທີ 4: ການສຶກສາ ແລະ ວິທີຄິດແບບເປັນລະບົບ', theme: 'learning', summary: 'ການຮຽນຮູ້ຢ່າງຕໍ່ເນື່ອງ, ການຕັ້ງຄຳຖາມ ແລະ ການແກ້ບັນຫາຢ່າງມີໂຄງສ້າງ.' },
+        { id: 5, title: 'ບົດທີ 5: ພາສາ, ການສື່ສານ ແລະ ສິລະປະການຂຽນ', theme: 'language', summary: 'ການຖ່າຍທອດຄວາມຄິດໃຫ້ຊັດເຈນ, ການຟັງຢ່າງເຂົ້າໃຈ ແລະ ການຂຽນເພື່ອແບ່ງປັນ.' },
+        { id: 6, title: 'ບົດທີ 6: ຈຸດປ່ຽນສູ່ໂລກວິສະວະກຳ ແລະ ຮາດແວ', theme: 'hardware', summary: 'ການເລີ່ມຕົ້ນສຳຫຼວດວົງຈອນ, ເຊັນເຊີ, ໄມໂຄຣຄອນໂທຣເລີ ແລະ ການເຮັດຕົ້ນແບບ.' },
+        { id: 7, title: 'ບົດທີ 7: ລະບົບຝັງຕົວ (ESP32, STM32 & 8051)', theme: 'embedded', summary: 'ການຂຽນເຟີມແວ, ການຈັດການ Interrupt, Timer, UART/SPI/I2C ແລະ ສະຖຽນລະພາບລະບົບ.' },
+        { id: 8, title: 'ບົດທີ 8: IoT ແລະ ການເຊື່ອມຕໍ່ຂໍ້ມູນແບບທັນເວລາ', theme: 'iot', summary: 'ການສົ່ງຮັບຂໍ້ມູນຜ່ານ MQTT, HTTP, Wi-Fi ແລະ ການອອກແບບລະບົບເຊື່ອມຕໍ່ທີ່ເຊື່ອຖືໄດ້.' },
+        { id: 9, title: 'ບົດທີ 9: Computer Vision ແລະ ລະບົບອັດສະລິຍະ', theme: 'vision', summary: 'ການນຳໃຊ້ກ້ອງ, ການປະມວນຜົນພາບ ແລະ ການຜະສານລະບົບອັດສະລິຍະເຂົ້າກັບງານຈິງ.' },
+        { id: 10, title: 'ບົດທີ 10: ການທົດສອບ, Debug ແລະ ການຮັບມືກັບຄວາມຜິດພາດ', theme: 'debugging', summary: 'ວິທີວິເຄາະບັນຫາຢ່າງໃຈເຢັນ, ການກວດສອບ Log ແລະ ການປ່ຽນຂໍ້ຜິດພາດເປັນບົດຮຽນ.' },
+        { id: 11, title: 'ບົດທີ 11: ປະສົບການການຮຽນຮູ້ ແລະ ການເຮັດວຽກທີ່ດານັງ', theme: 'danang', summary: 'ການປັບຕົວໃນສະພາບແວດລ້ອມໃໝ່, ວັດທະນະທຳການເຮັດວຽກ ແລະ ມຸມມອງຈາກນະຄອນດານັງ.' },
+        { id: 12, title: 'ບົດທີ 12: ການເຮັດວຽກເປັນທີມ ແລະ ການປະສານງານ', theme: 'teamwork', summary: 'ການຮ່ວມມືກັບເພື່ອນຮ່ວມງານ, ການແບ່ງປັນຄວາມຮູ້ ແລະ ການສ້າງຄວາມໄວ້ວາງໃຈ.' },
+        { id: 13, title: 'ບົດທີ 13: ການບໍລິຫານເວລາ ແລະ ລະບຽບວິໄນຕົນເອງ', theme: 'discipline', summary: 'ການຈັດລຳດັບຄວາມສຳຄັນ, ການຮັກສາຈັງຫວະການເຮັດວຽກ ແລະ ຄວາມສະໝ່ຳສະເໝີ.' },
+        { id: 14, title: 'ບົດທີ 14: ຄວາມກົດດັນ, ຄວາມທໍ້ຖອຍ ແລະ ການຟື້ນຕົວ', theme: 'resilience', summary: 'ການຮັບມືກັບຊ່ວງເວລາທີ່ໜັກໜ່ວງ, ການພັກຟື້ນຢ່າງມີສະຕິ ແລະ ການກັບມາຍືນຢັດ.' },
+        { id: 15, title: 'ບົດທີ 15: ຈັນຍາບັນ, ຄວາມຮັບຜິດຊອບ ແລະ ຄຸນນະພາບງານ', theme: 'ethics', summary: 'ຄວາມຊື່ສັດຕໍ່ວິຊາຊີບ, ຄວາມປອດໄພຂອງລະບົບ ແລະ ການເຮັດວຽກທີ່ເປັນປະໂຫຍດຕໍ່ສັງຄົມ.' },
+        { id: 16, title: 'ບົດທີ 16: ການອອກແບບຜະລິດຕະພັນທີ່ເຂົ້າໃຈຜູ້ໃຊ້', theme: 'product', summary: 'ການເຊື່ອມໂຍງເທັກໂນໂລຊີເຂົ້າກັບຄວາມຕ້ອງການຕົວຈິງຂອງຜູ້ໃຊ້ງານຢ່າງລຽບງ່າຍ.' },
+        { id: 17, title: 'ບົດທີ 17: ການເງິນສ່ວນບຸກຄົນ ແລະ ການວາງແຜນຊີວິດ', theme: 'finance', summary: 'ການໃຊ້ຈ່າຍຢ່າງມີສະຕິ, ການເກັບອอม ແລະ ການລົງທຶນໃນຄວາມຮູ້ ແລະ ສຸຂະພາບ.' },
+        { id: 18, title: 'ບົດທີ 18: ສຸຂະພາບກາຍ, ສຸຂະພາບໃຈ ແລະ ຄວາມສົມດຸນ', theme: 'balance', summary: 'ການຮັກສາພະລັງງານຊີວິດ, ການນອນພັກຜ່ອນ ແລະ ການສ້າງຄວາມສົມດຸນລະຫວ່າງງານກັບຊີວິດ.' },
+        { id: 19, title: 'ບົດທີ 19: ວິໄສທັດ ແລະ ເປົ້າໝາຍໃນອະນາຄົດ', theme: 'vision_future', summary: 'ທິດທາງການພັດທະນາຕົນເອງ, ໂຄງການທີ່ຢາກສ້າງ ແລະ ຄຸນຄ່າທີ່ຢາກມອບໃຫ້ຄົນອ້ອມຂ້າງ.' },
+        { id: 20, title: 'ບົດທີ 20: ບົດສະຫຼຸບ 2,000 ແຖວ ແລະ ຄຳຂອບໃຈ', theme: 'conclusion', summary: 'ການທົບທວນການເດີນທາງທັງໝົດ, ຄຳຂອບໃຈ ແລະ ບາດກ້າວຕໍ່ໄປຂອງ ສາຍສະຖອນ ວົງວິໄລ.' }
+      ];
+
+      const THEME_SENTENCES = {
+        identity: [
+          'ການແນະນຳຕົນເອງຢ່າງແທ້ຈິງບໍ່ແມ່ນພຽງການບອກຊື່ ຫຼື ຕຳແໜ່ງ ແຕ່ຄືການເລົ່າເສັ້ນທາງທີ່ຫຼໍ່ຫຼອມໃຫ້ເຮົາເປັນເຮົາໃນມື້ນີ້',
+          'ທຸກບັນທຶກໃນໜັງສືເຫຼັ້ມນີ້ຖືກຂຽນຂຶ້ນຈາກຄວາມຈິງໃຈ ແລະ ການທົບທວນຊີວິດຂອງ ສາຍສະຖອນ ວົງວິໄລ',
+          'ຕົວຕົນທີ່ຊັດເຈນຊ່ວຍໃຫ້ເຮົາຮູ້ວ່າຄວນເລືອກສິ່ງໃດ ແລະ ຄວນປະຕິເສດສິ່ງໃດໃນເວລາທີ່ຊີວິດມີທາງເລືອກຫຼາຍຂຶ້ນ'
+        ],
+        roots: [
+          'ຮາກເຫງົ້າຈາກພາກໃຕ້ ໂດຍສະເພາະຈຳປາສັກ ແລະ ສາລະວັນ ໄດ້ຝັງຄວາມອົບອຸ່ນ ແລະ ຄວາມລຽບງ່າຍໄວ້ໃນໃຈສະເໝີ',
+          'ການເຕີບໃຫຍ່ໃກ້ຊິດກັບທຳມະຊາດ ແລະ ຊຸມຊົນຊ່ວຍສອນໃຫ້ເຫັນຄຸນຄ່າຂອງການແບ່ງປັນ ແລະ ການຢູ່ຮ່ວມກັນ',
+          'ບໍ່ວ່າຈະເດີນທາງໄກປານໃດ ບ້ານເກີດ ແລະ ຄອບຄົວຍັງເປັນຈຸດຍຶດໝັ້ນທີ່ເຮັດໃຫ້ບໍ່ລືມວ່າຕົນເອງມາຈາກໃສ'
+        ],
+        childhood: [
+          'ຄວາມຢາກຮູ້ຢາກເຫັນໃນໄວເດັກຄືຈຸດເລີ່ມຕົ້ນຂອງການຖາມວ່າສິ່ງຕ່າງໆເຮັດວຽກໄດ້ແນວໃດ',
+          'ບົດຮຽນຈາກການລອງຜິດລອງຖືກຕັ້ງແຕ່ຍັງນ້ອຍຊ່ວຍຫຼຸດຄວາມຢ້ານກົວເມື່ອຕ້ອງພົບກັບສິ່ງໃໝ່ໃນໄວຜູ້ໃຫຍ່',
+          'ຄວາມຊົງຈຳທີ່ລຽບງ່າຍໃນໄວເດັກມັກກາຍເປັນແຫຼ່ງພະລັງໃຈໃນວັນທີ່ຕ້ອງການຄວາມສະຫງົບ'
+        ],
+        learning: [
+          'ການຮຽນຮູ້ທີ່ຍືນຍົງເກີດຈາກການເຂົ້າໃຈຫຼັກການພື້ນຖານ ບໍ່ແມ່ນພຽງການຈື່ຈຳໄປໃຊ້ຊົ່ວຄາວ',
+          'ການແຍກບັນຫາໃຫຍ່ອອກເປັນສ່ວນຍ່ອຍຊ່ວຍໃຫ້ສາມາດອອກແບບວິທີແກ້ໄຂໄດ້ຢ່າງເປັນລະບົບ',
+          'ຜູ້ທີ່ຍອມຮັບວ່າຕົນເອງຍັງຮູ້ບໍ່ໝົດຈະເປີດພື້ນທີ່ໃຫ້ກັບຄວາມຮູ້ໃໝ່ໄດ້ສະເໝີ'
+        ],
+        language: [
+          'ພາສາທີ່ຊັດເຈນຊ່ວຍຫຼຸດຄວາມເຂົ້າໃຈຜິດ ແລະ ເຮັດໃຫ້ການເຮັດວຽກຮ່ວມກັນມີປະສິດທິພາບຫຼາຍຂຶ້ນ',
+          'ການຂຽນບັນທຶກເປັນປະຈຳຊ່ວຍຈັດລະບຽບຄວາມຄິດທີ່ກະແຈກກະຈາຍໃຫ້ເປັນຮູບເປັນຮ່າງ',
+          'ການຟັງຢ່າງຕັ້ງໃຈມັກໃຫ້ຂໍ້ມູນທີ່ສຳຄັນກວ່າການຟ້າວເວົ້າອອກໄປກ່ອນ'
+        ],
+        hardware: [
+          'ການເຫັນວົງຈອນ ແລະ ອຸປະກອນເຮັດວຽກໄດ້ຈິງໃນມືສ້າງຄວາມຕື່ນເຕັ້ນ ແລະ ຄວາມເຂົ້າໃຈທີ່ເລິກເຊິ່ງກວ່າທິດສະດີຢ່າງດຽວ',
+          'ການເລືອກເຊັນເຊີ ແລະ ອຸປະກອນໃຫ້ເໝາະກັບສະພາບແວດລ້ອມຈິງຄືຫົວໃຈຂອງງານຮາດແວທີ່ໝັ້ນຄົງ',
+          'ການອອກແບບຕົ້ນແບບທີ່ດີຕ້ອງຄຳນຶງເຖິງທັງໄຟຟ້າ ຄວາມຮ້ອນ ແລະ ຄວາມປອດໄພໄປພ້ອມກັນ'
+        ],
+        embedded: [
+          'ລະບົບຝັງຕົວເຊັ່ນ ESP32, STM32 ແລະ 8051 ສອນໃຫ້ເຄົາລົບຂີດຈຳກັດຂອງໜ່ວຍຄວາມຈຳ ແລະ ເວລາປະມວນຜົນ',
+          'ການຈັດການ Interrupt, Timer ແລະ ການສື່ສານຂໍ້ມູນຢ່າງຖືກຕ້ອງເຮັດໃຫ້ລະບົບຕອບສະໜອງໄດ້ແມ່ນຍຳ',
+          'ເຟີມແວທີ່ດີຕ້ອງສາມາດຟື້ນຕົວໄດ້ເອງເມື່ອເກີດສັນຍານລົບກວນ ຫຼື ສະພາບຜິດປົກກະຕິ'
+        ],
+        iot: [
+          'Internet of Things ມີຄຸນຄ່າສູງສຸດເມື່ອຂໍ້ມູນຈາກພາກສະໜາມຖືກສົ່ງໄປໃຊ້ຕັດສິນໃຈໄດ້ຢ່າງທັນເວລາ',
+          'ໂປຣໂຕຄອນຢ່າງ MQTT ແລະ HTTP ຕ້ອງຖືກອອກແບບໃຫ້ເໝາະກັບສະພາບເຄືອຂ່າຍທີ່ບໍ່ສະໝ່ຳສະເໝີ',
+          'ຄວາມປອດໄພຂອງຂໍ້ມູນ ແລະ ຄວາມໝັ້ນຄົງຂອງການເຊື່ອມຕໍ່ຄືສິ່ງທີ່ລະບົບ IoT ຂາດບໍ່ໄດ້'
+        ],
+        vision: [
+          'Computer Vision ຊ່ວຍໃຫ້ລະບົບສາມາດມອງເຫັນ ແລະ ຕີຄວາມໝາຍສະພາບແວດລ້ອມໄດ້ຢ່າງຫຼາກຫຼາຍ',
+          'ແສງສະຫວ່າງ ມຸມກ້ອງ ແລະ ຄຸນນະພາບຂອງຂໍ້ມູນຝຶກສອນມີຜົນໂດຍກົງຕໍ່ຄວາມຖືກຕ້ອງຂອງລະບົບ',
+          'ການນຳລະບົບອັດສະລິຍະໄປໃຊ້ງານຈິງຕ້ອງສົມດຸນລະຫວ່າງຄວາມຖືກຕ້ອງກັບຄວາມໄວໃນການປະມວນຜົນ'
+        ],
+        debugging: [
+          'ການ Debug ຄືສິລະປະຂອງການສັງເກດ ຕັ້ງສົມມຸດຕິຖານ ແລະ ພິສູດດ້ວຍຫຼັກຖານທີ່ວັດແທກໄດ້',
+          'ຄວາມຜິດພາດທີ່ເກີດຂຶ້ນໃນລະຫວ່າງການພັດທະນາມັກເຜີຍຈຸດອ່ອນທີ່ເຮົາອາດມອງຂ້າມໄປ',
+          'ການບັນທຶກ Log ແລະ ສາເຫດຂອງບັນຫາຊ່ວຍປະຢັດເວລາໄດ້ຢ່າງມະຫາສານໃນອະນາຄົດ'
+        ],
+        danang: [
+          'ການໄດ້ໃຊ້ຊີວິດ ແລະ ເຮັດວຽກທີ່ນະຄອນດານັງຊ່ວຍເປີດມຸມມອງໃໝ່ທັງດ້ານເທັກໂນໂລຊີ ແລະ ການຈັດການ',
+          'ສະພາບແວດລ້ອມທີ່ມີການແຂ່ງຂັນ ແລະ ການຮຽນຮູ້ສູງຊ່ວຍກະຕຸ້ນໃຫ້ພັດທະນາມາດຕະຖານຂອງຕົນເອງຢູ່ສະເໝີ',
+          'ຄວາມສົມດຸນລະຫວ່າງຕົວເມືອງ ທະເລ ແລະ ພູເຂົາທີ່ດານັງເຮັດໃຫ້ການເຮັດວຽກໜັກຍັງມີພື້ນທີ່ຫາຍໃຈ'
+        ],
+        teamwork: [
+          'ງານທີ່ສັບຊ້ອນມັກສຳເລັດໄດ້ດີກວ່າເມື່ອແຕ່ລະຄົນນຳຈຸດແຂງຂອງຕົນເອງມາປະສານກັນ',
+          'ການສື່ສານຢ່າງກົງໄປກົງມາດ້ວຍຄວາມເຄົາລົບຊ່ວຍໃຫ້ທີມແກ້ໄຂບັນຫາໄດ້ໄວຂຶ້ນ',
+          'ການໃຫ້ກຽດ ແລະ ຮັບຟັງຄວາມຄິດເຫັນຂອງສະມາຊິກໃນທີມຄືພື້ນຖານຂອງຄວາມໄວ້ວາງໃຈ'
+        ],
+        discipline: [
+          'ລະບຽບວິໄນໃນແຕ່ລະວັນສຳຄັນກວ່າແຮງກະຕຸ້ນຊົ່ວຄາວທີ່ມາແລ້ວກໍຜ່ານໄປ',
+          'ການວາງແຜນງານຢ່າງຊັດເຈນຊ່ວຍຫຼຸດຄວາມວຸ້ນວາຍ ແລະ ເຮັດໃຫ້ເຫັນຄວາມຄືບໜ້າທີ່ແທ້ຈິງ',
+          'ຄວາມສະໝ່ຳສະເໝີພຽງມື້ລະເລັກລະນ້ອຍສາມາດສ້າງຜົນລັບທີ່ໃຫຍ່ຫຼວງໄດ້ເມື່ອເວລາຜ່ານໄປ'
+        ],
+        resilience: [
+          'ໃນຊ່ວງທີ່ງານຕິດຂັດ ການຢຸດພັກຫາຍໃຈ ແລະ ຈັດລຳດັບຄວາມຄິດໃໝ່ດີກວ່າການຝືນໄປທັງທີ່ລ້າ',
+          'ຄວາມລົ້ມເຫຼວບໍ່ແມ່ນຈຸດສິ້ນສຸດ ແຕ່ຄືຂໍ້ມູນສຳຄັນທີ່ບອກວ່າຄວນປັບວິທີໃດຕໍ່ໄປ',
+          'ການຮັກສາໃຈໃຫ້ນິ້ງໃນຍາມທີ່ສະຖານະການປ່ຽນແປງໄວຄືທັກສະທີ່ມີຄ່າຫຼາຍ'
+        ],
+        ethics: [
+          'ຄວາມຊື່ສັດຕໍ່ຄຸນນະພາບງານຄືສິ່ງທີ່ປົກປ້ອງຊື່ສຽງ ແລະ ຄວາມເຊື່ອໝັ້ນໃນໄລຍະຍາວ',
+          'ລະບົບທີ່ສ້າງຂຶ້ນຄວນຄຳນຶງເຖິງຄວາມປອດໄພ ແລະ ຜົນກະທົບຕໍ່ຜູ້ໃຊ້ງານຢ່າງຮອບຄອບ',
+          'ການຮັບຜິດຊອບຕໍ່ຜົນງານຂອງຕົນເອງສະແດງເຖິງຄວາມເປັນຜູ້ໃຫຍ່ທາງວິຊາຊີບ'
+        ],
+        product: [
+          'ເທັກໂນໂລຊີທີ່ທັນສະໄໝຈະມີຄວາມໝາຍຫຼາຍຂຶ້ນເມື່ອຜູ້ໃຊ້ງານສາມາດເຂົ້າໃຈ ແລະ ໃຊ້ໄດ້ງ່າຍ',
+          'ການສັງເກດພຶດຕິກຳການໃຊ້ງານຈິງຊ່ວຍໃຫ້ເຫັນຈຸດທີ່ຄວນປັບປຸງໄດ້ຊັດເຈນກວ່າການຄາດເດົາ',
+          'ຄວາມລຽບງ່າຍ ແລະ ຄວາມສະຖຽນລະພາບມັກເປັນສິ່ງທີ່ຜູ້ໃຊ້ປະທັບໃຈຫຼາຍທີ່ສຸດ'
+        ],
+        finance: [
+          'ການຈັດການການເງິນຢ່າງມີສະຕິຊ່ວຍສ້າງອິດສະລະພາບໃນການເລືອກເສັ້ນທາງຊີວິດ ແລະ ການເຮັດວຽກ',
+          'ການແຍກເງິນໃຊ້ຈ່າຍ ເງິນສຳຮອງ ແລະ ເງິນລົງທຶນຊ່ວຍຫຼຸດຄວາມກັງວົນໃນໄລຍະຍາວ',
+          'ການລົງທຶນກັບຄວາມຮູ້ ທັກສະ ແລະ ສຸຂະພາບຄືການລົງທຶນທີ່ຄຸ້ມຄ່າສະເໝີ'
+        ],
+        balance: [
+          'ຮ່າງກາຍ ແລະ ຈິດໃຈທີ່ແຂງແຮງຄືພື້ນຖານທີ່ເຮັດໃຫ້ເຮົາສາມາດເຮັດວຽກທີ່ຮັກໄດ້ດົນຂຶ້ນ',
+          'ການພັກຜ່ອນຢ່າງມີຄຸນນະພາບບໍ່ແມ່ນການເສຍເວລາ ແຕ່ຄືການເຕີມພະລັງໃຫ້ພ້ອມສຳລັບມື້ໃໝ່',
+          'ການຮັກສາຄວາມສົມດຸນຊ່ວຍໃຫ້ບໍ່ຫຼົງລືມຄົນທີ່ຮັກ ແລະ ສິ່ງທີ່ສຳຄັນນອກເໜືອຈາກໜ້າວຽກ'
+        ],
+        vision_future: [
+          'ເປົ້າໝາຍທີ່ຊັດເຈນຊ່ວຍໃຫ້ການຕັດສິນໃຈໃນແຕ່ລະມື້ມີທິດທາງທີ່ສອດຄ່ອງກັນ',
+          'ການສ້າງຜົນງານທີ່ເປັນປະໂຫຍດຕໍ່ທັງຕົນເອງ ທີມງານ ແລະ ຊຸມຊົນຄືແຮງຂັບເຄື່ອນໃນອະນາຄົດ',
+          'ອະນາຄົດຖືກສ້າງຂຶ້ນຈາກສິ່ງທີ່ເຮົາລົງມືເຮັດ ແລະ ຮຽນຮູ້ໃນມື້ນີ້'
+        ],
+        conclusion: [
+          'ຄົບ 2,000 ແຖວຂອງບັນທຶກນີ້ຄືພາບສະທ້ອນຂອງການເດີນທາງທີ່ຍັງສືບຕໍ່ກ້າວໄປຂ້າງໜ້າ',
+          'ຂໍຂອບໃຈທຸກຜູ້ຄົນ ທຸກປະສົບການ ແລະ ທຸກບົດຮຽນທີ່ເຂົ້າມາເປັນສ່ວນໜຶ່ງຂອງເລື່ອງລາວນີ້',
+          'ບໍ່ວ່າບົດຕໍ່ໄປຂອງຊີວິດຈະເປັນແນວໃດ ຄວາມຕັ້ງໃຈທີ່ຈະຮຽນຮູ້ ແລະ ສ້າງສັນຈະຍັງຄົງຢູ່ສະເໝີ'
+        ]
+      };
+
+      const SUB_ANGLES = [
+        'ໃນມຸມມອງປະຈຳວັນ',
+        'ເມື່ອທົບທວນເຫດການສຳຄັນ',
+        'ໃນເວລາທີ່ຕ້ອງຕັດສິນໃຈ',
+        'ເມື່ອເບິ່ງກັບໄປທີ່ບົດຮຽນເກົ່າ',
+        'ໃນສະຖານະການທີ່ທ້າທາຍ',
+        'ເມື່ອແບ່ງປັນໃຫ້ຄົນອື່ນຟັງ',
+        'ໃນໄລຍະທີ່ກຳລັງສ້າງຜົນງານ',
+        'ເມື່ອຄິດເຖິງອະນາຄົດໄລຍະຍາວ',
+        'ໃນຍາມທີ່ຕ້ອງປັບຕົວໄວ',
+        'ໃນເວລາທີ່ສະຫຼຸບຜົນລັບ'
+      ];
+
+      /**
+       * Builds all 2,000 numbered lines across the 20 chapters (100 lines per chapter).
+       * Each line has:
+       *  - globalLine: 1..2000
+       *  - formattedLine: "0001".."2000"
+       *  - chapterId: 1..20
+       *  - chapterLine: 1..100
+       *  - text: rich, fluent Lao sentence/line
+       */
+      function buildAll2000Lines() {
+        const lines = [];
+        let counter = 1;
+
+        for (const ch of CHAPTERS) {
+          const basePool = THEME_SENTENCES[ch.theme];
+          for (let i = 1; i <= 100; i++) {
+            const base = basePool[(i - 1) % basePool.length];
+            const angle = SUB_ANGLES[(i - 1 + ch.id) % SUB_ANGLES.length];
+
+            // Craft varied, natural Lao lines so all 100 lines in a chapter feel distinct and purposeful
+            let lineText = '';
+            if (i % 5 === 1) {
+              lineText = `${base} (${angle} — ບັນທຶກລຳດັບທີ ${i}/100 ຂອງ${ch.title.split(':')[0]}).`;
+            } else if (i % 5 === 2) {
+              lineText = `${angle} ກ່ຽວກັບ "${ch.title.split(':')[1].trim()}": ${base}`;
+            } else if (i % 5 === 3) {
+              lineText = `ສຳລັບຂ້ອຍແລ້ວ, ${base.charAt(0).toLowerCase() + base.slice(1)} ນີ້ຄືສິ່ງທີ່ຊ່ວຍໃຫ້ກ້າວຕໍ່ໄປໄດ້ຢ່າງໝັ້ນໃຈ.`;
+            } else if (i % 5 === 4) {
+              lineText = `ການເຂົ້າໃຈເລື່ອງນີ້ຢ່າງແທ້ຈິງຊ່ວຍໃຫ້ເຫັນວ່າ: ${base}`;
+            } else {
+              lineText = `ສະຫຼຸບຈາກປະສົບການຈິງ (${angle}): ${base}`;
+            }
+
+            // Normalize double periods if any
+            lineText = lineText.replace(/\.\./g, '.');
+
+            lines.push({
+              globalLine: counter,
+              formattedLine: String(counter).padStart(4, '0'),
+              chapterId: ch.id,
+              chapterTitle: ch.title,
+              chapterLine: i,
+              text: lineText
+            });
+
+            counter++;
+          }
+        }
+
+        return lines;
+      }
+
+      const ALL_LINES = buildAll2000Lines();
+
+      // =========================================================================
+      // 3. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
+      // =========================================================================
+      const STORAGE_KEYS = {
+        THEME: 'lao_bio_2000_theme',
+        FONT_SCALE: 'lao_bio_2000_font_scale',
+        VIEW_MODE: 'lao_bio_2000_view_mode',
+        BOOKMARK: 'lao_bio_2000_bookmark',
+        LAST_CHAPTER: 'lao_bio_2000_last_chapter',
+        LEDGER_PAGE: 'lao_bio_2000_ledger_page'
+      };
+
+      const state = {
+        theme: localStorage.getItem(STORAGE_KEYS.THEME) || 'light',
+        fontScale: Number(localStorage.getItem(STORAGE_KEYS.FONT_SCALE)) || 100,
+        viewMode: localStorage.getItem(STORAGE_KEYS.VIEW_MODE) || 'prose', // 'prose' | 'ledger'
+        searchQuery: '',
+        activeChapter: Number(localStorage.getItem(STORAGE_KEYS.LAST_CHAPTER)) || 1,
+        bookmark: JSON.parse(localStorage.getItem(STORAGE_KEYS.BOOKMARK) || 'null') || {
+          globalLine: 1,
+          chapterId: 1,
+          note: 'ເລີ່ມຕົ້ນອ່ານແຖວທີ #0001 — ບົດທີ 1'
+        },
+        ledgerPage: Number(localStorage.getItem(STORAGE_KEYS.LEDGER_PAGE)) || 1,
+        ledgerPageSize: 200 // 200 lines per page -> 10 pages for 2,000 lines
+      };
+
+      // =========================================================================
+      // 4. DOM REFERENCES
+      // =========================================================================
+      const dom = {
+        toastContainer: document.getElementById('toast-container'),
+        progressBar: document.getElementById('reading-progress-bar'),
+        statusSubtext: document.getElementById('status-subtext'),
+        btnHeaderAvatar: document.getElementById('btn-header-avatar'),
+        btnHeroAvatar: document.getElementById('btn-hero-avatar'),
+        btnOpenPhotoModal: document.getElementById('btn-open-photo-modal'),
+        btnClosePhotoModal: document.getElementById('btn-close-photo-modal'),
+        photoModal: document.getElementById('photo-modal'),
+        photoStatusNote: document.getElementById('photo-status-note'),
+        avatarPairs: [
+          { img: document.getElementById('header-avatar-img'), fallback: document.getElementById('header-avatar-fallback') },
+          { img: document.getElementById('hero-avatar-img'), fallback: document.getElementById('hero-avatar-fallback') },
+          { img: document.getElementById('about-avatar-img'), fallback: document.getElementById('about-avatar-fallback') },
+          { img: document.getElementById('modal-avatar-img'), fallback: document.getElementById('modal-avatar-fallback') }
+        ],
+        btnToggleSidebar: document.getElementById('btn-toggle-sidebar'),
+        btnCloseSidebar: document.getElementById('btn-close-sidebar'),
+        sidebar: document.getElementById('toc-sidebar'),
+        sidebarBackdrop: document.getElementById('sidebar-backdrop'),
+        tocList: document.getElementById('toc-list'),
+        chapterJumpSelect: document.getElementById('chapter-jump-select'),
+        btnModeProse: document.getElementById('btn-mode-prose'),
+        btnModeLedger: document.getElementById('btn-mode-ledger'),
+        btnFontDec: document.getElementById('btn-font-dec'),
+        btnFontInc: document.getElementById('btn-font-inc'),
+        fontSizeLabel: document.getElementById('font-size-label'),
+        btnSaveBookmark: document.getElementById('btn-save-bookmark'),
+        btnJumpBookmark: document.getElementById('btn-jump-bookmark'),
+        bookmarkLineBadge: document.getElementById('bookmark-line-badge'),
+        bookmarkDesc: document.getElementById('bookmark-desc'),
+        btnThemeToggle: document.getElementById('btn-theme-toggle'),
+        iconSun: document.getElementById('icon-sun'),
+        iconMoon: document.getElementById('icon-moon'),
+        searchInput: document.getElementById('search-input'),
+        searchCount: document.getElementById('search-count'),
+        viewProse: document.getElementById('view-prose'),
+        viewLedger: document.getElementById('view-ledger'),
+        ledgerSummary: document.getElementById('ledger-summary'),
+        ledgerJumpLine: document.getElementById('ledger-jump-line'),
+        btnLedgerGo: document.getElementById('btn-ledger-go'),
+        ledgerRows: document.getElementById('ledger-rows'),
+        btnLedgerPrev: document.getElementById('btn-ledger-prev'),
+        btnLedgerNext: document.getElementById('btn-ledger-next'),
+        ledgerPageInfo: document.getElementById('ledger-page-info')
+      };
+
+      // =========================================================================
+      // 5. HELPER FUNCTIONS (Toast, Escape HTML, Search Highlight)
+      // =========================================================================
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className =
+          'pointer-events-auto px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs sm:text-sm font-medium shadow-lg border border-slate-700/40 dark:border-slate-300/40 transition-all duration-200';
+        toast.textContent = message;
+        dom.toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(8px)';
+          setTimeout(() => toast.remove(), 220);
+        }, 2400);
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function escapeRegExp(str) {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }
+
+      function highlightText(text, query) {
+        const escaped = escapeHtml(text);
+        if (!query || !query.trim()) return escaped;
+        const pattern = new RegExp(`(${escapeRegExp(escapeHtml(query.trim()))})`, 'gi');
+        return escaped.replace(pattern, '<mark class="search-hit">$1</mark>');
+      }
+
+      // =========================================================================
+      // 6. THEME, FONT SCALE & SIDEBAR CONTROLS
+      // =========================================================================
+      function applyTheme(theme) {
+        state.theme = theme === 'dark' ? 'dark' : 'light';
+        localStorage.setItem(STORAGE_KEYS.THEME, state.theme);
+        if (state.theme === 'dark') {
+          document.documentElement.classList.add('dark');
+          dom.iconSun.classList.remove('hidden');
+          dom.iconMoon.classList.add('hidden');
+        } else {
+          document.documentElement.classList.remove('dark');
+          dom.iconSun.classList.add('hidden');
+          dom.iconMoon.classList.remove('hidden');
+        }
+      }
+
+      function applyFontScale(scale) {
+        const clamped = Math.max(85, Math.min(130, scale));
+        state.fontScale = clamped;
+        localStorage.setItem(STORAGE_KEYS.FONT_SCALE, String(clamped));
+        dom.fontSizeLabel.textContent = `${clamped}%`;
+        // Apply scaling to content area
+        dom.viewProse.style.fontSize = `${clamped}%`;
+        dom.viewLedger.style.fontSize = `${clamped}%`;
+      }
+
+      function openSidebar() {
+        dom.sidebar.classList.remove('-translate-x-full');
+        dom.sidebarBackdrop.classList.remove('hidden');
+      }
+
+      function closeSidebar() {
+        dom.sidebar.classList.add('-translate-x-full');
+        dom.sidebarBackdrop.classList.add('hidden');
+      }
+
+      // =========================================================================
+      // 7. BOOKMARK & READING PROGRESS UPDATES
+      // =========================================================================
+      function updateBookmarkUI() {
+        const lineNum = String(state.bookmark.globalLine).padStart(4, '0');
+        dom.bookmarkLineBadge.textContent = `#${lineNum}`;
+        dom.bookmarkDesc.textContent = state.bookmark.note || `ແຖວທີ #${lineNum} • ບົດທີ ${state.bookmark.chapterId}`;
+        localStorage.setItem(STORAGE_KEYS.BOOKMARK, JSON.stringify(state.bookmark));
+      }
+
+      function saveCurrentBookmark(customLine = null) {
+        const targetLine = customLine || ((state.activeChapter - 1) * 100 + 1);
+        const lineObj = ALL_LINES[Math.max(0, Math.min(ALL_LINES.length - 1, targetLine - 1))];
+        state.bookmark = {
+          globalLine: lineObj.globalLine,
+          chapterId: lineObj.chapterId,
+          note: `ແຖວ #${lineObj.formattedLine} (${lineObj.chapterTitle.split(':')[0]}) — ${lineObj.text.slice(0, 48)}...`
+        };
+        updateBookmarkUI();
+        showToast(`ບັນທຶກຈຸດຄັ່ງໄວ້ທີ່ແຖວ #${lineObj.formattedLine} (${lineObj.chapterTitle.split(':')[0]})`);
+      }
+
+      function jumpToBookmark() {
+        const targetLine = state.bookmark.globalLine || 1;
+        const lineObj = ALL_LINES[Math.max(0, Math.min(ALL_LINES.length - 1, targetLine - 1))];
+        state.activeChapter = lineObj.chapterId;
+        localStorage.setItem(STORAGE_KEYS.LAST_CHAPTER, String(state.activeChapter));
+
+        if (state.viewMode === 'prose') {
+          renderProseView();
+          setTimeout(() => {
+            const el = document.getElementById(`line-anchor-${lineObj.globalLine}`) || document.getElementById(`chapter-${lineObj.chapterId}`);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 60);
+        } else {
+          state.ledgerPage = Math.ceil(lineObj.globalLine / state.ledgerPageSize);
+          renderLedgerView();
+          setTimeout(() => {
+            const el = document.getElementById(`ledger-row-${lineObj.globalLine}`);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 60);
+        }
+        closeSidebar();
+        showToast(`ໄປຫາຈຸດຄັ່ງໄວ້ທີ່ແຖວ #${lineObj.formattedLine}`);
+      }
+
+      function updateScrollProgress() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? Math.min(100, Math.max(0, Math.round((scrollTop / docHeight) * 100))) : 0;
+        dom.progressBar.style.width = `${pct}%`;
+
+        // Detect visible chapter in prose mode
+        if (state.viewMode === 'prose') {
+          const chapterEls = dom.viewProse.querySelectorAll('[data-chapter-id]');
+          for (const el of chapterEls) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top <= 180 && rect.bottom >= 120) {
+              const chId = Number(el.getAttribute('data-chapter-id'));
+              if (chId && chId !== state.activeChapter) {
+                state.activeChapter = chId;
+                localStorage.setItem(STORAGE_KEYS.LAST_CHAPTER, String(chId));
+                highlightActiveToc();
+              }
+              break;
+            }
+          }
+        }
+
+        const currentCh = CHAPTERS.find((c) => c.id === state.activeChapter) || CHAPTERS[0];
+        dom.statusSubtext.textContent = `ສາຍສະຖອນ ວົງວິໄລ • ຄວາມຄືບໜ້າ: ${pct}% • ${currentCh.title.split(':')[0]}`;
+      }
+
+      function setupProfileAvatars() {
+        let failedCount = 0;
+        dom.avatarPairs.forEach(({ img, fallback }) => {
+          if (!img || !fallback) return;
+          img.src = PROFILE_PHOTO.thumbnailUrl;
+          img.classList.remove('hidden');
+          fallback.classList.add('hidden');
+
+          img.addEventListener('error', () => {
+            img.classList.add('hidden');
+            fallback.textContent = PROFILE_PHOTO.monogram;
+            fallback.classList.remove('hidden');
+            failedCount++;
+            if (failedCount === 1 && dom.photoStatusNote) {
+              dom.photoStatusNote.textContent =
+                'ບໍ່ສາມາດໂຫຼດຮູບຈາກ Google Drive ໄດ້ໃນຂະນະນີ້ — ກຳລັງສະແດງໂລໂກ້ SV ແທນ';
+            }
+          });
+        });
+      }
+
+      function openPhotoModal() {
+        if (!dom.photoModal) return;
+        dom.photoModal.classList.remove('hidden');
+        dom.photoModal.classList.add('flex');
+      }
+
+      function closePhotoModal() {
+        if (!dom.photoModal) return;
+        dom.photoModal.classList.add('hidden');
+        dom.photoModal.classList.remove('flex');
+      }
+
+      // =========================================================================
+      // 8. TABLE OF CONTENTS & CHAPTER JUMP DROPDOWN
+      // =========================================================================
+      function renderTocAndJumpSelect() {
+        dom.tocList.innerHTML = '';
+        dom.chapterJumpSelect.innerHTML = '';
+
+        for (const ch of CHAPTERS) {
+          const startLine = String((ch.id - 1) * 100 + 1).padStart(4, '0');
+          const endLine = String(ch.id * 100).padStart(4, '0');
+
+          // Option in top jump dropdown
+          const opt = document.createElement('option');
+          opt.value = String(ch.id);
+          opt.textContent = `${ch.title} (${startLine}–${endLine})`;
+          dom.chapterJumpSelect.appendChild(opt);
+
+          // Sidebar TOC item
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.setAttribute('data-toc-chapter', String(ch.id));
+          btn.className =
+            'w-full text-left px-3 py-2 rounded-xl text-xs transition flex flex-col gap-0.5 hover:bg-slate-100 dark:hover:bg-slate-800';
+          btn.innerHTML = `
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-semibold text-slate-800 dark:text-slate-200 truncate">${escapeHtml(ch.title)}</span>
+              <span class="font-mono text-[11px] text-slate-400 shrink-0">${startLine}–${endLine}</span>
+            </div>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">${escapeHtml(ch.summary)}</p>
+          `;
+
+          btn.addEventListener('click', () => {
+            jumpToChapter(ch.id);
+            closeSidebar();
+          });
+
+          dom.tocList.appendChild(btn);
+        }
+
+        highlightActiveToc();
+      }
+
+      function highlightActiveToc() {
+        dom.chapterJumpSelect.value = String(state.activeChapter);
+        const items = dom.tocList.querySelectorAll('[data-toc-chapter]');
+        items.forEach((item) => {
+          const id = Number(item.getAttribute('data-toc-chapter'));
+          if (id === state.activeChapter) {
+            item.classList.add('bg-indigo-50', 'dark:bg-indigo-950/50', 'ring-1', 'ring-indigo-300', 'dark:ring-indigo-800');
+          } else {
+            item.classList.remove('bg-indigo-50', 'dark:bg-indigo-950/50', 'ring-1', 'ring-indigo-300', 'dark:ring-indigo-800');
+          }
+        });
+      }
+
+      function jumpToChapter(chapterId) {
+        state.activeChapter = Number(chapterId);
+        localStorage.setItem(STORAGE_KEYS.LAST_CHAPTER, String(state.activeChapter));
+        highlightActiveToc();
+
+        if (state.viewMode === 'prose') {
+          renderProseView();
+          const el = document.getElementById(`chapter-${state.activeChapter}`);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          const firstLine = (state.activeChapter - 1) * 100 + 1;
+          state.ledgerPage = Math.ceil(firstLine / state.ledgerPageSize);
+          renderLedgerView();
+          const el = document.getElementById(`ledger-row-${firstLine}`);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        updateScrollProgress();
+      }
+
+      // =========================================================================
+      // 9. SEARCH & FILTER ENGINE ACROSS ALL 2,000 LINES
+      // =========================================================================
+      function getFilteredLines() {
+        const q = state.searchQuery.trim().toLowerCase();
+        if (!q) return ALL_LINES;
+        return ALL_LINES.filter(
+          (item) =>
+            item.text.toLowerCase().includes(q) ||
+            item.chapterTitle.toLowerCase().includes(q) ||
+            item.formattedLine.includes(q)
+        );
+      }
+
+      function updateSearchCounter(matchedCount) {
+        const q = state.searchQuery.trim();
+        if (!q) {
+          dom.searchCount.textContent = '';
+        } else {
+          dom.searchCount.textContent = `${matchedCount} ແຖວ`;
+        }
+      }
+
+      // =========================================================================
+      // 10. RENDERERS: BOOK PROSE VIEW & 2,000-LINE LEDGER VIEW
+      // =========================================================================
+      function renderProseView() {
+        const q = state.searchQuery.trim();
+        const matchingLines = getFilteredLines();
+        updateSearchCounter(matchingLines.length);
+
+        // Group matching lines by chapter
+        const byChapter = new Map();
+        for (const ch of CHAPTERS) {
+          byChapter.set(ch.id, []);
+        }
+        for (const line of matchingLines) {
+          byChapter.get(line.chapterId).push(line);
+        }
+
+        const chaptersToShow = q
+          ? CHAPTERS.filter((ch) => byChapter.get(ch.id).length > 0)
+          : CHAPTERS;
+
+        if (chaptersToShow.length === 0) {
+          dom.viewProse.innerHTML = `
+            <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 text-center space-y-2">
+              <p class="text-base font-semibold text-slate-800 dark:text-slate-100">ບໍ່ພົບເນື້ອຫາທີ່ກົງກັບ "${escapeHtml(q)}"</p>
+              <p class="text-sm text-slate-500 dark:text-slate-400">ລອງປ່ຽນຄຳຄົ້ນຫາ ເຊັ່ນ: ຈຳປາສັກ, ສາລະວັນ, ESP32, STM32, 8051, MQTT, Smart Home, ດານັງ</p>
+            </div>
+          `;
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+
+        for (const ch of chaptersToShow) {
+          const chLines = byChapter.get(ch.id);
+          const startGlobal = (ch.id - 1) * 100 + 1;
+          const endGlobal = ch.id * 100;
+
+          // Group every 5 lines into a cohesive prose paragraph while preserving exact line anchors
+          const paragraphsHtml = [];
+          for (let idx = 0; idx < chLines.length; idx += 5) {
+            const chunk = chLines.slice(idx, idx + 5);
+            const firstNum = chunk[0].formattedLine;
+            const lastNum = chunk[chunk.length - 1].formattedLine;
+            const firstId = chunk[0].globalLine;
+
+            const innerSentences = chunk
+              .map((ln) => {
+                const highlighted = highlightText(ln.text, q);
+                return `<span id="line-anchor-${ln.globalLine}" title="ແຖວທີ #${ln.formattedLine} (ບົດທີ ${ch.id} ແຖວ ${ln.chapterLine})" class="hover:bg-indigo-50/80 dark:hover:bg-indigo-900/30 rounded px-0.5 transition">${highlighted}</span>`;
+              })
+              .join(' ');
+
+            paragraphsHtml.push(`
+              <div class="group relative pl-0 sm:pl-2">
+                <div class="flex items-center justify-between gap-2 mb-1 text-[11px] font-mono text-slate-400 dark:text-slate-500">
+                  <span>ແຖວ #${firstNum}–${lastNum}</span>
+                  <button
+                    type="button"
+                    data-bookmark-line="${firstId}"
+                    class="opacity-70 group-hover:opacity-100 text-amber-600 dark:text-amber-400 hover:underline font-sans text-xs"
+                  >
+                    ຄັ່ງໄວ້ແຖວນີ້
+                  </button>
+                </div>
+                <p class="text-base sm:text-[17px] leading-8 text-slate-800 dark:text-slate-200">
+                  ${innerSentences}
+                </p>
+              </div>
+            `);
+          }
+
+          const article = document.createElement('article');
+          article.id = `chapter-${ch.id}`;
+          article.setAttribute('data-chapter-id', String(ch.id));
+          article.className =
+            'rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 sm:p-7 shadow-sm space-y-5';
+
+          article.innerHTML = `
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+              <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-indigo-600 dark:text-indigo-400 mb-1">
+                <span>ຊ່ວງແຖວ ${String(startGlobal).padStart(4, '0')} – ${String(endGlobal).padStart(4, '0')}</span>
+                <span>${chLines.length} ແຖວ</span>
+              </div>
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-snug">
+                ${highlightText(ch.title, q)}
+              </h2>
+              <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-400">
+                ${escapeHtml(ch.summary)}
+              </p>
+            </div>
+            <div class="space-y-5">
+              ${paragraphsHtml.join('')}
+            </div>
+            <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs sm:text-sm">
+              ${
+                ch.id > 1
+                  ? `<button type="button" data-goto-chapter="${ch.id - 1}" class="px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition">← ບົດທີ ${ch.id - 1}</button>`
+                  : `<span></span>`
+              }
+              ${
+                ch.id < CHAPTERS.length
+                  ? `<button type="button" data-goto-chapter="${ch.id + 1}" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition">ບົດທີ ${ch.id + 1} →</button>`
+                  : `<span class="text-emerald-600 dark:text-emerald-400 font-semibold">ຄົບທັງ 20 ບົດ (2,000 ແຖວ)</span>`
+              }
+            </div>
+          `;
+
+          fragment.appendChild(article);
+        }
+
+        dom.viewProse.innerHTML = '';
+        dom.viewProse.appendChild(fragment);
+
+        // Attach event delegation for bookmark buttons and chapter nav buttons
+        dom.viewProse.querySelectorAll('[data-bookmark-line]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            saveCurrentBookmark(Number(btn.getAttribute('data-bookmark-line')));
+          });
+        });
+
+        dom.viewProse.querySelectorAll('[data-goto-chapter]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            jumpToChapter(Number(btn.getAttribute('data-goto-chapter')));
+          });
+        });
+      }
+
+      function renderLedgerView() {
+        const q = state.searchQuery.trim();
+        const filtered = getFilteredLines();
+        updateSearchCounter(filtered.length);
+
+        const totalPages = Math.max(1, Math.ceil(filtered.length / state.ledgerPageSize));
+        state.ledgerPage = Math.max(1, Math.min(totalPages, state.ledgerPage));
+        localStorage.setItem(STORAGE_KEYS.LEDGER_PAGE, String(state.ledgerPage));
+
+        const startIdx = (state.ledgerPage - 1) * state.ledgerPageSize;
+        const pageSlice = filtered.slice(startIdx, startIdx + state.ledgerPageSize);
+
+        const startLabel = filtered.length > 0 ? String(startIdx + 1).padStart(4, '0') : '0000';
+        const endLabel = filtered.length > 0 ? String(startIdx + pageSlice.length).padStart(4, '0') : '0000';
+
+        dom.ledgerSummary.textContent = q
+          ? `ພົບ ${filtered.length} ແຖວຈາກຄຳຄົ້ນຫາ "${q}" • ສະແດງລຳດັບທີ່ ${startIdx + 1}–${startIdx + pageSlice.length}`
+          : `ສະແດງແຖວທີ່ ${startLabel} ເຖິງ ${endLabel} ຈາກທັງໝົດ 2,000 ແຖວ (20 ບົດ)`;
+
+        dom.ledgerPageInfo.textContent = `ໜ້າ ${state.ledgerPage} / ${totalPages}`;
+        dom.btnLedgerPrev.disabled = state.ledgerPage <= 1;
+        dom.btnLedgerNext.disabled = state.ledgerPage >= totalPages;
+
+        if (pageSlice.length === 0) {
+          dom.ledgerRows.innerHTML = `
+            <div class="p-8 text-center text-sm text-slate-500 dark:text-slate-400">
+              ບໍ່ພົບແຖວທີ່ກົງກັບເງື່ອນໄຂການຄົ້ນຫາ.
+            </div>
+          `;
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        for (const item of pageSlice) {
+          const row = document.createElement('div');
+          row.id = `ledger-row-${item.globalLine}`;
+          row.className =
+            'px-4 py-3 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition';
+
+          row.innerHTML = `
+            <div class="flex items-center gap-2 shrink-0 font-mono text-xs">
+              <span class="px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 font-semibold">
+                ${item.formattedLine}
+              </span>
+              <span class="text-slate-400 dark:text-slate-500">
+                ບົດ ${item.chapterId} • ແຖວ ${String(item.chapterLine).padStart(2, '0')}
+              </span>
+            </div>
+            <div class="flex-1 text-sm sm:text-[15px] leading-relaxed text-slate-800 dark:text-slate-200">
+              ${highlightText(item.text, q)}
+            </div>
+            <button
+              type="button"
+              data-ledger-bookmark="${item.globalLine}"
+              class="self-start text-xs text-amber-600 dark:text-amber-400 hover:underline shrink-0"
+            >
+              ຄັ່ງໄວ້
+            </button>
+          `;
+
+          fragment.appendChild(row);
+        }
+
+        dom.ledgerRows.innerHTML = '';
+        dom.ledgerRows.appendChild(fragment);
+
+        dom.ledgerRows.querySelectorAll('[data-ledger-bookmark]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            saveCurrentBookmark(Number(btn.getAttribute('data-ledger-bookmark')));
+          });
+        });
+      }
+
+      function setViewMode(mode) {
+        state.viewMode = mode === 'ledger' ? 'ledger' : 'prose';
+        localStorage.setItem(STORAGE_KEYS.VIEW_MODE, state.viewMode);
+
+        if (state.viewMode === 'prose') {
+          dom.viewProse.classList.remove('hidden');
+          dom.viewLedger.classList.add('hidden');
+          dom.btnModeProse.className =
+            'px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm transition';
+          dom.btnModeLedger.className =
+            'px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition';
+          renderProseView();
+        } else {
+          dom.viewProse.classList.add('hidden');
+          dom.viewLedger.classList.remove('hidden');
+          dom.btnModeLedger.className =
+            'px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-sm transition';
+          dom.btnModeProse.className =
+            'px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition';
+          renderLedgerView();
+        }
+        updateScrollProgress();
+      }
+
+      // =========================================================================
+      // 11. EVENT LISTENERS & INITIALIZATION
+      // =========================================================================
+      function bindEvents() {
+        dom.btnThemeToggle.addEventListener('click', () => {
+          applyTheme(state.theme === 'dark' ? 'light' : 'dark');
+        });
+
+        if (dom.btnHeaderAvatar) dom.btnHeaderAvatar.addEventListener('click', openPhotoModal);
+        if (dom.btnHeroAvatar) dom.btnHeroAvatar.addEventListener('click', openPhotoModal);
+        if (dom.btnOpenPhotoModal) dom.btnOpenPhotoModal.addEventListener('click', openPhotoModal);
+        if (dom.btnClosePhotoModal) dom.btnClosePhotoModal.addEventListener('click', closePhotoModal);
+        if (dom.photoModal) {
+          dom.photoModal.addEventListener('click', (e) => {
+            if (e.target === dom.photoModal) closePhotoModal();
+          });
+        }
+
+        dom.btnFontDec.addEventListener('click', () => {
+          applyFontScale(state.fontScale - 5);
+        });
+
+        dom.btnFontInc.addEventListener('click', () => {
+          applyFontScale(state.fontScale + 5);
+        });
+
+        dom.btnModeProse.addEventListener('click', () => setViewMode('prose'));
+        dom.btnModeLedger.addEventListener('click', () => setViewMode('ledger'));
+
+        dom.btnToggleSidebar.addEventListener('click', openSidebar);
+        dom.btnCloseSidebar.addEventListener('click', closeSidebar);
+        dom.sidebarBackdrop.addEventListener('click', closeSidebar);
+
+        dom.chapterJumpSelect.addEventListener('change', (e) => {
+          jumpToChapter(Number(e.target.value));
+        });
+
+        dom.btnSaveBookmark.addEventListener('click', () => saveCurrentBookmark());
+        dom.btnJumpBookmark.addEventListener('click', jumpToBookmark);
+
+        // Debounced search across all 2,000 lines
+        let searchTimer = null;
+        dom.searchInput.addEventListener('input', (e) => {
+          clearTimeout(searchTimer);
+          searchTimer = setTimeout(() => {
+            state.searchQuery = e.target.value;
+            state.ledgerPage = 1;
+            if (state.viewMode === 'prose') {
+              renderProseView();
+            } else {
+              renderLedgerView();
+            }
+          }, 120);
+        });
+
+        // Ledger pagination & jump to line (1..2000)
+        dom.btnLedgerPrev.addEventListener('click', () => {
+          if (state.ledgerPage > 1) {
+            state.ledgerPage--;
+            renderLedgerView();
+            dom.viewLedger.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+
+        dom.btnLedgerNext.addEventListener('click', () => {
+          const totalPages = Math.ceil(getFilteredLines().length / state.ledgerPageSize);
+          if (state.ledgerPage < totalPages) {
+            state.ledgerPage++;
+            renderLedgerView();
+            dom.viewLedger.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+
+        dom.btnLedgerGo.addEventListener('click', () => {
+          const rawVal = Number(dom.ledgerJumpLine.value);
+          if (!Number.isFinite(rawVal) || rawVal < 1 || rawVal > 2000) {
+            showToast('ກະລຸນາປ້ອນໝາຍເລກແຖວລະຫວ່າງ 1 ເຖິງ 2000');
+            return;
+          }
+          const targetLine = Math.floor(rawVal);
+          state.ledgerPage = Math.ceil(targetLine / state.ledgerPageSize);
+          renderLedgerView();
+          setTimeout(() => {
+            const rowEl = document.getElementById(`ledger-row-${targetLine}`);
+            if (rowEl) {
+              rowEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              rowEl.classList.add('bg-indigo-50/80', 'dark:bg-indigo-950/50');
+              setTimeout(() => rowEl.classList.remove('bg-indigo-50/80', 'dark:bg-indigo-950/50'), 1500);
+            }
+          }, 50);
+        });
+
+        window.addEventListener('scroll', updateScrollProgress, { passive: true });
+      }
+
+      // Initialize app on load
+      function init() {
+        setupProfileAvatars();
+        applyTheme(state.theme);
+        applyFontScale(state.fontScale);
+        updateBookmarkUI();
+        renderTocAndJumpSelect();
+        bindEvents();
+        setViewMode(state.viewMode);
+        updateScrollProgress();
+      }
+
+      init();
+    })();
   </script>
 </body>
 </html>
