@@ -1,3 +1,8 @@
+
+
+
+Biểu tượng HTML
+index-fixed-v3
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -201,23 +206,26 @@
     }
 
     .lang-switcher {
-      display: inline-flex;
-      align-items: center;
-      padding: 3px;
-      border-radius: var(--radius-pill);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 6px;
+      border-radius: var(--radius-md);
       background-color: var(--bg-subtle);
       border: 1px solid var(--border-subtle);
-      gap: 2px;
+      gap: 4px;
+      min-width: 150px;
     }
 
     .lang-btn {
       border: none;
       background: transparent;
       color: var(--text-secondary);
-      padding: 5px 10px;
-      border-radius: var(--radius-pill);
-      font-size: 0.78rem;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
       font-weight: 600;
+      text-align: left;
       cursor: pointer;
       transition: background-color 0.15s ease, color 0.15s ease;
     }
@@ -331,6 +339,49 @@
       background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-accent-soft) 100%);
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .profile-avatar-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .profile-avatar-box {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--accent);
+      background-color: var(--bg-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .profile-avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-avatar-placeholder {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      user-select: none;
+    }
+
+    .hero-text-col {
+      flex: 1 1 320px;
+      min-width: 0;
     }
 
     .hero-title {
@@ -760,10 +811,10 @@
       <div class="header-actions">
         <!-- 4-Language Switcher: English, Lao, Thai, Vietnamese -->
         <div class="lang-switcher" role="group" aria-label="Language switcher">
-          <button type="button" class="lang-btn active" data-lang="en">EN</button>
-          <button type="button" class="lang-btn" data-lang="lo">ລາວ</button>
-          <button type="button" class="lang-btn" data-lang="th">ไทย</button>
-          <button type="button" class="lang-btn" data-lang="vi">VI</button>
+          <button type="button" class="lang-btn active" data-lang="en">English (EN)</button>
+          <button type="button" class="lang-btn" data-lang="lo">ພາສາລາວ (LO)</button>
+          <button type="button" class="lang-btn" data-lang="th">ภาษาไทย (TH)</button>
+          <button type="button" class="lang-btn" data-lang="vi">Tiếng Việt (VI)</button>
         </div>
 
         <!-- Owner-only controls (hidden for read-only visitors unless signed in) -->
@@ -807,12 +858,24 @@
   <main class="container main-content">
     <!-- Hero Banner -->
     <section class="hero-banner" aria-label="Introduction hero">
-      <h2 id="heroTitle" class="hero-title">
-        Vongvilay Saesathone — IT Student &amp; Multilingual Builder
-      </h2>
-      <p id="heroSubtitle" class="hero-subtitle">
-        Hello, I am someone who constantly seeks knowledge. Quiet and grounded in real action, combining IT with Lao, Thai, English, and Vietnamese to build clear, lasting work.
-      </p>
+      <div class="profile-avatar-wrap">
+        <div id="profileAvatarBox" class="profile-avatar-box">
+          <img id="profileAvatarImg" src="" alt="Vongvilay Saesathone profile photo" class="hidden" />
+          <span id="profileAvatarFallback" class="profile-avatar-placeholder">VS</span>
+        </div>
+        <button type="button" id="changeAvatarBtn" class="btn btn-sm hidden">
+          Change Photo
+        </button>
+        <input type="file" id="profilePhotoInput" class="hidden" accept="image/jpeg,image/png,image/webp" />
+      </div>
+      <div class="hero-text-col">
+        <h2 id="heroTitle" class="hero-title">
+          Vongvilay Saesathone — IT Student &amp; Multilingual Builder
+        </h2>
+        <p id="heroSubtitle" class="hero-subtitle">
+          Hello, I am someone who constantly seeks knowledge. Quiet and grounded in real action, combining IT with Lao, Thai, English, and Vietnamese to build clear, lasting work.
+        </p>
+      </div>
     </section>
 
     <!-- =====================================================================
@@ -1356,6 +1419,8 @@ service cloud.firestore {
         },
         toast: {
           copied: 'Phone number copied: +8562096944959',
+          changePhotoBtn: 'Change Photo',
+          photoUpdated: 'Profile photo updated.',
           postCreated: 'Photo post published.',
           postDeleted: 'Post deleted.',
           needTitleOrContent: 'Please add a title, caption, or photo before publishing.',
@@ -1488,6 +1553,8 @@ service cloud.firestore {
         },
         toast: {
           copied: 'ກັອບປີ້ເບີໂທແລ້ວ: +8562096944959',
+          changePhotoBtn: 'ປ່ຽນຮູບໂປຣໄຟລ໌',
+          photoUpdated: 'ອັບເດດຮູບໂປຣໄຟລ໌ແລ້ວ.',
           postCreated: 'ໂພສຮູບພາບສຳເລັດແລ້ວ.',
           postDeleted: 'ລຶບໂພສແລ້ວ.',
           needTitleOrContent: 'ກະລຸນາໃສ່ຫົວຂໍ້ ຄຳອະທິບາຍ ຫຼື ແນບຮູບກ່ອນໂພສ.',
@@ -1620,6 +1687,8 @@ service cloud.firestore {
         },
         toast: {
           copied: 'คัดลอกเบอร์โทรแล้ว: +8562096944959',
+          changePhotoBtn: 'เปลี่ยนรูปโปรไฟล์',
+          photoUpdated: 'อัปเดตรูปโปรไฟล์แล้ว',
           postCreated: 'โพสต์รูปภาพสำเร็จแล้ว',
           postDeleted: 'ลบโพสต์แล้ว',
           needTitleOrContent: 'กรุณาใส่หัวข้อ คำอธิบาย หรือแนบรูปก่อนโพสต์',
@@ -1752,6 +1821,8 @@ service cloud.firestore {
         },
         toast: {
           copied: 'Đã sao chép số điện thoại: +8562096944959',
+          changePhotoBtn: 'Đổi Ảnh Đại Diện',
+          photoUpdated: 'Đã cập nhật ảnh đại diện.',
           postCreated: 'Đã đăng bài ảnh.',
           postDeleted: 'Đã xóa bài viết.',
           needTitleOrContent: 'Vui lòng nhập tiêu đề, nội dung hoặc chọn ảnh trước khi đăng.',
@@ -1774,6 +1845,7 @@ service cloud.firestore {
       search: '',
       sectionFilter: 'all',
       draftPhotoDataUrl: '',
+      profilePhotoUrl: '',
       pendingDeleteId: null,
       fbApp: null,
       fbAuth: null,
@@ -1801,6 +1873,10 @@ service cloud.firestore {
       navPage2: document.getElementById('navPage2'),
       navBlog: document.getElementById('navBlog'),
 
+      profileAvatarImg: document.getElementById('profileAvatarImg'),
+      profileAvatarFallback: document.getElementById('profileAvatarFallback'),
+      changeAvatarBtn: document.getElementById('changeAvatarBtn'),
+      profilePhotoInput: document.getElementById('profilePhotoInput'),
       heroTitle: document.getElementById('heroTitle'),
       heroSubtitle: document.getElementById('heroSubtitle'),
 
@@ -1945,6 +2021,37 @@ service cloud.firestore {
       return TRANSLATIONS[state.lang] || TRANSLATIONS.en;
     }
 
+    function renderProfilePhoto() {
+      const hasPhoto = Boolean(state.profilePhotoUrl);
+      el.profileAvatarImg.classList.toggle('hidden', !hasPhoto);
+      el.profileAvatarFallback.classList.toggle('hidden', hasPhoto);
+      if (hasPhoto) {
+        el.profileAvatarImg.src = state.profilePhotoUrl;
+      } else {
+        el.profileAvatarImg.src = '';
+      }
+    }
+
+    function loadProfilePhoto() {
+      try {
+        return localStorage.getItem(STORAGE_KEYS.PROFILE_PHOTO) || '';
+      } catch (_) {
+        return '';
+      }
+    }
+
+    function saveProfilePhoto(dataUrl) {
+      state.profilePhotoUrl = dataUrl || '';
+      try {
+        if (dataUrl) {
+          localStorage.setItem(STORAGE_KEYS.PROFILE_PHOTO, dataUrl);
+        } else {
+          localStorage.removeItem(STORAGE_KEYS.PROFILE_PHOTO);
+        }
+      } catch (_) {}
+      renderProfilePhoto();
+    }
+
     function isOwnerSignedIn() {
       return Boolean(state.fbUser);
     }
@@ -1954,6 +2061,7 @@ service cloud.firestore {
       const signedIn = isOwnerSignedIn();
 
       el.newPostBtn.classList.toggle('hidden', !signedIn);
+      el.changeAvatarBtn.classList.toggle('hidden', !signedIn);
       el.blogNewPostBtn.classList.toggle('hidden', !signedIn);
       el.openAuthModalBtn.classList.toggle('hidden', signedIn);
       el.signOutBtn.classList.toggle('hidden', !signedIn);
@@ -2014,6 +2122,7 @@ service cloud.firestore {
 
       el.fbStatusBadge.textContent = state.fbDb ? tr.fbConnectedBadge : tr.fbLocalBadge;
 
+      el.changeAvatarBtn.textContent = tr.toast.changePhotoBtn;
       el.heroTitle.textContent = tr.heroTitle;
       el.heroSubtitle.textContent = tr.heroSubtitle;
 
@@ -2416,6 +2525,8 @@ service cloud.firestore {
       state.fbStorage = null;
       state.fbUser = null;
       state.posts = loadLocalPosts();
+      state.profilePhotoUrl = loadProfilePhoto();
+      renderProfilePhoto();
       applyTranslations();
       syncOwnerUiVisibility();
     }
@@ -2533,6 +2644,34 @@ service cloud.firestore {
        EVENT LISTENERS
        ----------------------------------------------------------------------- */
     function bindEvents() {
+      // Profile photo change (owner only)
+      el.changeAvatarBtn.addEventListener('click', () => {
+        if (!isOwnerSignedIn()) {
+          showToast(t().auth.toastReadOnlyBlock);
+          return;
+        }
+        el.profilePhotoInput.click();
+      });
+
+      el.profilePhotoInput.addEventListener('change', async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (!isOwnerSignedIn()) {
+          showToast(t().auth.toastReadOnlyBlock);
+          el.profilePhotoInput.value = '';
+          return;
+        }
+        try {
+          const compressed = await compressImageFile(file, 512, 0.82);
+          saveProfilePhoto(compressed);
+          showToast(t().toast.photoUpdated);
+        } catch (_) {
+          showToast(t().toast.imageTooLarge);
+        } finally {
+          el.profilePhotoInput.value = '';
+        }
+      });
+
       // Language switcher
       document.querySelectorAll('.lang-btn').forEach((btn) => {
         btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
@@ -2767,3 +2906,28 @@ service cloud.firestore {
   </script>
 </body>
 </html>
+Tools
+Learn & Research
+
+Mind map
+
+Study Map
+
+Book Map
+Writing & SEO
+
+Product Description Writer
+
+SEO Content Optimizer
+
+Instant SEO Blog
+
+The Humanizer
+
+SEO Topic Cluster Map
+Audio
+
+Podcast Studio
+
+Music Generator
+
