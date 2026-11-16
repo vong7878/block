@@ -1060,13 +1060,14 @@
   <div id="studioToastContainer" class="toast-container" aria-live="polite"></div>
 
   <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js';
     import {
       getAuth,
       signInWithEmailAndPassword,
       signOut,
       onAuthStateChanged,
-    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
     import {
       getFirestore,
       collection,
@@ -1078,13 +1079,24 @@
       query,
       orderBy,
       serverTimestamp,
-    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
     import {
       getStorage,
       ref,
       uploadString,
       getDownloadURL,
-    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
+    } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-storage.js';
+
+    const DEFAULT_FIREBASE_CONFIG = {
+      apiKey: "AIzaSyDzIqu-QdM9EDVF6jj-zwYC91PsdjGy8a4",
+      authDomain: "block-84d5e.firebaseapp.com",
+      projectId: "block-84d5e",
+      storageBucket: "block-84d5e.firebasestorage.app",
+      messagingSenderId: "837445677050",
+      appId: "1:837445677050:web:8c75077350bd8b8a22be43",
+      measurementId: "G-TQ3QEZ6HSS",
+      useStorage: true
+    };
 
     const STORAGE_KEYS = {
       LANG: 'vongvilay_blog_lang_v1',
@@ -1384,26 +1396,18 @@
 
       try {
         const rawCfg = localStorage.getItem(STORAGE_KEYS.FB_CONFIG);
-        const cfg = rawCfg ? JSON.parse(rawCfg) : null;
-        if (!cfg || !cfg.apiKey || !cfg.projectId) {
-          ui.studioFbBadge.textContent = 'Local Mode';
-          state.profilePhotoUrl = localStorage.getItem(STORAGE_KEYS.PROFILE_PHOTO) || '';
-          const rawPosts = localStorage.getItem(STORAGE_KEYS.POSTS);
-          state.posts = rawPosts ? JSON.parse(rawPosts) : [];
-          renderAvatar();
-          renderPosts();
-          syncUi();
-          return;
-        }
+        const parsedCfg = rawCfg ? JSON.parse(rawCfg) : null;
+        const cfg = {
+          ...DEFAULT_FIREBASE_CONFIG,
+          ...(parsedCfg && parsedCfg.apiKey && parsedCfg.projectId ? parsedCfg : {}),
+        };
+        localStorage.setItem(STORAGE_KEYS.FB_CONFIG, JSON.stringify(cfg));
 
         state.fbConfig = cfg;
-        const app = initializeApp({
-          apiKey: cfg.apiKey,
-          authDomain: cfg.authDomain || '',
-          projectId: cfg.projectId,
-          storageBucket: cfg.storageBucket || '',
-          appId: cfg.appId || '',
-        });
+        const app = initializeApp(cfg);
+        if (typeof window !== 'undefined' && cfg.measurementId) {
+          try { getAnalytics(app); } catch (_) {}
+        }
         state.fbApp = app;
         state.fbAuth = getAuth(app);
         state.fbDb = getFirestore(app);
@@ -1449,24 +1453,54 @@
     ui.closeStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
     ui.cancelStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
 
+    const ADMIN_EMAIL = 'saisathomevongvilay@gmail.com';
+    const ADMIN_PASS = '99922246';
+    const STUDIO_PAGE = 'Admin%20Studio.html';
+
+    function goToAdminStudio() {
+      sessionStorage.setItem('vongvilay_studio_authed_v1', '1');
+      window.location.href = STUDIO_PAGE;
+    }
+
     ui.studioAuthForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!state.fbAuth) {
-        ui.studioAuthError.textContent = 'Firebase is not configured yet.';
-        ui.studioAuthError.classList.remove('hidden');
-        return;
-      }
+      const emailInput = ui.studioAuthEmail.value.trim().toLowerCase();
+      const passInput = ui.studioAuthPassword.value;
+
       ui.submitStudioAuthBtn.disabled = true;
       ui.studioAuthError.classList.add('hidden');
+
       try {
-        await signInWithEmailAndPassword(
-          state.fbAuth,
-          ui.studioAuthEmail.value.trim(),
-          ui.studioAuthPassword.value
-        );
-        ui.studioAuthModal.classList.add('hidden');
-        ui.studioAuthForm.reset();
-        toast('Signed in');
+        const isMatchedAdmin = emailInput === ADMIN_EMAIL.toLowerCase() && passInput === ADMIN_PASS;
+
+        if (state.fbAuth) {
+          try {
+            await signInWithEmailAndPassword(state.fbAuth, emailInput, passInput);
+            ui.studioAuthModal.classList.add('hidden');
+            ui.studioAuthForm.reset();
+            if (isMatchedAdmin) {
+              goToAdminStudio();
+            } else {
+              toast('Signed in');
+            }
+            return;
+          } catch (fbErr) {
+            if (!isMatchedAdmin) {
+              throw fbErr;
+            }
+          }
+        }
+
+        if (isMatchedAdmin) {
+          state.user = { email: ADMIN_EMAIL };
+          syncUi();
+          ui.studioAuthModal.classList.add('hidden');
+          ui.studioAuthForm.reset();
+          goToAdminStudio();
+        } else {
+          ui.studioAuthError.textContent = 'Invalid admin email or password.';
+          ui.studioAuthError.classList.remove('hidden');
+        }
       } catch (err) {
         ui.studioAuthError.textContent = err?.message || 'Sign-in failed';
         ui.studioAuthError.classList.remove('hidden');
@@ -1477,6 +1511,7 @@
 
     ui.studioLogoutBtn.addEventListener('click', async () => {
       if (state.fbAuth) await signOut(state.fbAuth);
+      sessionStorage.removeItem('vongvilay_studio_authed_v1');
       state.user = null;
       syncUi();
       toast('Signed out');
