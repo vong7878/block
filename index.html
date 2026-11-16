@@ -128,7 +128,7 @@
             <button
               type="button"
               id="openFirebaseModalBtn"
-              class="px-2.5 py-1.5 rounded-xl bg-surface hover:bg-sand border border-line text-xs font-semibold text-ink transition cursor-pointer flex items-center gap-1.5"
+              class="hidden px-2.5 py-1.5 rounded-xl bg-surface hover:bg-sand border border-line text-xs font-semibold text-ink transition items-center gap-1.5 cursor-pointer"
             >
               <span id="firebaseStatusDot" class="w-2 h-2 rounded-full bg-amber-500"></span>
               <span id="firebaseBtnLabel">Firebase</span>
@@ -2918,6 +2918,11 @@ service firebase.storage {
           el.authErrorText.textContent = d.auth.errAuthFailed;
           el.authErrorText.classList.remove('hidden');
         } finally {
+          submitBtn.disabled = false;
+          document.getElementById('signInBtnText').textContent = originalLabel;
+        }
+      });
+
       el.closeLightboxBtn.addEventListener('click', closeLightbox);
       el.lightboxModal.addEventListener('click', (e) => {
         if (e.target === el.lightboxModal) closeLightbox();
