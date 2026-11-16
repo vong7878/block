@@ -1,16 +1,10 @@
-
-
-
-Biểu tượng HTML
-index-fixed-v3
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vongvilay Saesathone — IT Student &amp; Multilingual Builder</title>
+  <title>Admin Studio — Blog, Photo &amp; Profile Manager (Firebase)</title>
 
-  <!-- Google Fonts supporting Latin, Lao, Thai, and Vietnamese scripts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -19,6 +13,8 @@ index-fixed-v3
   />
 
   <style>
+
+
     /* =========================================================================
        DESIGN TOKENS & SYSTEM THEME SUPPORT
        ========================================================================= */
@@ -659,6 +655,48 @@ index-fixed-v3
     }
 
     /* =========================================================================
+       ADMIN STUDIO WORKSPACE (AFTER LOGIN)
+       ========================================================================= */
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+      margin-top: 14px;
+    }
+
+    .admin-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .admin-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .admin-avatar-preview {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--accent);
+      background-color: var(--bg-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .admin-avatar-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* =========================================================================
        MODALS, LIGHTBOX & TOASTS
        ========================================================================= */
     .modal-backdrop {
@@ -793,23 +831,79 @@ index-fixed-v3
       font-size: 0.85rem;
       box-shadow: var(--shadow-md);
     }
+  
+    .room-shell {
+      max-width: 1040px;
+      margin: 24px auto 64px;
+      padding: 0 20px;
+    }
+
+    .room-top-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .room-feed-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+  
+    .studio-wrap {
+      max-width: 1040px;
+      margin: 24px auto 64px;
+      padding: 0 20px;
+    }
+
+    .studio-top-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .studio-feed-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .studio-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
   </style>
 </head>
 <body>
-  <!-- =======================================================================
-       TOP NAVIGATION HEADER
-       ======================================================================= -->
   <header class="site-header">
     <div class="header-inner">
       <div class="brand-group">
-        <h1 class="brand-title">Vongvilay Saesathone</h1>
-        <span id="roleBadge" class="pill pill-accent">IT Student · VKU · Laos</span>
-        <span id="authStatusBadge" class="pill pill-warn">Visitor Mode (Read Only)</span>
-        <span id="fbStatusBadge" class="pill">Local Mode</span>
+        <h1 class="brand-title">Admin Studio</h1>
+        <span id="studioBadge" class="pill pill-accent">Firebase Sync · Profile &amp; Blog</span>
+        <span id="studioAuthBadge" class="pill pill-warn">Checking Auth...</span>
+        <span id="studioFbBadge" class="pill">Checking Firebase...</span>
       </div>
 
       <div class="header-actions">
-        <!-- 4-Language Switcher: English, Lao, Thai, Vietnamese -->
         <div class="lang-switcher" role="group" aria-label="Language switcher">
           <button type="button" class="lang-btn active" data-lang="en">English (EN)</button>
           <button type="button" class="lang-btn" data-lang="lo">ພາສາລາວ (LO)</button>
@@ -817,445 +911,154 @@ index-fixed-v3
           <button type="button" class="lang-btn" data-lang="vi">Tiếng Việt (VI)</button>
         </div>
 
-        <!-- Owner-only controls (hidden for read-only visitors unless signed in) -->
-        <button type="button" id="newPostBtn" class="btn btn-primary btn-sm hidden">
-          + New Photo Post
-        </button>
-        <button type="button" id="openAuthModalBtn" class="btn btn-sm">
-          Owner Sign In
-        </button>
-        <button type="button" id="signOutBtn" class="btn btn-sm hidden">
-          Sign Out
-        </button>
-
-        <!-- Hidden Firebase modal trigger (kept accessible programmatically if needed) -->
-        <button type="button" id="openFirebaseModalBtn" class="btn btn-sm hidden">
-          Firebase
-        </button>
-      </div>
-    </div>
-
-    <div class="page-nav-bar">
-      <div class="page-nav-inner">
-        <nav class="nav-tabs" aria-label="Primary sections">
-          <button type="button" class="nav-tab active" data-view="page1" id="navPage1">
-            Page 1 · Identity &amp; Story
-          </button>
-          <button type="button" class="nav-tab" data-view="page2" id="navPage2">
-            Page 2 · Work, Growth &amp; Contact
-          </button>
-          <button type="button" class="nav-tab" data-view="blog" id="navBlog">
-            Blog &amp; Photo Stream
-          </button>
-        </nav>
+        <a href="index.html" id="backHomeLink" class="btn btn-sm" style="text-decoration: none;">← Home</a>
+        <button type="button" id="studioLoginBtn" class="btn btn-primary btn-sm">Admin Sign In</button>
+        <button type="button" id="studioLogoutBtn" class="btn btn-danger btn-sm hidden">Sign Out</button>
       </div>
     </div>
   </header>
 
-  <!-- =======================================================================
-       MAIN CONTENT CONTAINER
-       ======================================================================= -->
-  <main class="container main-content">
-    <!-- Hero Banner -->
-    <section class="hero-banner" aria-label="Introduction hero">
-      <div class="profile-avatar-wrap">
-        <div id="profileAvatarBox" class="profile-avatar-box">
-          <img id="profileAvatarImg" src="" alt="Vongvilay Saesathone profile photo" class="hidden" />
-          <span id="profileAvatarFallback" class="profile-avatar-placeholder">VS</span>
-        </div>
-        <button type="button" id="changeAvatarBtn" class="btn btn-sm hidden">
-          Change Photo
-        </button>
-        <input type="file" id="profilePhotoInput" class="hidden" accept="image/jpeg,image/png,image/webp" />
-      </div>
-      <div class="hero-text-col">
-        <h2 id="heroTitle" class="hero-title">
-          Vongvilay Saesathone — IT Student &amp; Multilingual Builder
-        </h2>
-        <p id="heroSubtitle" class="hero-subtitle">
-          Hello, I am someone who constantly seeks knowledge. Quiet and grounded in real action, combining IT with Lao, Thai, English, and Vietnamese to build clear, lasting work.
-        </p>
-      </div>
-    </section>
+  <main class="studio-wrap">
+    <div id="studioLockBanner" class="notice-banner">
+      Please sign in with your admin account (Email + Password) to change your profile photo, publish blog &amp; photo posts, and manage Firebase entries.
+    </div>
 
-    <!-- =====================================================================
-         PAGE 1: IDENTITY, MINDSET & INTERSECTION
-         ===================================================================== -->
-    <section id="view-page1" class="page-view" aria-labelledby="p1Headline">
-      <div class="page-header-card">
-        <span id="p1PageTag" class="page-tag">Page 1 · Identity, Mindset &amp; Intersection</span>
-        <h2 id="p1Headline" class="page-headline">
-          Vongvilay Saesathone — IT student at Vietnam-Korea University of Information and Communication Technology, connecting IT with language, honesty, and creative action.
-        </h2>
-      </div>
+    <div id="studioWorkspace" class="hidden">
+      <div class="studio-top-grid">
+        <!-- 1. Profile Photo Manager -->
+        <article class="admin-card">
+          <h3 id="sec1Heading">1. Profile Photo &amp; Firebase Sync</h3>
+          <p id="sec1Desc" class="field-hint" style="margin-top: 0; margin-bottom: 14px;">
+            Upload a new avatar (auto-compressed to 512px) and save to <code>site_profile/main</code> or Firebase Storage.
+          </p>
 
-      <article id="p1-sec-1" class="section-card">
-        <h2 id="p1Sec1Title">1. Snapshot, IT &amp; Lifelong Learning</h2>
-        <p id="p1Sec1P1">
-          Hello, I am Vongvilay Saesathone, an IT student at the Vietnam-Korea University of Information and Communication Technology. I am someone who constantly seeks knowledge and works across Lao, Thai, English, and Vietnamese.
-        </p>
-        <p id="p1Sec1P2">
-          Rather than treating technology in isolation, I view IT as a practical foundation for building clear, reliable, and meaningful systems that people can genuinely understand and use.
-        </p>
-      </article>
-
-      <article id="p1-sec-2" class="section-card">
-        <h2 id="p1Sec2Title">2. Quiet Action, Honesty, Creativity &amp; Stability</h2>
-        <p id="p1Sec2P1">
-          I am quiet and reserved in speech, yet focused on taking real, concrete action. I value honesty and integrity, creative thinking, strong moral character, and building stable, lasting work.
-        </p>
-        <p id="p1Sec2P2">
-          For me, creative thinking and steady character work hand in hand: thoughtful ideas matter most when carried out with sincerity, consistency, and long-term stability.
-        </p>
-      </article>
-
-      <article id="p1-sec-3" class="section-card">
-        <h2 id="p1Sec3Title">3. IT, Language &amp; Communication</h2>
-        <p id="p1Sec3P1">
-          Language to me is a third-world bridge, a living spoken language for real connection, and a storytelling medium that stays true to identity, authentic to the person, and faithful to linguistic principles.
-        </p>
-        <p id="p1Sec3P2">
-          Paired with IT, I want to shape ideas clearly and accurately so that technical depth and human expression reinforce one another.
-        </p>
-      </article>
-
-      <div class="page-footer-nav">
-        <span></span>
-        <button type="button" id="toPage2Btn" class="btn btn-primary">
-          Continue to Page 2: How I Work, Growth &amp; Contact →
-        </button>
-      </div>
-    </section>
-
-    <!-- =====================================================================
-         PAGE 2: HOW I WORK, COLLABORATION & CONTACT
-         ===================================================================== -->
-    <section id="view-page2" class="page-view hidden" aria-labelledby="p2Headline">
-      <div class="page-header-card">
-        <span id="p2PageTag" class="page-tag">Page 2 · How I Work, Collaboration &amp; Contact</span>
-        <h2 id="p2Headline" class="page-headline">
-          Patience through obstacles • Sincerity &amp; character • Growing in IT + Languages
-        </h2>
-      </div>
-
-      <article id="p2-sec-1" class="section-card">
-        <h2 id="p2Sec1Title">1. Past Lessons &amp; What Shapes My Work</h2>
-        <p id="p2Sec1P1">
-          Through earlier challenges and experiences, I have learned that obstacles teach us patience and keep us grounded in honesty and sincerity without losing our true character.
-        </p>
-        <p id="p2Sec1P2">
-          I aim to grow in IT + Languages together—combining patience, moral character, and practical execution to build dependable work over time.
-        </p>
-      </article>
-
-      <article id="p2-sec-2" class="section-card">
-        <h2 id="p2Sec2Title">2. Openness to Exchange &amp; Shared Learning</h2>
-        <p id="p2Sec2P1">
-          I value genuine exchange across IT and languages—whether discussing technical ideas, language usage, storytelling, or practical ways to solve problems.
-        </p>
-        <p id="p2Sec2P2">
-          Whether the conversation is about IT + language growth, projects, or sharing perspectives across cultures, I welcome thoughtful, respectful exchange.
-        </p>
-      </article>
-
-      <article id="p2-sec-3" class="section-card">
-        <h2 id="p2Sec3Title">3. IT &amp; Language Exchange — How to Connect</h2>
-        <p id="p2Sec3P1">
-          This space introduces who I am, what I value, and how we can connect. Feel free to reach out if you are looking for:
-        </p>
-        <ul class="bullet-list">
-          <li id="p2Bullet1">IT and language exchange across Lao, Thai, English, and Vietnamese</li>
-          <li id="p2Bullet2">Collaboration or discussion around IT + language ideas and practical projects</li>
-          <li id="p2Bullet3">Steady, honest teamwork with attention to clarity and character</li>
-          <li id="p2Bullet4">Or simply connecting to share perspectives and learn together</li>
-        </ul>
-
-        <div class="contact-box">
-          <div>
-            <div id="contactLabel" class="field-hint">Contact / IT &amp; Language Exchange:</div>
-            <div class="contact-value">+8562096944959</div>
-          </div>
-          <button type="button" id="copyPhoneBtn" class="btn btn-primary btn-sm">
-            Copy Number
-          </button>
-        </div>
-      </article>
-
-      <div class="page-footer-nav">
-        <button type="button" id="backToPage1Btn" class="btn">
-          ← Back to Page 1
-        </button>
-        <button type="button" id="goToBlogBtn" class="btn btn-primary">
-          Open Blog &amp; Photo Stream →
-        </button>
-      </div>
-    </section>
-
-    <!-- =====================================================================
-         BLOG & PHOTO STREAM VIEW
-         ===================================================================== -->
-    <section id="view-blog" class="page-view hidden" aria-labelledby="blogTitle">
-      <div class="page-header-card">
-        <h2 id="blogTitle" class="page-headline">Blog &amp; Photo Stream</h2>
-        <p id="blogSubtitle" class="hero-subtitle" style="margin-top: 6px;">
-          Shared updates, notes, and photos from Vongvilay Saesathone. Visitors can read all posts; only the signed-in owner can publish or delete.
-        </p>
-      </div>
-
-      <div id="visitorNoticeBanner" class="notice-banner">
-        Read-only mode: Visitors can browse and view photos. Sign in as the owner to publish or delete posts.
-      </div>
-
-      <div class="blog-toolbar">
-        <div class="search-filter-group">
-          <input
-            type="search"
-            id="searchInput"
-            class="input search-input"
-            placeholder="Search posts, notes, or tags..."
-          />
-          <select id="sectionFilterSelect" class="select filter-select" aria-label="Filter by section">
-            <option value="all">All Sections</option>
-            <option value="p1-sec-1">p1-sec-1</option>
-            <option value="p1-sec-2">p1-sec-2</option>
-            <option value="p1-sec-3">p1-sec-3</option>
-            <option value="p2-sec-1">p2-sec-1</option>
-            <option value="p2-sec-2">p2-sec-2</option>
-            <option value="p2-sec-3">p2-sec-3</option>
-          </select>
-        </div>
-
-        <button type="button" id="blogNewPostBtn" class="btn btn-primary btn-sm hidden">
-          + New Photo Post
-        </button>
-      </div>
-
-      <div id="postsContainer" class="posts-grid"></div>
-
-      <div id="emptyPostsState" class="empty-state hidden">
-        <h3 id="emptyTitle" style="margin: 0 0 6px;">No posts match your current filter</h3>
-        <p id="emptyDesc" style="margin: 0;">Try clearing your search or switching the section filter.</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- =======================================================================
-       COMPOSER MODAL (OWNER ONLY)
-       ======================================================================= -->
-  <div id="composerModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="composerModalTitle">
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h3 id="composerModalTitle">Publish a New Photo Post</h3>
-        <button type="button" id="closeComposerBtn" class="btn btn-sm">✕</button>
-      </div>
-
-      <form id="postComposerForm">
-        <div class="field-group">
-          <label id="labelPostTitle" for="postTitleInput" class="field-label">Post Title</label>
-          <input
-            type="text"
-            id="postTitleInput"
-            class="input"
-            placeholder="e.g., VKU Study Notes & Language Practice"
-          />
-        </div>
-
-        <div class="field-group">
-          <label id="labelPostSection" for="postSectionSelect" class="field-label">Section Anchor (Optional)</label>
-          <select id="postSectionSelect" class="select">
-            <option value="">General / Stream Top</option>
-            <option value="p1-sec-1">p1-sec-1</option>
-            <option value="p1-sec-2">p1-sec-2</option>
-            <option value="p1-sec-3">p1-sec-3</option>
-            <option value="p2-sec-1">p2-sec-1</option>
-            <option value="p2-sec-2">p2-sec-2</option>
-            <option value="p2-sec-3">p2-sec-3</option>
-          </select>
-        </div>
-
-        <div class="field-group">
-          <label id="labelPostPhoto" for="postPhotoInput" class="field-label">Attach Photo from Device</label>
-          <input type="file" id="postPhotoInput" class="input" accept="image/jpeg,image/png,image/webp" />
-          <div id="photoHint" class="field-hint">Automatically compressed for smooth loading. JPG, PNG, or WebP supported.</div>
-
-          <div id="photoPreviewBox" class="photo-preview-box hidden">
-            <img id="photoPreviewImg" src="" alt="Selected preview" />
-            <div style="text-align: right;">
-              <button type="button" id="removePhotoBtn" class="btn btn-danger btn-sm">Remove Photo</button>
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
+            <div class="admin-avatar-preview">
+              <img id="studioAvatarImg" src="" alt="Profile avatar preview" class="hidden" />
+              <span id="studioAvatarFallback" class="profile-avatar-placeholder">VS</span>
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <input type="file" id="studioAvatarInput" class="input" accept="image/jpeg,image/png,image/webp" />
+              <div class="field-hint">JPG, PNG, WebP · Syncs across pages</div>
             </div>
           </div>
-        </div>
 
-        <div class="field-group">
-          <label id="labelPostCaption" for="postCaptionInput" class="field-label">Story / Caption</label>
-          <textarea
-            id="postCaptionInput"
-            class="textarea"
-            placeholder="Write your thoughts on IT, languages, learning, or what this photo captures..."
-          ></textarea>
-        </div>
-
-        <div class="field-group">
-          <label id="labelPostTags" for="postTagsInput" class="field-label">Tags (comma separated)</label>
-          <input
-            type="text"
-            id="postTagsInput"
-            class="input"
-            placeholder="IT, language, VKU, learning"
-          />
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" id="cancelComposerBtn" class="btn">Cancel</button>
-          <button type="submit" id="publishPostBtn" class="btn btn-primary">Publish Post</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- =======================================================================
-       OWNER AUTH MODAL
-       ======================================================================= -->
-  <div id="authModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h3 id="authModalTitle">Owner Sign In (Read-Only Visitors)</h3>
-        <button type="button" id="closeAuthModalBtn" class="btn btn-sm">✕</button>
-      </div>
-
-      <p id="authDesc" class="field-hint" style="margin-top: 0; margin-bottom: 14px;">
-        Visitors can read everything on this site. Sign in with your owner email and password to publish or delete posts.
-      </p>
-
-      <div id="signedInSessionBox" class="notice-banner owner hidden">
-        <span id="signedInAsLabel">Signed in as:</span>
-        <strong id="signedInEmailText"></strong>
-      </div>
-
-      <form id="authSignInForm">
-        <div class="field-group">
-          <label id="authEmailLabel" for="authEmailInput" class="field-label">Owner Email</label>
-          <input type="email" id="authEmailInput" class="input" autocomplete="email" />
-        </div>
-
-        <div class="field-group">
-          <label id="authPasswordLabel" for="authPasswordInput" class="field-label">Password</label>
-          <input type="password" id="authPasswordInput" class="input" autocomplete="current-password" />
-        </div>
-
-        <div id="authErrorText" class="error-text hidden"></div>
-
-        <div class="modal-footer">
-          <button type="button" id="signOutModalBtn" class="btn btn-danger hidden">Sign Out</button>
-          <button type="button" id="cancelAuthBtn" class="btn">Close</button>
-          <button type="submit" id="authSubmitBtn" class="btn btn-primary">Sign In as Owner</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- =======================================================================
-       FIREBASE CONFIGURATION MODAL
-       ======================================================================= -->
-  <div id="firebaseModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="fbModalTitle">
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h3 id="fbModalTitle">Firebase Cloud Storage &amp; Auth Setup</h3>
-        <button type="button" id="closeFirebaseModalBtn" class="btn btn-sm">✕</button>
-      </div>
-
-      <p id="fbModalDesc" class="field-hint" style="margin-top: 0; margin-bottom: 14px;">
-        Connect Cloud Firestore and Firebase Auth so posts sync across devices while keeping visitors strictly read-only.
-      </p>
-
-      <form id="firebaseConfigForm">
-        <div class="field-group">
-          <label id="fbApiKeyLabel" for="fbApiKey" class="field-label">API Key</label>
-          <input type="text" id="fbApiKey" class="input" />
-        </div>
-        <div class="field-group">
-          <label id="fbAuthDomainLabel" for="fbAuthDomain" class="field-label">Auth Domain</label>
-          <input type="text" id="fbAuthDomain" class="input" />
-        </div>
-        <div class="field-group">
-          <label id="fbProjectIdLabel" for="fbProjectId" class="field-label">Project ID</label>
-          <input type="text" id="fbProjectId" class="input" />
-        </div>
-        <div class="field-group">
-          <label id="fbStorageBucketLabel" for="fbStorageBucket" class="field-label">Storage Bucket</label>
-          <input type="text" id="fbStorageBucket" class="input" />
-        </div>
-        <div class="field-group">
-          <label id="fbAppIdLabel" for="fbAppId" class="field-label">App ID</label>
-          <input type="text" id="fbAppId" class="input" />
-        </div>
-        <div class="field-group">
-          <label class="field-label" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-            <input type="checkbox" id="fbUseStorageCheckbox" />
-            <span id="fbStoreImagesLabel">Upload images to Firebase Storage (uncheck to compress &amp; store in Firestore)</span>
-          </label>
-        </div>
-
-        <div class="field-group">
-          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
-            <span id="fbRulesTitle" class="field-label" style="margin-bottom: 0;">Recommended Firestore &amp; Storage Rules (Visitors Read-Only)</span>
-            <button type="button" id="copyRulesBtn" class="btn btn-sm">Copy Rules</button>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" id="studioSaveAvatarBtn" class="btn btn-primary btn-sm">Save Profile to Firebase</button>
+            <button type="button" id="studioResetAvatarBtn" class="btn btn-danger btn-sm">Reset Photo</button>
           </div>
-          <pre id="fbRulesCode" class="rules-box">rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /blog_posts/{postId} {
-      allow read: if true;
-      allow create, update, delete: if request.auth != null;
-    }
-  }
-}</pre>
+        </article>
+
+        <!-- 2. Blog & Photo Publisher -->
+        <article class="admin-card">
+          <h3 id="sec2Heading">2. Publish Blog &amp; Photo Post</h3>
+          <p id="sec2Desc" class="field-hint" style="margin-top: 0; margin-bottom: 14px;">
+            Write a blog note, attach an optional photo, and publish directly to <code>blog_posts</code> in Firestore.
+          </p>
+
+          <form id="studioPostForm">
+            <div class="field-group">
+              <label for="studioPostTitle" class="field-label">Post Title</label>
+              <input type="text" id="studioPostTitle" class="input" placeholder="e.g., Daily Note &amp; Photo" />
+            </div>
+
+            <div class="field-group">
+              <label for="studioPostSection" class="field-label">Section Anchor</label>
+              <select id="studioPostSection" class="select">
+                <option value="">General / Stream Top</option>
+                <option value="p1-sec-1">p1-sec-1</option>
+                <option value="p1-sec-2">p1-sec-2</option>
+                <option value="p1-sec-3">p1-sec-3</option>
+                <option value="p2-sec-1">p2-sec-1</option>
+                <option value="p2-sec-2">p2-sec-2</option>
+                <option value="p2-sec-3">p2-sec-3</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="studioPostPhoto" class="field-label">Attach Photo</label>
+              <input type="file" id="studioPostPhoto" class="input" accept="image/jpeg,image/png,image/webp" />
+              <div id="studioPostPreviewBox" class="photo-preview-box hidden">
+                <img id="studioPostPreviewImg" src="" alt="Post photo preview" />
+                <div style="text-align: right;">
+                  <button type="button" id="studioRemovePhotoBtn" class="btn btn-danger btn-sm">Remove Photo</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="studioPostCaption" class="field-label">Blog Content / Caption</label>
+              <textarea id="studioPostCaption" class="textarea" placeholder="Write your blog story or photo caption..."></textarea>
+            </div>
+
+            <div class="field-group">
+              <label for="studioPostTags" class="field-label">Tags (comma separated)</label>
+              <input type="text" id="studioPostTags" class="input" placeholder="blog, photo, firebase, VKU" />
+            </div>
+
+            <button type="submit" id="studioPublishBtn" class="btn btn-primary">Publish to Firebase</button>
+          </form>
+        </article>
+      </div>
+
+      <!-- 3. Published Posts List -->
+      <section class="studio-feed-card" aria-labelledby="sec3Heading">
+        <div class="studio-toolbar">
+          <div>
+            <h2 id="sec3Heading" style="margin: 0; font-size: 1.15rem;">3. Published Blog &amp; Photo Posts</h2>
+            <p class="field-hint" style="margin: 4px 0 0;">Click any photo to view full size or delete posts from Firebase.</p>
+          </div>
+          <input type="search" id="studioSearchInput" class="input search-input" placeholder="Search title, caption, or tag..." />
         </div>
 
+        <div id="studioPostsGrid" class="posts-grid"></div>
+        <div id="studioEmptyState" class="empty-state hidden">
+          <h3 style="margin: 0 0 6px;">No posts found</h3>
+          <p style="margin: 0;">Publish your first blog or photo post using the form above.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Admin Auth Modal -->
+  <div id="studioAuthModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="studioAuthTitle">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h3 id="studioAuthTitle">Admin Sign In</h3>
+        <button type="button" id="closeStudioAuthBtn" class="btn btn-sm">✕</button>
+      </div>
+      <form id="studioAuthForm">
+        <div class="field-group">
+          <label for="studioAuthEmail" class="field-label">Admin Email</label>
+          <input type="email" id="studioAuthEmail" class="input" autocomplete="email" required />
+        </div>
+        <div class="field-group">
+          <label for="studioAuthPassword" class="field-label">Password</label>
+          <input type="password" id="studioAuthPassword" class="input" autocomplete="current-password" required />
+        </div>
+        <div id="studioAuthError" class="error-text hidden"></div>
         <div class="modal-footer">
-          <button type="button" id="disconnectFirebaseBtn" class="btn">Use Local Storage Only</button>
-          <button type="submit" id="saveFirebaseBtn" class="btn btn-primary">Save &amp; Connect</button>
+          <button type="button" id="cancelStudioAuthBtn" class="btn">Cancel</button>
+          <button type="submit" id="submitStudioAuthBtn" class="btn btn-primary">Sign In</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- =======================================================================
-       PHOTO LIGHTBOX MODAL
-       ======================================================================= -->
-  <div id="lightboxModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+  <!-- Lightbox Modal -->
+  <div id="studioLightbox" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="studioLightboxTitle">
     <div class="lightbox-panel">
       <div class="modal-header">
-        <h3 id="lightboxTitle"></h3>
-        <button type="button" id="closeLightboxBtn" class="btn btn-sm">✕</button>
+        <h3 id="studioLightboxTitle"></h3>
+        <button type="button" id="closeStudioLightboxBtn" class="btn btn-sm">✕</button>
       </div>
-      <img id="lightboxImg" src="" alt="" class="lightbox-img" />
-      <p id="lightboxCaption" class="post-caption"></p>
+      <img id="studioLightboxImg" src="" alt="" class="lightbox-img" />
+      <p id="studioLightboxCaption" class="post-caption"></p>
     </div>
   </div>
 
-  <!-- =======================================================================
-       DELETE CONFIRMATION MODAL
-       ======================================================================= -->
-  <div id="confirmDeleteModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="confirmDeleteTitle">
-    <div class="modal-panel" style="max-width: 420px;">
-      <h3 id="confirmDeleteTitle" style="margin: 0 0 8px;">Delete this post?</h3>
-      <p id="confirmDeleteDesc" class="post-caption" style="margin-bottom: 16px;">
-        This action will permanently remove the post and its photo.
-      </p>
-      <div class="modal-footer">
-        <button type="button" id="cancelDeleteBtn" class="btn">Keep</button>
-        <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
-      </div>
-    </div>
-  </div>
+  <div id="studioToastContainer" class="toast-container" aria-live="polite"></div>
 
-  <!-- Toast Notification Container -->
-  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
-
-  <!-- =======================================================================
-       APPLICATION SCRIPT (4-LANGUAGE INTRO + PHOTO BLOG + FIREBASE & AUTH)
-       ======================================================================= -->
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
     import {
@@ -1268,6 +1071,7 @@ service cloud.firestore {
       getFirestore,
       collection,
       addDoc,
+      setDoc,
       deleteDoc,
       doc,
       onSnapshot,
@@ -1282,994 +1086,148 @@ service cloud.firestore {
       getDownloadURL,
     } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
-    /* -----------------------------------------------------------------------
-       STORAGE KEYS & CONSTANTS
-       ----------------------------------------------------------------------- */
     const STORAGE_KEYS = {
       LANG: 'vongvilay_blog_lang_v1',
       POSTS: 'vongvilay_blog_posts_v1',
+      PROFILE_PHOTO: 'vongvilay_profile_photo_v1',
       FB_CONFIG: 'vongvilay_firebase_config_v1',
     };
 
-    const PHONE_NUMBER = '+8562096944959';
-
-    /* -----------------------------------------------------------------------
-       4-LANGUAGE TRANSLATION DICTIONARY (EN, LO, TH, VI)
-       ----------------------------------------------------------------------- */
-    const TRANSLATIONS = {
+    const LABELS = {
       en: {
-        htmlLang: 'en',
-        roleBadge: 'IT Student · VKU · Laos',
-        navPage1: 'Page 1 · Identity & Story',
-        navPage2: 'Page 2 · Work, Growth & Contact',
-        navBlog: 'Blog & Photo Stream',
-        newPostBtn: '+ New Photo Post',
-        ownerSignInBtn: 'Owner Sign In',
-        ownerSignedInBadge: 'Owner Mode (Read & Write)',
-        visitorReadOnlyBadge: 'Visitor Mode (Read Only)',
-        signOutBtn: 'Sign Out',
-        fbConfigBtn: 'Firebase',
-        fbConnectedBadge: 'Firebase Connected',
-        fbLocalBadge: 'Local Mode',
-        heroTitle: 'Vongvilay Saesathone — IT Student & Multilingual Builder',
-        heroSubtitle: 'Hello, I am someone who constantly seeks knowledge. Quiet and grounded in real action, combining IT with Lao, Thai, English, and Vietnamese to build clear, lasting work.',
-        p1: {
-          pageTag: 'Page 1 · Identity, Mindset & Intersection',
-          headline: 'Vongvilay Saesathone — IT student at Vietnam-Korea University of Information and Communication Technology, connecting IT with language, honesty, and creative action.',
-          sec1Title: '1. Snapshot, IT & Lifelong Learning',
-          sec1P1: 'Hello, I am Vongvilay Saesathone, an IT student at the Vietnam-Korea University of Information and Communication Technology. I am someone who constantly seeks knowledge and works across Lao, Thai, English, and Vietnamese.',
-          sec1P2: 'Rather than treating technology in isolation, I view IT as a practical foundation for building clear, reliable, and meaningful systems that people can genuinely understand and use.',
-          sec2Title: '2. Quiet Action, Honesty, Creativity & Stability',
-          sec2P1: 'I am quiet and reserved in speech, yet focused on taking real, concrete action. I value honesty and integrity, creative thinking, strong moral character, and building stable, lasting work.',
-          sec2P2: 'For me, creative thinking and steady character work hand in hand: thoughtful ideas matter most when carried out with sincerity, consistency, and long-term stability.',
-          sec3Title: '3. IT, Language & Communication',
-          sec3P1: 'Language to me is a third-world bridge, a living spoken language for real connection, and a storytelling medium that stays true to identity, authentic to the person, and faithful to linguistic principles.',
-          sec3P2: 'Paired with IT, I want to shape ideas clearly and accurately so that technical depth and human expression reinforce one another.',
-          nextBtn: 'Continue to Page 2: How I Work, Growth & Contact →',
-        },
-        p2: {
-          pageTag: 'Page 2 · How I Work, Collaboration & Contact',
-          headline: 'Patience through obstacles • Sincerity & character • Growing in IT + Languages',
-          sec1Title: '1. Past Lessons & What Shapes My Work',
-          sec1P1: 'Through earlier challenges and experiences, I have learned that obstacles teach us patience and keep us grounded in honesty and sincerity without losing our true character.',
-          sec1P2: 'I aim to grow in IT + Languages together—combining patience, moral character, and practical execution to build dependable work over time.',
-          sec2Title: '2. Openness to Exchange & Shared Learning',
-          sec2P1: 'I value genuine exchange across IT and languages—whether discussing technical ideas, language usage, storytelling, or practical ways to solve problems.',
-          sec2P2: 'Whether the conversation is about IT + language growth, projects, or sharing perspectives across cultures, I welcome thoughtful, respectful exchange.',
-          sec3Title: '3. IT & Language Exchange — How to Connect',
-          sec3P1: 'This space introduces who I am, what I value, and how we can connect. Feel free to reach out if you are looking for:',
-          bullet1: 'IT and language exchange across Lao, Thai, English, and Vietnamese',
-          bullet2: 'Collaboration or discussion around IT + language ideas and practical projects',
-          bullet3: 'Steady, honest teamwork with attention to clarity and character',
-          bullet4: 'Or simply connecting to share perspectives and learn together',
-          contactLabel: 'Contact / IT & Language Exchange:',
-          copyBtn: 'Copy Number',
-          copiedBtn: 'Copied!',
-          backBtn: '← Back to Page 1',
-          goBlogBtn: 'Open Blog & Photo Stream →',
-        },
-        blog: {
-          title: 'Blog & Photo Stream',
-          subtitle: 'Shared updates, notes, and photos from Vongvilay Saesathone. Visitors can read all posts; only the signed-in owner can publish or delete.',
-          searchPlaceholder: 'Search posts, notes, or tags...',
-          filterAll: 'All Sections',
-          readOnlyNotice: 'Read-only mode: Visitors can browse and view photos. Sign in as the owner to publish or delete posts.',
-          ownerNotice: 'Owner mode active: You can publish new photo posts and manage existing entries.',
-          emptyTitle: 'No posts match your current filter',
-          emptyDesc: 'Try clearing your search or switching the section filter.',
-        },
-        composer: {
-          modalTitle: 'Publish a New Photo Post',
-          labelTitle: 'Post Title',
-          placeholderTitle: 'e.g., VKU Study Notes & Language Practice',
-          labelSection: 'Section Anchor (Optional)',
-          optSecNone: 'General / Stream Top',
-          secOptions: {
-            'p1-sec-1': 'P1 · 1. Snapshot, IT & Lifelong Learning',
-            'p1-sec-2': 'P1 · 2. Quiet Action, Honesty & Stability',
-            'p1-sec-3': 'P1 · 3. IT, Language & Communication',
-            'p2-sec-1': 'P2 · 1. Past Lessons & Growth Focus',
-            'p2-sec-2': 'P2 · 2. Openness to Exchange',
-            'p2-sec-3': 'P2 · 3. IT & Language Exchange',
-          },
-          labelPhoto: 'Attach Photo from Device',
-          photoHint: 'Automatically compressed for smooth loading. JPG, PNG, or WebP supported.',
-          removePhotoBtn: 'Remove Photo',
-          labelCaption: 'Story / Caption',
-          placeholderCaption: 'Write your thoughts on IT, languages, learning, or what this photo captures...',
-          labelTags: 'Tags (comma separated)',
-          placeholderTags: 'IT, language, VKU, learning',
-          cancelBtn: 'Cancel',
-          publishBtn: 'Publish Post',
-          publishingBtn: 'Publishing...',
-        },
-        auth: {
-          modalTitle: 'Owner Sign In (Read-Only Visitors)',
-          desc: 'Visitors can read everything on this site. Sign in with your owner email and password to publish or delete posts.',
-          emailLabel: 'Owner Email',
-          passwordLabel: 'Password',
-          signInSubmit: 'Sign In as Owner',
-          signingIn: 'Signing in...',
-          signedInAs: 'Signed in as:',
-          signOutBtn: 'Sign Out',
-          cancelBtn: 'Close',
-          errMissingFields: 'Please enter both email and password.',
-          errNoFirebase: 'Firebase is not configured yet. Configure Firebase first to use Owner Sign In.',
-          errAuthFailed: 'Sign-in failed. Please check your email and password.',
-          toastSignedIn: 'Signed in as owner.',
-          toastSignedOut: 'Signed out. Switched to visitor read-only mode.',
-          toastReadOnlyBlock: 'Read-only mode: Only the signed-in owner can create or delete posts.',
-        },
-        fbModal: {
-          title: 'Firebase Cloud Storage & Auth Setup',
-          desc: 'Connect Cloud Firestore and Firebase Auth so posts sync across devices while keeping visitors strictly read-only.',
-          apiKeyLabel: 'API Key',
-          authDomainLabel: 'Auth Domain',
-          projectIdLabel: 'Project ID',
-          storageBucketLabel: 'Storage Bucket',
-          appIdLabel: 'App ID',
-          storeImagesInStorageLabel: 'Upload images to Firebase Storage (uncheck to compress & store in Firestore)',
-          saveBtn: 'Save & Connect',
-          disconnectBtn: 'Use Local Storage Only',
-          rulesTitle: 'Recommended Firestore & Storage Rules (Visitors Read-Only)',
-          copyRulesBtn: 'Copy Rules',
-          rulesCopied: 'Rules copied to clipboard.',
-          savedToast: 'Firebase configuration saved.',
-          localToast: 'Switched to local browser storage.',
-        },
-        toast: {
-          copied: 'Phone number copied: +8562096944959',
-          changePhotoBtn: 'Change Photo',
-          photoUpdated: 'Profile photo updated.',
-          postCreated: 'Photo post published.',
-          postDeleted: 'Post deleted.',
-          needTitleOrContent: 'Please add a title, caption, or photo before publishing.',
-          imageTooLarge: 'Could not process image. Please try another photo.',
-          deleteConfirmTitle: 'Delete this post?',
-          deleteConfirmDesc: 'This action will permanently remove the post and its photo.',
-          confirmDeleteBtn: 'Delete',
-          cancelDeleteBtn: 'Keep',
-        },
+        backHome: '← Home',
+        signIn: 'Admin Sign In',
+        signOut: 'Sign Out',
+        saveAvatar: 'Save Profile to Firebase',
+        resetAvatar: 'Reset Photo',
+        publish: 'Publish to Firebase',
+        deletePost: 'Delete',
       },
       lo: {
-        htmlLang: 'lo',
-        roleBadge: 'ນັກສຶກສາໄອທີ · VKU · ລາວ',
-        navPage1: 'ໜ້າ 1 · ຕົວຕົນ ແລະ ແນວຄິດ',
-        navPage2: 'ໜ້າ 2 · ວິທີເຮັດວຽກ ແລະ ຕິດຕໍ່',
-        navBlog: 'ບລັອກ ແລະ ຄັງຮູບພາບ',
-        newPostBtn: '+ ໂພສຮູບໃໝ່',
-        ownerSignInBtn: 'ເຂົ້າສູ່ລະບົບເຈົ້າຂອງເວັບ',
-        ownerSignedInBadge: 'ໂໝດເຈົ້າຂອງເວັບ (ອ່ານ & ຂຽນ)',
-        visitorReadOnlyBadge: 'ໂໝດຜູ້ເຂົ້າຊົມ (ອ່ານໄດ້ຢ່າງດຽວ)',
-        signOutBtn: 'ອອກຈາກລະບົບ',
-        fbConfigBtn: 'Firebase',
-        fbConnectedBadge: 'ເຊື່ອມຕໍ່ Firebase ແລ້ວ',
-        fbLocalBadge: 'ໂໝດເກັບໃນເຄື່ອງ',
-        heroTitle: 'ວົງວິໄລ ໃສສະທອນ — ນັກສຶກສາໄອທີ ແລະ ຜູ້ສ້າງງານຫຼາຍພາສາ',
-        heroSubtitle: 'ສະບາຍດີ ຂ້ອຍເປັນຄົນທີ່ມັກສະແຫວງຫາຄວາມຮູ້ຢູ່ຕະຫຼອດເວລາ. ເປັນຄົນງຽບ ເຮັດແທ້ທຳຈິງ ເຊື່ອມໂຍງໄອທີກັບພາສາລາວ ໄທ ອັງກິດ ແລະ ຫວຽດນາມ ເພື່ອສ້າງວຽກງານທີ່ໝັ້ນຄົງ.',
-        p1: {
-          pageTag: 'ໜ້າ 1 · ຕົວຕົນ, ທັດສະນະຄະຕິ ແລະ ຈຸດເຊື່ອມໂຍງ',
-          headline: 'ວົງວິໄລ ໃສສະທອນ — ນັກສຶກສາໄອທີ ມະຫາວິທະຍາໄລເຕັກໂນໂລຊີ ແລະ ຂໍ້ມູນຂ່າວສານຫວຽດນາມ-ເກົາຫຼີ ເຊື່ອມໂຍງໄອທີກັບພາສາ ຄວາມຊື່ສັດ ແລະ ການລົງມືເຮັດແທ້ທຳຈິງ.',
-          sec1Title: '1. ພາບລວມ, ໄອທີ ແລະ ການສະແຫວງຫາຄວາມຮູ້',
-          sec1P1: 'ສະບາຍດີ ຂ້ອຍຊື່ ວົງວິໄລ ໃສສະທອນ ເປັນນັກສຶກສາໄອທີ ທີ່ມະຫາວິທະຍາໄລເຕັກໂນໂລຊີ ແລະ ຂໍ້ມູນຂ່າວສານຫວຽດນາມ-ເກົາຫຼີ. ຂ້ອຍເປັນຄົນທີ່ມັກສະແຫວງຫາຄວາມຮູ້ຢູ່ຕະຫຼອດເວລາ ແລະ ໃຊ້ງານໄດ້ທັງພາສາລາວ ໄທ ອັງກິດ ແລະ ຫວຽດນາມ.',
-          sec1P2: 'ສຳລັບຂ້ອຍ ໄອທີບໍ່ແມ່ນພຽງແຕ່ເລື່ອງເຕັກນິກຢ່າງດຽວ ແຕ່ເປັນພື້ນຖານສຳຄັນໃນການສ້າງລະບົບ ແລະ ຜົນງານທີ່ຊັດເຈນ ເຂົ້າໃຈງ່າຍ ແລະ ໃຊ້ປະໂຫຍດໄດ້ແທ້.',
-          sec2Title: '2. ເຮັດແທ້ທຳຈິງ, ຊື່ສັດສຸດຈະລິດ, ຄິດສ້າງສັນ ແລະ ໝັ້ນຄົງ',
-          sec2P1: 'ຂ້ອຍເປັນຄົນງຽບ ບໍ່ຄ່ອຍເວົ້າຫຼາຍ ແຕ່ເນັ້ນການລົງມືເຮັດແທ້ທຳຈິງ. ຂ້ອຍໃຫ້ຄວາມສຳຄັນກັບຄວາມຊື່ສັດສຸດຈະລິດ ຄິດແບບສ້າງສັນ ຍຶດໝັ້ນໃນຄຸນສົມບັດ ແລະ ມຸ່ງໝັ້ນສ້າງວຽກງານທີ່ໝັ້ນຄົງ.',
-          sec2P2: 'ຄວາມຄິດສ້າງສັນ ແລະ ຄຸນສົມບັດໄປຄູ່ກັນໄດ້ດີ ເມື່ອເຮົາເຮັດວຽກດ້ວຍຄວາມຈິງໃຈ ຊື່ສັດ ແລະ ມີຄວາມໝັ້ນຄົງໃນໄລຍະຍາວ.',
-          sec3Title: '3. ໄອທີ, ພາສາ ແລະ ການສື່ສານ',
-          sec3P1: 'ສຳລັບຂ້ອຍ ພາສາແມ່ນທັງພາສາໂລກທີສາມ ພາສາປາກເວົ້າ ແລະ ພາສາການເລົ່າເລື່ອງທີ່ຖືກຕົວ ຖືກຕົນ ແລະ ຖືກຫຼັກພາສາ.',
-          sec3P2: 'ເມື່ອເຊື່ອມໂຍງເຂົ້າກັບດ້ານໄອທີ ຂ້ອຍຢາກຖ່າຍທອດແນວຄິດໃຫ້ຊັດເຈນ ຖືກຕ້ອງ ແລະ ເຂົ້າໃຈງ່າຍ ທັງໃນດ້ານລະບົບ ແລະ ການສື່ສານກັບຜູ້ຄົນ.',
-          nextBtn: 'ໄປຕໍ່ໜ້າ 2: ວິທີເຮັດວຽກ, ການພັດທະນາ ແລະ ຕິດຕໍ່ →',
-        },
-        p2: {
-          pageTag: 'ໜ້າ 2 · ວິທີເຮັດວຽກ, ການຮ່ວມມື ແລະ ຊ່ອງທາງຕິດຕໍ່',
-          headline: 'ອຸປະສັກສອນໃຫ້ອົດທົນ • ເປັນຄົນຊື່ ແລະ ມີຄຸນສົມບັດ • ພັດທະນາດ້ານໄອທີ + ພາສາ',
-          sec1Title: '1. ບົດຮຽນຈາກອຸປະສັກ ແລະ ເປົ້າໝາຍການພັດທະນາ',
-          sec1P1: 'ອຸປະສັກສອນໃຫ້ເຮົາອົດທົນ ແລະ ຊ່ວຍໃຫ້ເຮົາຮັກສາຄວາມເປັນຄົນຊື່ ຊື່ສັດສຸດຈະລິດ ແລະ ຍຶດໝັ້ນໃນຄຸນສົມບັດ ບໍ່ວ່າຈະເຈີສະຖານະການໃດ.',
-          sec1P2: 'ຂ້ອຍຢາກພັດທະນາຕົນເອງດ້ານ ໄອທີ + ພາສາ ໄປພ້ອມໆ ກັນ ເພື່ອສ້າງວຽກງານທີ່ໝັ້ນຄົງ ມີຄຸນນະພາບ ແລະ ເປັນປະໂຫຍດຕໍ່ໄປໃນອະນາຄົດ.',
-          sec2Title: '2. ການເປີດຮັບການແລກປ່ຽນ ແລະ ການຮຽນຮູ້ຮ່ວມກັນ',
-          sec2P1: 'ຂ້ອຍຍິນດີສຳລັບການແລກປ່ຽນດ້ານໄອທີ ແລະ ພາສາ ບໍ່ວ່າຈະເປັນການສົນທະນາເລື່ອງເຕັກໂນໂລຊີ ການໃຊ້ພາສາ ການເລົ່າເລື່ອງ ຫຼື ການແກ້ບັນຫາຕ່າງໆ.',
-          sec2P2: 'ບໍ່ວ່າຈະເປັນການແບ່ງປັນຄວາມຮູ້ ການເຮັດໂປຣເຈັກ ຫຼື ການສ້າງມິດຕະພາບ ຂ້ອຍພ້ອມແລກປ່ຽນດ້ວຍຄວາມຈິງໃຈ.',
-          sec3Title: '3. ການແລກປ່ຽນໄອທີ ແລະ ພາສາ — ຊ່ອງທາງຕິດຕໍ່',
-          sec3P1: 'ພື້ນທີ່ນີ້ສ້າງຂຶ້ນເພື່ອແນະນຳຕົວຕົນຂອງຂ້ອຍ ແລະ ເປີດຊ່ອງທາງຕິດຕໍ່ ຖ້າເຈົ້າສົນໃຈ:',
-          bullet1: 'ການແລກປ່ຽນໄອທີ ແລະ ພາສາ (ລາວ, ໄທ, ອັງກິດ, ຫວຽດນາມ)',
-          bullet2: 'ການປຶກສາ ຫຼື ຮ່ວມງານດ້ານໄອທີ + ພາສາ ແລະ ໂປຣເຈັກທີ່ກ່ຽວຂ້ອງ',
-          bullet3: 'ການເຮັດວຽກທີ່ເນັ້ນຄວາມຊື່ສັດ ຄວາມອົດທົນ ແລະ ຄວາມໝັ້ນຄົງ',
-          bullet4: 'ຫຼື ພຽງແຕ່ທັກທາຍແລກປ່ຽນມຸມມອງ ແລະ ຄວາມຮູ້ຮ່ວມກັນ',
-          contactLabel: 'ຕິດຕໍ່ / ແລກປ່ຽນໄອທີ ແລະ ພາສາ:',
-          copyBtn: 'ກັອບປີ້ເບີ',
-          copiedBtn: 'ກັອບປີ້ແລ້ວ!',
-          backBtn: '← ກັບໄປໜ້າ 1',
-          goBlogBtn: 'ໄປໜ້າບລັອກ ແລະ ຄັງຮູບພາບ →',
-        },
-        blog: {
-          title: 'ບລັອກ ແລະ ຄັງຮູບພາບ',
-          subtitle: 'ບັນທຶກ ບົດຄວາມ ແລະ ຮູບພາບຂອງ ວົງວິໄລ ໃສສະທອນ. ຄົນອື່ນເຂົ້າອ່ານໄດ້ຢ່າງດຽວ ສະເພາະເຈົ້າຂອງເວັບທີ່ເຂົ້າສູ່ລະບົບເທົ່ານັ້ນຈຶ່ງໂພສ ຫຼື ລຶບໄດ້.',
-          searchPlaceholder: 'ຄົ້ນຫາໂພສ ບັນທຶກ ຫຼື ແທັກ...',
-          filterAll: 'ທຸກຫົວຂໍ້',
-          readOnlyNotice: 'ໂໝດອ່ານຢ່າງດຽວ: ຜູ້ເຂົ້າຊົມສາມາດອ່ານ ແລະ ເບິ່ງຮູບໄດ້ ເຂົ້າສູ່ລະບົບເຈົ້າຂອງເວັບເພື່ອໂພສ ຫຼື ລຶບໂພສ.',
-          ownerNotice: 'ເປີດໂໝດເຈົ້າຂອງເວັບແລ້ວ: ສາມາດສ້າງໂພສຮູບໃໝ່ ແລະ ຈັດການໂພສໄດ້.',
-          emptyTitle: 'ບໍ່ພົບໂພສທີ່ກົງກັບຕົວກອງ',
-          emptyDesc: 'ລອງລ້າງຄຳຄົ້ນຫາ ຫຼື ປ່ຽນຕົວກອງຫົວຂໍ້ເບິ່ງ.',
-        },
-        composer: {
-          modalTitle: 'ສ້າງໂພສຮູບພາບໃໝ່',
-          labelTitle: 'ຫົວຂໍ້ໂພສ',
-          placeholderTitle: 'ເຊັ່ນ: ບັນທຶກການຮຽນໄອທີ ແລະ ການຝຶກພາສາ',
-          labelSection: 'ຫົວຂໍ້ຍ່ອຍ (ຖ້າມີ)',
-          optSecNone: 'ທົ່ວໄປ / ດ້ານເທິງ',
-          secOptions: {
-            'p1-sec-1': 'ໜ້າ 1 · 1. ພາບລວມ, ໄອທີ ແລະ ການສະແຫວງຫາຄວາມຮູ້',
-            'p1-sec-2': 'ໜ້າ 1 · 2. ເຮັດແທ້ທຳຈິງ, ຊື່ສັດ ແລະ ໝັ້ນຄົງ',
-            'p1-sec-3': 'ໜ້າ 1 · 3. ໄອທີ, ພາສາ ແລະ ການສື່ສານ',
-            'p2-sec-1': 'ໜ້າ 2 · 1. ບົດຮຽນຈາກອຸປະສັກ ແລະ ການພັດທະນາ',
-            'p2-sec-2': 'ໜ້າ 2 · 2. ການເປີດຮັບການແລກປ່ຽນ',
-            'p2-sec-3': 'ໜ້າ 2 · 3. ການແລກປ່ຽນໄອທີ ແລະ ພາສາ',
-          },
-          labelPhoto: 'ແນບຮູບຈາກອຸປະກອນ',
-          photoHint: 'ລະບົບຈະບີບອັດຮູບອັດຕະໂນມັດ ຮອງຮັບ JPG, PNG ຫຼື WebP.',
-          removePhotoBtn: 'ເອົາຮູບອອກ',
-          labelCaption: 'ເນື້ອຫາ / ຄຳອະທິບາຍ',
-          placeholderCaption: 'ຂຽນເລື່ອງລາວກ່ຽວກັບໄອທີ ພາສາ ການຮຽນຮູ້ ຫຼື ຄວາມໝາຍຂອງຮູບນີ້...',
-          labelTags: 'ແທັກ (ຂັ້ນດ້ວຍຈຸດ ,)',
-          placeholderTags: 'ໄອທີ, ພາສາ, VKU, ການຮຽນຮູ້',
-          cancelBtn: 'ຍົກເລີກ',
-          publishBtn: 'ໂພສລົງບລັອກ',
-          publishingBtn: 'ກຳລັງໂພສ...',
-        },
-        auth: {
-          modalTitle: 'ເຂົ້າສູ່ລະບົບເຈົ້າຂອງເວັບ (ຄົນອື່ນໄດ້ແຕ່ເຂົ້າອ່ານ)',
-          desc: 'ຄົນທົ່ວໄປເຂົ້າອ່ານໄດ້ທຸກສ່ວນ ກະລຸນາໃສ່ອີເມວ ແລະ ລະຫັດຜ່ານຂອງເຈົ້າຂອງເວັບເພື່ອໂພສ ຫຼື ລຶບໂພສ.',
-          emailLabel: 'ອີເມວເຈົ້າຂອງເວັບ',
-          passwordLabel: 'ລະຫັດຜ່ານ',
-          signInSubmit: 'ເຂົ້າສູ່ລະບົບ',
-          signingIn: 'ກຳລັງເຂົ້າສູ່ລະບົບ...',
-          signedInAs: 'ເຂົ້າສູ່ລະບົບໃນນາມ:',
-          signOutBtn: 'ອອກຈາກລະບົບ',
-          cancelBtn: 'ປິດ',
-          errMissingFields: 'ກະລຸນາປ້ອນທັງອີເມວ ແລະ ລະຫັດຜ່ານ.',
-          errNoFirebase: 'ຍັງບໍ່ໄດ້ຕັ້ງຄ່າ Firebase ກະລຸນາຕັ້ງຄ່າ Firebase ກ່ອນໃຊ້ງານ Sign In.',
-          errAuthFailed: 'ເຂົ້າສູ່ລະບົບບໍ່ສຳເລັດ ກະລຸນາກວດສອບອີເມວ ແລະ ລະຫັດຜ່ານ.',
-          toastSignedIn: 'ເຂົ້າສູ່ລະບົບເຈົ້າຂອງເວັບສຳເລັດແລ້ວ.',
-          toastSignedOut: 'ອອກຈາກລະບົບແລ້ວ ກັບສູ່ໂໝດຜູ້ເຂົ້າຊົມ (ອ່ານໄດ້ຢ່າງດຽວ).',
-          toastReadOnlyBlock: 'ໂໝດອ່ານຢ່າງດຽວ: ສະເພາະເຈົ້າຂອງເວັບທີ່ເຂົ້າສູ່ລະບົບເທົ່ານັ້ນຈຶ່ງສ້າງ ຫຼື ລຶບໂພສໄດ້.',
-        },
-        fbModal: {
-          title: 'ຕັ້ງຄ່າ Firebase Storage & Auth',
-          desc: 'ເຊື່ອມຕໍ່ Cloud Firestore ແລະ Firebase Auth ເພື່ອຊິ້ງໂພສຂ້າມອຸປະກອນ ໂດຍໃຫ້ຄົນອື່ນໄດ້ແຕ່ເຂົ້າອ່ານ.',
-          apiKeyLabel: 'API Key',
-          authDomainLabel: 'Auth Domain',
-          projectIdLabel: 'Project ID',
-          storageBucketLabel: 'Storage Bucket',
-          appIdLabel: 'App ID',
-          storeImagesInStorageLabel: 'ອັບໂຫຼດຮູບໄປ Firebase Storage (ຖ້າບໍ່ເລືອກຈະບີບອັດເກັບໃນ Firestore)',
-          saveBtn: 'ບັນທຶກ ແລະ ເຊື່ອມຕໍ່',
-          disconnectBtn: 'ໃຊ້ເກັບໃນ Browser ເທົ່ານັ້ນ',
-          rulesTitle: 'ຕົວຢ່າງ Firestore & Storage Rules (ຄົນອື່ນໄດ້ແຕ່ເຂົ້າອ່ານ)',
-          copyRulesBtn: 'ກັອບປີ້ Rules',
-          rulesCopied: 'ກັອບປີ້ Rules ແລ້ວ.',
-          savedToast: 'ບັນທຶກການຕັ້ງຄ່າ Firebase ແລ້ວ.',
-          localToast: 'ປ່ຽນໄປໃຊ້ການເກັບຂໍ້ມູນໃນ Browser ແລ້ວ.',
-        },
-        toast: {
-          copied: 'ກັອບປີ້ເບີໂທແລ້ວ: +8562096944959',
-          changePhotoBtn: 'ປ່ຽນຮູບໂປຣໄຟລ໌',
-          photoUpdated: 'ອັບເດດຮູບໂປຣໄຟລ໌ແລ້ວ.',
-          postCreated: 'ໂພສຮູບພາບສຳເລັດແລ້ວ.',
-          postDeleted: 'ລຶບໂພສແລ້ວ.',
-          needTitleOrContent: 'ກະລຸນາໃສ່ຫົວຂໍ້ ຄຳອະທິບາຍ ຫຼື ແນບຮູບກ່ອນໂພສ.',
-          imageTooLarge: 'ບໍ່ສາມາດປະມວນຜົນຮູບໄດ້ ລອງເລືອກຮູບໃໝ່.',
-          deleteConfirmTitle: 'ຢືນຢັນການລຶບໂພສນີ້?',
-          deleteConfirmDesc: 'ການລຶບຈະເອົາໂພສ ແລະ ຮູບພາບອອກຖາວອນ.',
-          confirmDeleteBtn: 'ລຶບໂພສ',
-          cancelDeleteBtn: 'ຍົກເລີກ',
-        },
+        backHome: '← ໜ້າຫຼັກ',
+        signIn: 'ລັອກອິນແອັດມິນ',
+        signOut: 'ອອກຈາກລະບົບ',
+        saveAvatar: 'ບັນທຶກຮູບໂປຣໄຟລ໌ລົງ Firebase',
+        resetAvatar: 'ລ້າງຮູບໂປຣໄຟລ໌',
+        publish: 'ໂພສບັນທຶກລົງ Firebase',
+        deletePost: 'ລຶບໂພສ',
       },
       th: {
-        htmlLang: 'th',
-        roleBadge: 'นักศึกษาไอที · VKU · ลาว',
-        navPage1: 'หน้า 1 · ตัวตนและแนวคิด',
-        navPage2: 'หน้า 2 · การทำงานและการติดต่อ',
-        navBlog: 'บล็อกและคลังรูปภาพ',
-        newPostBtn: '+ โพสต์รูปใหม่',
-        ownerSignInBtn: 'เข้าสู่ระบบเจ้าของเว็บ',
-        ownerSignedInBadge: 'โหมดเจ้าของเว็บ (อ่าน & เขียน)',
-        visitorReadOnlyBadge: 'โหมดผู้เข้าชม (อ่านได้อย่างเดียว)',
-        signOutBtn: 'ออกจากระบบ',
-        fbConfigBtn: 'Firebase',
-        fbConnectedBadge: 'เชื่อมต่อ Firebase แล้ว',
-        fbLocalBadge: 'โหมดเก็บในเครื่อง',
-        heroTitle: 'วงวิไล ใสสะทอน — นักศึกษาไอทีและผู้สร้างงานหลายภาษา',
-        heroSubtitle: 'สวัสดี ฉันเป็นคนที่ชอบแสวงหาความรู้อยู่ตลอดเวลา เป็นคนเงียบ ทำจริงจัง เชื่อมโยงไอทีกับภาษาลาว ไทย อังกฤษ และเวียดนาม เพื่อสร้างผลงานที่มั่นคง',
-        p1: {
-          pageTag: 'หน้า 1 · ตัวตน ทัศนคติ และจุดเชื่อมโยง',
-          headline: 'วงวิไล ใสสะทอน — นักศึกษาไอที มหาวิทยาลัยเทคโนโลยีและสารสนเทศ เวียดนาม-เกาหลี เชื่อมโยงไอทีกับภาษา ความซื่อสัตย์ และการลงมือทำจริง',
-          sec1Title: '1. ภาพรวม ไอที และการแสวงหาความรู้',
-          sec1P1: 'สวัสดี ฉันชื่อ วงวิไล ใสสะทอน เป็นนักศึกษาไอที ที่มหาวิทยาลัยเทคโนโลยีและสารสนเทศ เวียดนาม-เกาหลี ฉันเป็นคนที่ชอบแสวงหาความรู้อยู่ตลอดเวลา และสื่อสารได้ทั้งภาษาลาว ไทย อังกฤษ และเวียดนาม',
-          sec1P2: 'สำหรับฉัน ไอทีไม่ได้เป็นเพียงเรื่องเทคนิคอย่างเดียว แต่เป็นพื้นฐานสำคัญในการสร้างระบบและผลงานที่ชัดเจน เข้าใจง่าย และใช้งานได้จริง',
-          sec2Title: '2. ทำจริงจัง ซื่อสัตย์สุจริต คิดสร้างสรรค์ และมั่นคง',
-          sec2P1: 'ฉันเป็นคนเงียบ ไม่ค่อยพูดมาก แต่เน้นการลงมือทำจริงจัง ฉันให้ความสำคัญกับความซื่อสัตย์สุจริต คิดแบบสร้างสรรค์ ยึดมั่นในคุณธรรม และมุ่งมั่นสร้างผลงานที่มั่นคง',
-          sec2P2: 'ความคิดสร้างสรรค์และคุณธรรมเสริมกันได้ดี เมื่อเราทำงานด้วยความจริงใจ ซื่อสัตย์ และมีความมั่นคงในระยะยาว',
-          sec3Title: '3. ไอที ภาษา และการสื่อสาร',
-          sec3P1: 'สำหรับฉัน ภาษาเป็นทั้งภาษาโลกที่สาม ภาษาพูด และภาษาการเล่าเรื่องที่ถูกต้อง ตรงตัวตน และถูกต้องตามหลักภาษา',
-          sec3P2: 'เมื่อผสานกับความรู้ด้านไอที ฉันอยากถ่ายทอดแนวคิดให้ชัดเจน ถูกต้อง และเข้าใจง่าย ทั้งในแง่ระบบและการสื่อสารกับผู้คน',
-          nextBtn: 'ไปต่อหน้า 2: แนวทางการทำงาน การพัฒนา และการติดต่อ →',
-        },
-        p2: {
-          pageTag: 'หน้า 2 · แนวทางการทำงาน การร่วมมือ และช่องทางการติดต่อ',
-          headline: 'อุปสรรคสอนให้อดทน • เป็นคนซื่อและมีคุณธรรม • พัฒนาด้านไอที + ภาษา',
-          sec1Title: '1. บทเรียนจากอุปสรรคและเป้าหมายการพัฒนา',
-          sec1P1: 'อุปสรรคสอนให้เราอดทน และช่วยให้เรารักษาความเป็นคนซื่อ ซื่อสัตย์สุจริต และยึดมั่นในคุณธรรม ไม่ว่าจะเจอสถานการณ์ใด',
-          sec1P2: 'ฉันอยากพัฒนาตนเองด้าน ไอที + ภาษา ไปพร้อมๆ กัน เพื่อสร้างผลงานที่มั่นคง มีคุณภาพ และเป็นประโยชน์ในระยะยาว',
-          sec2Title: '2. การเปิดรับการแลกเปลี่ยนและการเรียนรู้ร่วมกัน',
-          sec2P1: 'ฉันยินดีสำหรับการแลกเปลี่ยนด้านไอทีและภาษา ไม่ว่าจะเป็นการพูดคุยเรื่องเทคโนโลยี การใช้ภาษา การเล่าเรื่อง หรือการแก้ปัญหาต่างๆ',
-          sec2P2: 'ไม่ว่าจะเป็นการแบ่งปันความรู้ การทำโปรเจกต์ หรือการสร้างมิตรภาพ ฉันพร้อมแลกเปลี่ยนด้วยความจริงใจ',
-          sec3Title: '3. การแลกเปลี่ยนไอทีและภาษา — ช่องทางการติดต่อ',
-          sec3P1: 'พื้นที่นี้สร้างขึ้นเพื่อแนะนำตัวตนของฉันและเปิดช่องทางการติดต่อ หากคุณสนใจ:',
-          bullet1: 'การแลกเปลี่ยนไอทีและภาษา (ลาว ไทย อังกฤษ เวียดนาม)',
-          bullet2: 'การปรึกษาหรือร่วมงานด้านไอที + ภาษา และโปรเจกต์ที่เกี่ยวข้อง',
-          bullet3: 'การทำงานที่เน้นความซื่อสัตย์ ความอดทน และความมั่นคง',
-          bullet4: 'หรือเพียงแค่ทักทายแลกเปลี่ยนมุมมองและความรู้ร่วมกัน',
-          contactLabel: 'ติดต่อ / แลกเปลี่ยนไอทีและภาษา:',
-          copyBtn: 'คัดลอกเบอร์',
-          copiedBtn: 'คัดลอกแล้ว!',
-          backBtn: '← กลับไปหน้า 1',
-          goBlogBtn: 'ไปหน้าบล็อกและคลังรูปภาพ →',
-        },
-        blog: {
-          title: 'บล็อกและคลังรูปภาพ',
-          subtitle: 'บันทึก บทความ และรูปภาพของ วงวิไล ใสสะทอน ผู้เข้าชมอ่านได้อย่างเดียว เฉพาะเจ้าของเว็บที่เข้าสู่ระบบเท่านั้นจึงโพสต์หรือลบได้',
-          searchPlaceholder: 'ค้นหาโพสต์ บันทึก หรือแท็ก...',
-          filterAll: 'ทุกหัวข้อ',
-          readOnlyNotice: 'โหมดอ่านอย่างเดียว: ผู้เข้าชมสามารถอ่านและดูรูปได้ เข้าสู่ระบบเจ้าของเว็บเพื่อโพสต์หรือลบโพสต์',
-          ownerNotice: 'เปิดโหมดเจ้าของเว็บแล้ว: สามารถสร้างโพสต์รูปใหม่และจัดการโพสต์ได้',
-          emptyTitle: 'ไม่พบโพสต์ที่ตรงกับตัวกรอง',
-          emptyDesc: 'ลองล้างคำค้นหาหรือเปลี่ยนตัวกรองหัวข้อ',
-        },
-        composer: {
-          modalTitle: 'สร้างโพสต์รูปภาพใหม่',
-          labelTitle: 'หัวข้อโพสต์',
-          placeholderTitle: 'เช่น: บันทึกการเรียนไอทีและการฝึกภาษา',
-          labelSection: 'หัวข้อย่อย (ถ้ามี)',
-          optSecNone: 'ทั่วไป / ด้านบนของหน้า',
-          secOptions: {
-            'p1-sec-1': 'หน้า 1 · 1. ภาพรวม ไอที และการแสวงหาความรู้',
-            'p1-sec-2': 'หน้า 1 · 2. ทำจริงจัง ซื่อสัตย์ และมั่นคง',
-            'p1-sec-3': 'หน้า 1 · 3. ไอที ภาษา และการสื่อสาร',
-            'p2-sec-1': 'หน้า 2 · 1. บทเรียนจากอุปสรรคและการพัฒนา',
-            'p2-sec-2': 'หน้า 2 · 2. การเปิดรับการแลกเปลี่ยน',
-            'p2-sec-3': 'หน้า 2 · 3. การแลกเปลี่ยนไอทีและภาษา',
-          },
-          labelPhoto: 'แนบรูปภาพจากอุปกรณ์',
-          photoHint: 'ระบบจะบีบอัดรูปอัตโนมัติ รองรับ JPG, PNG หรือ WebP',
-          removePhotoBtn: 'ลบรูปออก',
-          labelCaption: 'เนื้อหา / คำอธิบาย',
-          placeholderCaption: 'เขียนเรื่องราวเกี่ยวกับไอที ภาษา การเรียนรู้ หรือความหมายของรูปนี้...',
-          labelTags: 'แท็ก (คั่นด้วยจุลภาค ,)',
-          placeholderTags: 'ไอที, ภาษา, VKU, การเรียนรู้',
-          cancelBtn: 'ยกเลิก',
-          publishBtn: 'โพสต์ลงบล็อก',
-          publishingBtn: 'กำลังโพสต์...',
-        },
-        auth: {
-          modalTitle: 'เข้าสู่ระบบเจ้าของเว็บ (คนอื่นได้แต่อ่าน)',
-          desc: 'ผู้เข้าชมอ่านได้ทุกส่วน กรุณาใส่อีเมลและรหัสผ่านของเจ้าของเว็บเพื่อโพสต์หรือลบโพสต์',
-          emailLabel: 'อีเมลเจ้าของเว็บ',
-          passwordLabel: 'รหัสผ่าน',
-          signInSubmit: 'เข้าสู่ระบบ',
-          signingIn: 'กำลังเข้าสู่ระบบ...',
-          signedInAs: 'เข้าสู่ระบบในนาม:',
-          signOutBtn: 'ออกจากระบบ',
-          cancelBtn: 'ปิด',
-          errMissingFields: 'กรุณากรอกทั้งอีเมลและรหัสผ่าน',
-          errNoFirebase: 'ยังไม่ได้ตั้งค่า Firebase กรุณาตั้งค่า Firebase ก่อนใช้งาน Sign In',
-          errAuthFailed: 'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบอีเมลและรหัสผ่าน',
-          toastSignedIn: 'เข้าสู่ระบบเจ้าของเว็บสำเร็จแล้ว',
-          toastSignedOut: 'ออกจากระบบแล้ว กลับสู่โหมดผู้เข้าชม (อ่านได้อย่างเดียว)',
-          toastReadOnlyBlock: 'โหมดอ่านอย่างเดียว: เฉพาะเจ้าของเว็บที่เข้าสู่ระบบเท่านั้นจึงสร้างหรือลบโพสต์ได้',
-        },
-        fbModal: {
-          title: 'ตั้งค่า Firebase Storage & Auth',
-          desc: 'เชื่อมต่อ Cloud Firestore และ Firebase Auth เพื่อซิงค์โพสต์ข้ามอุปกรณ์ โดยให้ผู้เข้าชมอ่านได้อย่างเดียว',
-          apiKeyLabel: 'API Key',
-          authDomainLabel: 'Auth Domain',
-          projectIdLabel: 'Project ID',
-          storageBucketLabel: 'Storage Bucket',
-          appIdLabel: 'App ID',
-          storeImagesInStorageLabel: 'อัปโหลดรูปไป Firebase Storage (หากไม่เลือกจะบีบอัดเก็บใน Firestore)',
-          saveBtn: 'บันทึกและเชื่อมต่อ',
-          disconnectBtn: 'ใช้เก็บในเบราว์เซอร์เท่านั้น',
-          rulesTitle: 'ตัวอย่าง Firestore & Storage Rules (คนอื่นได้แต่อ่าน)',
-          copyRulesBtn: 'คัดลอก Rules',
-          rulesCopied: 'คัดลอก Rules แล้ว',
-          savedToast: 'บันทึกการตั้งค่า Firebase แล้ว',
-          localToast: 'เปลี่ยนไปใช้การเก็บข้อมูลในเบราว์เซอร์แล้ว',
-        },
-        toast: {
-          copied: 'คัดลอกเบอร์โทรแล้ว: +8562096944959',
-          changePhotoBtn: 'เปลี่ยนรูปโปรไฟล์',
-          photoUpdated: 'อัปเดตรูปโปรไฟล์แล้ว',
-          postCreated: 'โพสต์รูปภาพสำเร็จแล้ว',
-          postDeleted: 'ลบโพสต์แล้ว',
-          needTitleOrContent: 'กรุณาใส่หัวข้อ คำอธิบาย หรือแนบรูปก่อนโพสต์',
-          imageTooLarge: 'ไม่สามารถประมวลผลรูปได้ ลองเลือกรูปใหม่',
-          deleteConfirmTitle: 'ยืนยันการลบโพสต์นี้?',
-          deleteConfirmDesc: 'การลบจะเอาโพสต์และรูปภาพออกถาวร',
-          confirmDeleteBtn: 'ลบโพสต์',
-          cancelDeleteBtn: 'ยกเลิก',
-        },
+        backHome: '← หน้าหลัก',
+        signIn: 'เข้าสู่ระบบแอดมิน',
+        signOut: 'ออกจากระบบ',
+        saveAvatar: 'บันทึกโปรไฟล์ลง Firebase',
+        resetAvatar: 'ล้างรูปโปรไฟล์',
+        publish: 'โพสต์บันทึกลง Firebase',
+        deletePost: 'ลบโพสต์',
       },
       vi: {
-        htmlLang: 'vi',
-        roleBadge: 'Sinh viên CNTT · VKU · Lào',
-        navPage1: 'Trang 1 · Bản Sắc & Tư Duy',
-        navPage2: 'Trang 2 · Làm Việc & Liên Hệ',
-        navBlog: 'Blog & Thư Viện Ảnh',
-        newPostBtn: '+ Đăng Ảnh Mới',
-        ownerSignInBtn: 'Chủ Web Đăng Nhập',
-        ownerSignedInBadge: 'Chế Độ Chủ Web (Đọc & Viết)',
-        visitorReadOnlyBadge: 'Chế Độ Khách (Chỉ Đọc)',
-        signOutBtn: 'Đăng Xuất',
-        fbConfigBtn: 'Firebase',
-        fbConnectedBadge: 'Đã Kết Nối Firebase',
-        fbLocalBadge: 'Lưu Trữ Local',
-        heroTitle: 'Vongvilay Saesathone — Sinh Viên CNTT & Người Làm Việc Đa Ngôn Ngữ',
-        heroSubtitle: 'Xin chào, tôi là người luôn mong muốn tìm tòi và học hỏi kiến thức. Sống trầm tĩnh, làm việc thực tế, kết nối CNTT với tiếng Lào, Thái, Anh và Việt để tạo ra giá trị bền vững.',
-        p1: {
-          pageTag: 'Trang 1 · Bản Sắc, Tư Duy & Điểm Giao Thoa',
-          headline: 'Vongvilay Saesathone — Sinh viên ngành CNTT Trường Đại học Công nghệ Thông tin và Truyền thông Việt - Hàn, kết nối CNTT với ngôn ngữ, sự trung thực và hành động thực tế.',
-          sec1Title: '1. Tổng Quan, CNTT & Tinh Thần Học Hỏi',
-          sec1P1: 'Xin chào, tôi là Vongvilay Saesathone, sinh viên ngành Công nghệ Thông tin tại Trường Đại học Công nghệ Thông tin và Truyền thông Việt - Hàn. Tôi là người luôn mong muốn tìm tòi và học hỏi kiến thức, làm việc với tiếng Lào, tiếng Thái, tiếng Anh và tiếng Việt.',
-          sec1P2: 'Với tôi, CNTT không chỉ dừng ở kỹ thuật thuần túy mà là nền tảng để xây dựng những giải pháp rõ ràng, dễ hiểu và hữu ích trong thực tế.',
-          sec2Title: '2. Làm Việc Thực Tế, Trung Thực, Sáng Tạo & Ổn Định',
-          sec2P1: 'Tôi là người ít nói, sống trầm tĩnh nhưng tập trung vào việc làm thực tế và nghiêm túc. Tôi coi trọng sự trung thực, tư duy sáng tạo, phẩm chất đạo đức và xây dựng công việc ổn định lâu dài.',
-          sec2P2: 'Tư duy sáng tạo và phẩm chất đạo đức luôn bổ trợ cho nhau khi đi cùng sự chân thật, ngay thẳng và nền tảng vững chắc.',
-          sec3Title: '3. CNTT, Ngôn Ngữ & Giao Tiếp',
-          sec3P1: 'Với tôi, ngôn ngữ vừa là cầu nối thế giới thứ ba, vừa là ngôn ngữ giao tiếp đời thường, vừa là ngôn ngữ kể chuyện đúng bản sắc, đúng người và đúng nguyên tắc ngôn ngữ.',
-          sec3P2: 'Khi kết hợp với CNTT, tôi muốn truyền đạt ý tưởng rõ ràng, chính xác và dễ tiếp cận cả về hệ thống lẫn giao tiếp con người.',
-          nextBtn: 'Sang Trang 2: Cách Làm Việc, Phát Triển & Liên Hệ →',
-        },
-        p2: {
-          pageTag: 'Trang 2 · Cách Làm Việc, Hợp Tác & Liên Hệ',
-          headline: 'Thử thách rèn tính kiên nhẫn • Giữ sự ngay thẳng & phẩm chất • Phát triển CNTT + Ngôn ngữ',
-          sec1Title: '1. Bài Học Từ Thử Thách & Mục Tiêu Phát Triển',
-          sec1P1: 'Thử thách dạy chúng ta sự kiên nhẫn và giúp giữ vững sự ngay thẳng, trung thực cùng phẩm chất đạo đức trước mọi hoàn cảnh.',
-          sec1P2: 'Tôi muốn phát triển song song cả CNTT + Ngôn ngữ để tạo ra công việc ổn định, chất lượng và bền vững.',
-          sec2Title: '2. Cởi Mở Trao Đổi & Học Hỏi Cùng Nhau',
-          sec2P1: 'Tôi sẵn sàng trao đổi về CNTT và ngôn ngữ—từ công nghệ, cách dùng ngôn ngữ, kể chuyện đến các bài toán thực tế.',
-          sec2P2: 'Dù là chia sẻ kiến thức, dự án hay kết nối bạn bè, tôi luôn trân trọng những cuộc trò chuyện chân thành.',
-          sec3Title: '3. Trao Đổi CNTT & Ngôn Ngữ — Cách Kết Nối',
-          sec3P1: 'Không gian này giới thiệu bản thân tôi và mở kênh kết nối nếu bạn quan tâm đến:',
-          bullet1: 'Trao đổi CNTT và ngôn ngữ (tiếng Lào, Thái, Anh, Việt)',
-          bullet2: 'Thảo luận hoặc hợp tác xung quanh các ý tưởng và dự án CNTT + ngôn ngữ',
-          bullet3: 'Làm việc nghiêm túc, kiên nhẫn, trung thực và hướng tới sự ổn định',
-          bullet4: 'Hoặc đơn giản là trò chuyện, chia sẻ góc nhìn và học hỏi cùng nhau',
-          contactLabel: 'Liên hệ / Trao đổi CNTT & Ngôn Ngữ:',
-          copyBtn: 'Sao Chép Số',
-          copiedBtn: 'Đã Sao Chép!',
-          backBtn: '← Quay Lại Trang 1',
-          goBlogBtn: 'Mở Blog & Thư Viện Ảnh →',
-        },
-        blog: {
-          title: 'Blog & Thư Viện Ảnh',
-          subtitle: 'Ghi chép, bài viết và hình ảnh của Vongvilay Saesathone. Khách truy cập chỉ có thể đọc; chỉ chủ web đã đăng nhập mới có thể đăng hoặc xóa bài.',
-          searchPlaceholder: 'Tìm bài viết, ghi chú hoặc thẻ...',
-          filterAll: 'Tất Cả Mục',
-          readOnlyNotice: 'Chế độ chỉ đọc: Khách có thể xem bài viết và ảnh. Đăng nhập chủ web để đăng hoặc xóa bài.',
-          ownerNotice: 'Chế độ chủ web đang bật: Bạn có thể đăng bài ảnh mới và quản lý bài viết.',
-          emptyTitle: 'Không có bài viết nào khớp bộ lọc',
-          emptyDesc: 'Hãy thử xóa từ khóa tìm kiếm hoặc đổi bộ lọc mục.',
-        },
-        composer: {
-          modalTitle: 'Đăng Bài Ảnh Mới',
-          labelTitle: 'Tiêu Đề Bài Viết',
-          placeholderTitle: 'Ví dụ: Ghi chép CNTT & luyện ngôn ngữ tại VKU',
-          labelSection: 'Mục Neo (Tùy Chọn)',
-          optSecNone: 'Chung / Đầu Trang',
-          secOptions: {
-            'p1-sec-1': 'Trang 1 · 1. Tổng Quan, CNTT & Học Hỏi',
-            'p1-sec-2': 'Trang 1 · 2. Làm Thực Tế, Trung Thực & Ổn Định',
-            'p1-sec-3': 'Trang 1 · 3. CNTT, Ngôn Ngữ & Giao Tiếp',
-            'p2-sec-1': 'Trang 2 · 1. Bài Học Thử Thách & Phát Triển',
-            'p2-sec-2': 'Trang 2 · 2. Cởi Mở Trao Đổi',
-            'p2-sec-3': 'Trang 2 · 3. Trao Đổi CNTT & Ngôn Ngữ',
-          },
-          labelPhoto: 'Đính Kèm Ảnh Từ Thiết Bị',
-          photoHint: 'Tự động nén để tải mượt. Hỗ trợ JPG, PNG hoặc WebP.',
-          removePhotoBtn: 'Xóa Ảnh',
-          labelCaption: 'Nội Dung / Chú Thích',
-          placeholderCaption: 'Viết chia sẻ về CNTT, ngôn ngữ, việc học hoặc ý nghĩa của bức ảnh...',
-          labelTags: 'Thẻ (phân tách bằng dấu phẩy ,)',
-          placeholderTags: 'CNTT, ngôn ngữ, VKU, học tập',
-          cancelBtn: 'Hủy',
-          publishBtn: 'Đăng Bài',
-          publishingBtn: 'Đang đăng...',
-        },
-        auth: {
-          modalTitle: 'Chủ Web Đăng Nhập (Khách Chỉ Đọc)',
-          desc: 'Khách có thể đọc toàn bộ trang. Vui lòng nhập email và mật khẩu chủ web để đăng hoặc xóa bài.',
-          emailLabel: 'Email Chủ Web',
-          passwordLabel: 'Mật Khẩu',
-          signInSubmit: 'Đăng Nhập',
-          signingIn: 'Đang đăng nhập...',
-          signedInAs: 'Đã đăng nhập với tài khoản:',
-          signOutBtn: 'Đăng Xuất',
-          cancelBtn: 'Đóng',
-          errMissingFields: 'Vui lòng nhập đầy đủ email và mật khẩu.',
-          errNoFirebase: 'Firebase chưa được cấu hình. Hãy cấu hình Firebase trước khi đăng nhập.',
-          errAuthFailed: 'Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.',
-          toastSignedIn: 'Đã đăng nhập quyền chủ web.',
-          toastSignedOut: 'Đã đăng xuất. Chuyển về chế độ khách chỉ đọc.',
-          toastReadOnlyBlock: 'Chế độ chỉ đọc: Chỉ chủ web đã đăng nhập mới có thể tạo hoặc xóa bài viết.',
-        },
-        fbModal: {
-          title: 'Cấu Hình Firebase Storage & Auth',
-          desc: 'Kết nối Cloud Firestore và Firebase Auth để đồng bộ bài viết đa thiết bị và giữ chế độ chỉ đọc cho khách.',
-          apiKeyLabel: 'API Key',
-          authDomainLabel: 'Auth Domain',
-          projectIdLabel: 'Project ID',
-          storageBucketLabel: 'Storage Bucket',
-          appIdLabel: 'App ID',
-          storeImagesInStorageLabel: 'Tải ảnh lên Firebase Storage (bỏ chọn để nén và lưu trong Firestore)',
-          saveBtn: 'Lưu & Kết Nối',
-          disconnectBtn: 'Chỉ Dùng Lưu Trữ Trình Duyệt',
-          rulesTitle: 'Quy Tắc Firestore & Storage Gợi Ý (Khách Chỉ Đọc)',
-          copyRulesBtn: 'Sao Chép Rules',
-          rulesCopied: 'Đã sao chép Rules.',
-          savedToast: 'Đã lưu cấu hình Firebase.',
-          localToast: 'Đã chuyển sang lưu trữ trên trình duyệt.',
-        },
-        toast: {
-          copied: 'Đã sao chép số điện thoại: +8562096944959',
-          changePhotoBtn: 'Đổi Ảnh Đại Diện',
-          photoUpdated: 'Đã cập nhật ảnh đại diện.',
-          postCreated: 'Đã đăng bài ảnh.',
-          postDeleted: 'Đã xóa bài viết.',
-          needTitleOrContent: 'Vui lòng nhập tiêu đề, nội dung hoặc chọn ảnh trước khi đăng.',
-          imageTooLarge: 'Không thể xử lý ảnh. Hãy thử chọn ảnh khác.',
-          deleteConfirmTitle: 'Xóa bài viết này?',
-          deleteConfirmDesc: 'Hành động này sẽ xóa vĩnh viễn bài viết và ảnh đính kèm.',
-          confirmDeleteBtn: 'Xóa',
-          cancelDeleteBtn: 'Giữ Lại',
-        },
+        backHome: '← Trang Chủ',
+        signIn: 'Admin Đăng Nhập',
+        signOut: 'Đăng Xuất',
+        saveAvatar: 'Lưu Ảnh Đại Diện Lên Firebase',
+        resetAvatar: 'Xóa Ảnh Đại Diện',
+        publish: 'Đăng Lên Firebase',
+        deletePost: 'Xóa Bài',
       },
     };
 
-    /* -----------------------------------------------------------------------
-       APPLICATION STATE
-       ----------------------------------------------------------------------- */
     const state = {
       lang: 'en',
-      view: 'page1',
-      posts: [],
-      search: '',
-      sectionFilter: 'all',
-      draftPhotoDataUrl: '',
-      profilePhotoUrl: '',
-      pendingDeleteId: null,
       fbApp: null,
       fbAuth: null,
       fbDb: null,
       fbStorage: null,
-      fbUser: null,
-      fbUnsubscribePosts: null,
       fbConfig: null,
+      user: null,
+      posts: [],
+      search: '',
+      profilePhotoUrl: '',
+      draftAvatarDataUrl: '',
+      draftPostPhotoDataUrl: '',
     };
 
-    /* -----------------------------------------------------------------------
-       DOM ELEMENT REFERENCES
-       ----------------------------------------------------------------------- */
-    const el = {
-      roleBadge: document.getElementById('roleBadge'),
-      authStatusBadge: document.getElementById('authStatusBadge'),
-      fbStatusBadge: document.getElementById('fbStatusBadge'),
-      newPostBtn: document.getElementById('newPostBtn'),
-      blogNewPostBtn: document.getElementById('blogNewPostBtn'),
-      openAuthModalBtn: document.getElementById('openAuthModalBtn'),
-      signOutBtn: document.getElementById('signOutBtn'),
-      openFirebaseModalBtn: document.getElementById('openFirebaseModalBtn'),
+    const ui = {
+      backHomeLink: document.getElementById('backHomeLink'),
+      studioAuthBadge: document.getElementById('studioAuthBadge'),
+      studioFbBadge: document.getElementById('studioFbBadge'),
+      studioLoginBtn: document.getElementById('studioLoginBtn'),
+      studioLogoutBtn: document.getElementById('studioLogoutBtn'),
+      studioLockBanner: document.getElementById('studioLockBanner'),
+      studioWorkspace: document.getElementById('studioWorkspace'),
 
-      navPage1: document.getElementById('navPage1'),
-      navPage2: document.getElementById('navPage2'),
-      navBlog: document.getElementById('navBlog'),
+      studioAvatarImg: document.getElementById('studioAvatarImg'),
+      studioAvatarFallback: document.getElementById('studioAvatarFallback'),
+      studioAvatarInput: document.getElementById('studioAvatarInput'),
+      studioSaveAvatarBtn: document.getElementById('studioSaveAvatarBtn'),
+      studioResetAvatarBtn: document.getElementById('studioResetAvatarBtn'),
 
-      profileAvatarImg: document.getElementById('profileAvatarImg'),
-      profileAvatarFallback: document.getElementById('profileAvatarFallback'),
-      changeAvatarBtn: document.getElementById('changeAvatarBtn'),
-      profilePhotoInput: document.getElementById('profilePhotoInput'),
-      heroTitle: document.getElementById('heroTitle'),
-      heroSubtitle: document.getElementById('heroSubtitle'),
+      studioPostForm: document.getElementById('studioPostForm'),
+      studioPostTitle: document.getElementById('studioPostTitle'),
+      studioPostSection: document.getElementById('studioPostSection'),
+      studioPostPhoto: document.getElementById('studioPostPhoto'),
+      studioPostPreviewBox: document.getElementById('studioPostPreviewBox'),
+      studioPostPreviewImg: document.getElementById('studioPostPreviewImg'),
+      studioRemovePhotoBtn: document.getElementById('studioRemovePhotoBtn'),
+      studioPostCaption: document.getElementById('studioPostCaption'),
+      studioPostTags: document.getElementById('studioPostTags'),
+      studioPublishBtn: document.getElementById('studioPublishBtn'),
 
-      viewPage1: document.getElementById('view-page1'),
-      viewPage2: document.getElementById('view-page2'),
-      viewBlog: document.getElementById('view-blog'),
+      studioSearchInput: document.getElementById('studioSearchInput'),
+      studioPostsGrid: document.getElementById('studioPostsGrid'),
+      studioEmptyState: document.getElementById('studioEmptyState'),
 
-      p1PageTag: document.getElementById('p1PageTag'),
-      p1Headline: document.getElementById('p1Headline'),
-      p1Sec1Title: document.getElementById('p1Sec1Title'),
-      p1Sec1P1: document.getElementById('p1Sec1P1'),
-      p1Sec1P2: document.getElementById('p1Sec1P2'),
-      p1Sec2Title: document.getElementById('p1Sec2Title'),
-      p1Sec2P1: document.getElementById('p1Sec2P1'),
-      p1Sec2P2: document.getElementById('p1Sec2P2'),
-      p1Sec3Title: document.getElementById('p1Sec3Title'),
-      p1Sec3P1: document.getElementById('p1Sec3P1'),
-      p1Sec3P2: document.getElementById('p1Sec3P2'),
-      toPage2Btn: document.getElementById('toPage2Btn'),
+      studioAuthModal: document.getElementById('studioAuthModal'),
+      closeStudioAuthBtn: document.getElementById('closeStudioAuthBtn'),
+      cancelStudioAuthBtn: document.getElementById('cancelStudioAuthBtn'),
+      studioAuthForm: document.getElementById('studioAuthForm'),
+      studioAuthEmail: document.getElementById('studioAuthEmail'),
+      studioAuthPassword: document.getElementById('studioAuthPassword'),
+      studioAuthError: document.getElementById('studioAuthError'),
+      submitStudioAuthBtn: document.getElementById('submitStudioAuthBtn'),
 
-      p2PageTag: document.getElementById('p2PageTag'),
-      p2Headline: document.getElementById('p2Headline'),
-      p2Sec1Title: document.getElementById('p2Sec1Title'),
-      p2Sec1P1: document.getElementById('p2Sec1P1'),
-      p2Sec1P2: document.getElementById('p2Sec1P2'),
-      p2Sec2Title: document.getElementById('p2Sec2Title'),
-      p2Sec2P1: document.getElementById('p2Sec2P1'),
-      p2Sec2P2: document.getElementById('p2Sec2P2'),
-      p2Sec3Title: document.getElementById('p2Sec3Title'),
-      p2Sec3P1: document.getElementById('p2Sec3P1'),
-      p2Bullet1: document.getElementById('p2Bullet1'),
-      p2Bullet2: document.getElementById('p2Bullet2'),
-      p2Bullet3: document.getElementById('p2Bullet3'),
-      p2Bullet4: document.getElementById('p2Bullet4'),
-      contactLabel: document.getElementById('contactLabel'),
-      copyPhoneBtn: document.getElementById('copyPhoneBtn'),
-      backToPage1Btn: document.getElementById('backToPage1Btn'),
-      goToBlogBtn: document.getElementById('goToBlogBtn'),
-
-      blogTitle: document.getElementById('blogTitle'),
-      blogSubtitle: document.getElementById('blogSubtitle'),
-      visitorNoticeBanner: document.getElementById('visitorNoticeBanner'),
-      searchInput: document.getElementById('searchInput'),
-      sectionFilterSelect: document.getElementById('sectionFilterSelect'),
-      postsContainer: document.getElementById('postsContainer'),
-      emptyPostsState: document.getElementById('emptyPostsState'),
-      emptyTitle: document.getElementById('emptyTitle'),
-      emptyDesc: document.getElementById('emptyDesc'),
-
-      composerModal: document.getElementById('composerModal'),
-      composerModalTitle: document.getElementById('composerModalTitle'),
-      postComposerForm: document.getElementById('postComposerForm'),
-      labelPostTitle: document.getElementById('labelPostTitle'),
-      postTitleInput: document.getElementById('postTitleInput'),
-      labelPostSection: document.getElementById('labelPostSection'),
-      postSectionSelect: document.getElementById('postSectionSelect'),
-      labelPostPhoto: document.getElementById('labelPostPhoto'),
-      postPhotoInput: document.getElementById('postPhotoInput'),
-      photoHint: document.getElementById('photoHint'),
-      photoPreviewBox: document.getElementById('photoPreviewBox'),
-      photoPreviewImg: document.getElementById('photoPreviewImg'),
-      removePhotoBtn: document.getElementById('removePhotoBtn'),
-      labelPostCaption: document.getElementById('labelPostCaption'),
-      postCaptionInput: document.getElementById('postCaptionInput'),
-      labelPostTags: document.getElementById('labelPostTags'),
-      postTagsInput: document.getElementById('postTagsInput'),
-      cancelComposerBtn: document.getElementById('cancelComposerBtn'),
-      closeComposerBtn: document.getElementById('closeComposerBtn'),
-      publishPostBtn: document.getElementById('publishPostBtn'),
-
-      authModal: document.getElementById('authModal'),
-      authModalTitle: document.getElementById('authModalTitle'),
-      authDesc: document.getElementById('authDesc'),
-      signedInSessionBox: document.getElementById('signedInSessionBox'),
-      signedInAsLabel: document.getElementById('signedInAsLabel'),
-      signedInEmailText: document.getElementById('signedInEmailText'),
-      authSignInForm: document.getElementById('authSignInForm'),
-      authEmailLabel: document.getElementById('authEmailLabel'),
-      authEmailInput: document.getElementById('authEmailInput'),
-      authPasswordLabel: document.getElementById('authPasswordLabel'),
-      authPasswordInput: document.getElementById('authPasswordInput'),
-      authErrorText: document.getElementById('authErrorText'),
-      signOutModalBtn: document.getElementById('signOutModalBtn'),
-      cancelAuthBtn: document.getElementById('cancelAuthBtn'),
-      closeAuthModalBtn: document.getElementById('closeAuthModalBtn'),
-      authSubmitBtn: document.getElementById('authSubmitBtn'),
-
-      firebaseModal: document.getElementById('firebaseModal'),
-      fbModalTitle: document.getElementById('fbModalTitle'),
-      fbModalDesc: document.getElementById('fbModalDesc'),
-      firebaseConfigForm: document.getElementById('firebaseConfigForm'),
-      fbApiKeyLabel: document.getElementById('fbApiKeyLabel'),
-      fbApiKey: document.getElementById('fbApiKey'),
-      fbAuthDomainLabel: document.getElementById('fbAuthDomainLabel'),
-      fbAuthDomain: document.getElementById('fbAuthDomain'),
-      fbProjectIdLabel: document.getElementById('fbProjectIdLabel'),
-      fbProjectId: document.getElementById('fbProjectId'),
-      fbStorageBucketLabel: document.getElementById('fbStorageBucketLabel'),
-      fbStorageBucket: document.getElementById('fbStorageBucket'),
-      fbAppIdLabel: document.getElementById('fbAppIdLabel'),
-      fbAppId: document.getElementById('fbAppId'),
-      fbStoreImagesLabel: document.getElementById('fbStoreImagesLabel'),
-      fbUseStorageCheckbox: document.getElementById('fbUseStorageCheckbox'),
-      fbRulesTitle: document.getElementById('fbRulesTitle'),
-      copyRulesBtn: document.getElementById('copyRulesBtn'),
-      disconnectFirebaseBtn: document.getElementById('disconnectFirebaseBtn'),
-      saveFirebaseBtn: document.getElementById('saveFirebaseBtn'),
-      closeFirebaseModalBtn: document.getElementById('closeFirebaseModalBtn'),
-
-      lightboxModal: document.getElementById('lightboxModal'),
-      lightboxTitle: document.getElementById('lightboxTitle'),
-      lightboxImg: document.getElementById('lightboxImg'),
-      lightboxCaption: document.getElementById('lightboxCaption'),
-      closeLightboxBtn: document.getElementById('closeLightboxBtn'),
-
-      confirmDeleteModal: document.getElementById('confirmDeleteModal'),
-      confirmDeleteTitle: document.getElementById('confirmDeleteTitle'),
-      confirmDeleteDesc: document.getElementById('confirmDeleteDesc'),
-      cancelDeleteBtn: document.getElementById('cancelDeleteBtn'),
-      confirmDeleteBtn: document.getElementById('confirmDeleteBtn'),
-
-      toastContainer: document.getElementById('toastContainer'),
+      studioLightbox: document.getElementById('studioLightbox'),
+      studioLightboxTitle: document.getElementById('studioLightboxTitle'),
+      studioLightboxImg: document.getElementById('studioLightboxImg'),
+      studioLightboxCaption: document.getElementById('studioLightboxCaption'),
+      closeStudioLightboxBtn: document.getElementById('closeStudioLightboxBtn'),
+      toastContainer: document.getElementById('studioToastContainer'),
     };
 
-    /* -----------------------------------------------------------------------
-       TOAST & UTILITY HELPERS
-       ----------------------------------------------------------------------- */
-    function showToast(message) {
-      const item = document.createElement('div');
-      item.className = 'toast-item';
-      item.textContent = message;
-      el.toastContainer.appendChild(item);
-
+    function toast(msg) {
+      const el = document.createElement('div');
+      el.className = 'toast-item';
+      el.textContent = msg;
+      ui.toastContainer.appendChild(el);
       setTimeout(() => {
-        item.style.opacity = '0';
-        item.style.transition = 'opacity 0.25s ease';
-        setTimeout(() => item.remove(), 260);
-      }, 3200);
+        el.style.opacity = '0';
+        el.style.transition = 'opacity 0.25s ease';
+        setTimeout(() => el.remove(), 260);
+      }, 3000);
     }
 
-    function t() {
-      return TRANSLATIONS[state.lang] || TRANSLATIONS.en;
-    }
-
-    function renderProfilePhoto() {
-      const hasPhoto = Boolean(state.profilePhotoUrl);
-      el.profileAvatarImg.classList.toggle('hidden', !hasPhoto);
-      el.profileAvatarFallback.classList.toggle('hidden', hasPhoto);
-      if (hasPhoto) {
-        el.profileAvatarImg.src = state.profilePhotoUrl;
-      } else {
-        el.profileAvatarImg.src = '';
-      }
-    }
-
-    function loadProfilePhoto() {
-      try {
-        return localStorage.getItem(STORAGE_KEYS.PROFILE_PHOTO) || '';
-      } catch (_) {
-        return '';
-      }
-    }
-
-    function saveProfilePhoto(dataUrl) {
-      state.profilePhotoUrl = dataUrl || '';
-      try {
-        if (dataUrl) {
-          localStorage.setItem(STORAGE_KEYS.PROFILE_PHOTO, dataUrl);
-        } else {
-          localStorage.removeItem(STORAGE_KEYS.PROFILE_PHOTO);
-        }
-      } catch (_) {}
-      renderProfilePhoto();
-    }
-
-    function isOwnerSignedIn() {
-      return Boolean(state.fbUser);
-    }
-
-    function syncOwnerUiVisibility() {
-      const tr = t();
-      const signedIn = isOwnerSignedIn();
-
-      el.newPostBtn.classList.toggle('hidden', !signedIn);
-      el.changeAvatarBtn.classList.toggle('hidden', !signedIn);
-      el.blogNewPostBtn.classList.toggle('hidden', !signedIn);
-      el.openAuthModalBtn.classList.toggle('hidden', signedIn);
-      el.signOutBtn.classList.toggle('hidden', !signedIn);
-      el.signOutModalBtn.classList.toggle('hidden', !signedIn);
-      el.signedInSessionBox.classList.toggle('hidden', !signedIn);
-
-      if (signedIn && state.fbUser?.email) {
-        el.signedInEmailText.textContent = state.fbUser.email;
-      }
-
-      if (signedIn) {
-        el.authStatusBadge.textContent = tr.ownerSignedInBadge;
-        el.authStatusBadge.className = 'pill pill-accent';
-        el.visitorNoticeBanner.textContent = tr.blog.ownerNotice;
-        el.visitorNoticeBanner.className = 'notice-banner owner';
-      } else {
-        el.authStatusBadge.textContent = tr.visitorReadOnlyBadge;
-        el.authStatusBadge.className = 'pill pill-warn';
-        el.visitorNoticeBanner.textContent = tr.blog.readOnlyNotice;
-        el.visitorNoticeBanner.className = 'notice-banner';
-      }
-
+    function applyLang(lang) {
+      if (!LABELS[lang]) return;
+      state.lang = lang;
+      localStorage.setItem(STORAGE_KEYS.LANG, lang);
+      document.querySelectorAll('.lang-btn').forEach((b) => b.classList.toggle('active', b.dataset.lang === lang));
+      const L = LABELS[lang];
+      ui.backHomeLink.textContent = L.backHome;
+      ui.studioLoginBtn.textContent = L.signIn;
+      ui.studioLogoutBtn.textContent = L.signOut;
+      ui.studioSaveAvatarBtn.textContent = L.saveAvatar;
+      ui.studioResetAvatarBtn.textContent = L.resetAvatar;
+      ui.studioPublishBtn.textContent = L.publish;
       renderPosts();
     }
 
-    /* -----------------------------------------------------------------------
-       LANGUAGE & TRANSLATION APPLICATION
-       ----------------------------------------------------------------------- */
-    function setLanguage(lang) {
-      if (!TRANSLATIONS[lang]) return;
-      state.lang = lang;
-      try {
-        localStorage.setItem(STORAGE_KEYS.LANG, lang);
-      } catch (_) {}
-
-      document.documentElement.lang = TRANSLATIONS[lang].htmlLang;
-      document.querySelectorAll('.lang-btn').forEach((btn) => {
-        btn.classList.toggle('active', btn.dataset.lang === lang);
-      });
-
-      applyTranslations();
-      syncOwnerUiVisibility();
-    }
-
-    function applyTranslations() {
-      const tr = t();
-
-      el.roleBadge.textContent = tr.roleBadge;
-      el.navPage1.textContent = tr.navPage1;
-      el.navPage2.textContent = tr.navPage2;
-      el.navBlog.textContent = tr.navBlog;
-
-      el.newPostBtn.textContent = tr.newPostBtn;
-      el.blogNewPostBtn.textContent = tr.newPostBtn;
-      el.openAuthModalBtn.textContent = tr.ownerSignInBtn;
-      el.signOutBtn.textContent = tr.signOutBtn;
-      el.openFirebaseModalBtn.textContent = tr.fbConfigBtn;
-
-      el.fbStatusBadge.textContent = state.fbDb ? tr.fbConnectedBadge : tr.fbLocalBadge;
-
-      el.changeAvatarBtn.textContent = tr.toast.changePhotoBtn;
-      el.heroTitle.textContent = tr.heroTitle;
-      el.heroSubtitle.textContent = tr.heroSubtitle;
-
-      // Page 1
-      el.p1PageTag.textContent = tr.p1.pageTag;
-      el.p1Headline.textContent = tr.p1.headline;
-      el.p1Sec1Title.textContent = tr.p1.sec1Title;
-      el.p1Sec1P1.textContent = tr.p1.sec1P1;
-      el.p1Sec1P2.textContent = tr.p1.sec1P2;
-      el.p1Sec2Title.textContent = tr.p1.sec2Title;
-      el.p1Sec2P1.textContent = tr.p1.sec2P1;
-      el.p1Sec2P2.textContent = tr.p1.sec2P2;
-      el.p1Sec3Title.textContent = tr.p1.sec3Title;
-      el.p1Sec3P1.textContent = tr.p1.sec3P1;
-      el.p1Sec3P2.textContent = tr.p1.sec3P2;
-      el.toPage2Btn.textContent = tr.p1.nextBtn;
-
-      // Page 2
-      el.p2PageTag.textContent = tr.p2.pageTag;
-      el.p2Headline.textContent = tr.p2.headline;
-      el.p2Sec1Title.textContent = tr.p2.sec1Title;
-      el.p2Sec1P1.textContent = tr.p2.sec1P1;
-      el.p2Sec1P2.textContent = tr.p2.sec1P2;
-      el.p2Sec2Title.textContent = tr.p2.sec2Title;
-      el.p2Sec2P1.textContent = tr.p2.sec2P1;
-      el.p2Sec2P2.textContent = tr.p2.sec2P2;
-      el.p2Sec3Title.textContent = tr.p2.sec3Title;
-      el.p2Sec3P1.textContent = tr.p2.sec3P1;
-      el.p2Bullet1.textContent = tr.p2.bullet1;
-      el.p2Bullet2.textContent = tr.p2.bullet2;
-      el.p2Bullet3.textContent = tr.p2.bullet3;
-      el.p2Bullet4.textContent = tr.p2.bullet4;
-      el.contactLabel.textContent = tr.p2.contactLabel;
-      el.copyPhoneBtn.textContent = tr.p2.copyBtn;
-      el.backToPage1Btn.textContent = tr.p2.backBtn;
-      el.goToBlogBtn.textContent = tr.p2.goBlogBtn;
-
-      // Blog
-      el.blogTitle.textContent = tr.blog.title;
-      el.blogSubtitle.textContent = tr.blog.subtitle;
-      el.searchInput.placeholder = tr.blog.searchPlaceholder;
-      el.emptyTitle.textContent = tr.blog.emptyTitle;
-      el.emptyDesc.textContent = tr.blog.emptyDesc;
-
-      // Rebuild section filter & composer section select options
-      const currentFilter = el.sectionFilterSelect.value || 'all';
-      el.sectionFilterSelect.innerHTML = '';
-      const allOpt = document.createElement('option');
-      allOpt.value = 'all';
-      allOpt.textContent = tr.blog.filterAll;
-      el.sectionFilterSelect.appendChild(allOpt);
-
-      const currentSec = el.postSectionSelect.value || '';
-      el.postSectionSelect.innerHTML = '';
-      const noneOpt = document.createElement('option');
-      noneOpt.value = '';
-      noneOpt.textContent = tr.composer.optSecNone;
-      el.postSectionSelect.appendChild(noneOpt);
-
-      Object.entries(tr.composer.secOptions).forEach(([key, label]) => {
-        const fOpt = document.createElement('option');
-        fOpt.value = key;
-        fOpt.textContent = label;
-        el.sectionFilterSelect.appendChild(fOpt);
-
-        const cOpt = document.createElement('option');
-        cOpt.value = key;
-        cOpt.textContent = label;
-        el.postSectionSelect.appendChild(cOpt);
-      });
-
-      el.sectionFilterSelect.value = currentFilter;
-      el.postSectionSelect.value = currentSec;
-
-      // Composer
-      el.composerModalTitle.textContent = tr.composer.modalTitle;
-      el.labelPostTitle.textContent = tr.composer.labelTitle;
-      el.postTitleInput.placeholder = tr.composer.placeholderTitle;
-      el.labelPostSection.textContent = tr.composer.labelSection;
-      el.labelPostPhoto.textContent = tr.composer.labelPhoto;
-      el.photoHint.textContent = tr.composer.photoHint;
-      el.removePhotoBtn.textContent = tr.composer.removePhotoBtn;
-      el.labelPostCaption.textContent = tr.composer.labelCaption;
-      el.postCaptionInput.placeholder = tr.composer.placeholderCaption;
-      el.labelPostTags.textContent = tr.composer.labelTags;
-      el.postTagsInput.placeholder = tr.composer.placeholderTags;
-      el.cancelComposerBtn.textContent = tr.composer.cancelBtn;
-      el.publishPostBtn.textContent = tr.composer.publishBtn;
-
-      // Auth modal
-      el.authModalTitle.textContent = tr.auth.modalTitle;
-      el.authDesc.textContent = tr.auth.desc;
-      el.signedInAsLabel.textContent = tr.auth.signedInAs;
-      el.authEmailLabel.textContent = tr.auth.emailLabel;
-      el.authPasswordLabel.textContent = tr.auth.passwordLabel;
-      el.authSubmitBtn.textContent = tr.auth.signInSubmit;
-      el.signOutModalBtn.textContent = tr.auth.signOutBtn;
-      el.cancelAuthBtn.textContent = tr.auth.cancelBtn;
-
-      // Firebase modal
-      el.fbModalTitle.textContent = tr.fbModal.title;
-      el.fbModalDesc.textContent = tr.fbModal.desc;
-      el.fbApiKeyLabel.textContent = tr.fbModal.apiKeyLabel;
-      el.fbAuthDomainLabel.textContent = tr.fbModal.authDomainLabel;
-      el.fbProjectIdLabel.textContent = tr.fbModal.projectIdLabel;
-      el.fbStorageBucketLabel.textContent = tr.fbModal.storageBucketLabel;
-      el.fbAppIdLabel.textContent = tr.fbModal.appIdLabel;
-      el.fbStoreImagesLabel.textContent = tr.fbModal.storeImagesInStorageLabel;
-      el.saveFirebaseBtn.textContent = tr.fbModal.saveBtn;
-      el.disconnectFirebaseBtn.textContent = tr.fbModal.disconnectBtn;
-      el.fbRulesTitle.textContent = tr.fbModal.rulesTitle;
-      el.copyRulesBtn.textContent = tr.fbModal.copyRulesBtn;
-
-      // Delete confirm modal
-      el.confirmDeleteTitle.textContent = tr.toast.deleteConfirmTitle;
-      el.confirmDeleteDesc.textContent = tr.toast.deleteConfirmDesc;
-      el.confirmDeleteBtn.textContent = tr.toast.confirmDeleteBtn;
-      el.cancelDeleteBtn.textContent = tr.toast.cancelDeleteBtn;
-    }
-
-    /* -----------------------------------------------------------------------
-       VIEW NAVIGATION
-       ----------------------------------------------------------------------- */
-    function switchView(viewName) {
-      state.view = viewName;
-
-      el.viewPage1.classList.toggle('hidden', viewName !== 'page1');
-      el.viewPage2.classList.toggle('hidden', viewName !== 'page2');
-      el.viewBlog.classList.toggle('hidden', viewName !== 'blog');
-
-      el.navPage1.classList.toggle('active', viewName === 'page1');
-      el.navPage2.classList.toggle('active', viewName === 'page2');
-      el.navBlog.classList.toggle('active', viewName === 'blog');
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /* -----------------------------------------------------------------------
-       IMAGE COMPRESSION HELPER
-       ----------------------------------------------------------------------- */
-    function compressImageFile(file, maxWidth = 1280, quality = 0.8) {
+    function compressImage(file, maxWidth = 1280, quality = 0.8) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onerror = () => reject(new Error('FileReader failed'));
+        reader.onerror = reject;
         reader.onload = () => {
           const img = new Image();
-          img.onerror = () => reject(new Error('Image decode failed'));
+          img.onerror = reject;
           img.onload = () => {
             let { width, height } = img;
             if (width > maxWidth) {
@@ -2279,10 +1237,8 @@ service cloud.firestore {
             const canvas = document.createElement('canvas');
             canvas.width = width;
             canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-            const dataUrl = canvas.toDataURL('image/jpeg', quality);
-            resolve(dataUrl);
+            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
           };
           img.src = reader.result;
         };
@@ -2290,72 +1246,67 @@ service cloud.firestore {
       });
     }
 
-    /* -----------------------------------------------------------------------
-       POSTS STORAGE (LOCAL + FIREBASE FIRESTORE)
-       ----------------------------------------------------------------------- */
-    function loadLocalPosts() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEYS.POSTS);
-        const parsed = raw ? JSON.parse(raw) : [];
-        return Array.isArray(parsed) ? parsed : [];
-      } catch (_) {
-        return [];
-      }
+    function renderAvatar() {
+      const url = state.draftAvatarDataUrl || state.profilePhotoUrl || '';
+      const has = Boolean(url);
+      ui.studioAvatarImg.classList.toggle('hidden', !has);
+      ui.studioAvatarFallback.classList.toggle('hidden', has);
+      ui.studioAvatarImg.src = has ? url : '';
     }
 
-    function saveLocalPosts(posts) {
-      try {
-        localStorage.setItem(STORAGE_KEYS.POSTS, JSON.stringify(posts));
-      } catch (err) {
-        console.error('Failed to save posts locally:', err);
+    function syncUi() {
+      const signedIn = Boolean(state.user);
+      ui.studioLoginBtn.classList.toggle('hidden', signedIn);
+      ui.studioLogoutBtn.classList.toggle('hidden', !signedIn);
+      ui.studioLockBanner.classList.toggle('hidden', signedIn);
+      ui.studioWorkspace.classList.toggle('hidden', !signedIn);
+
+      if (signedIn) {
+        ui.studioAuthBadge.textContent = `Admin: ${state.user.email || 'Signed In'}`;
+        ui.studioAuthBadge.className = 'pill pill-accent';
+      } else {
+        ui.studioAuthBadge.textContent = 'Signed Out';
+        ui.studioAuthBadge.className = 'pill pill-warn';
       }
+      renderPosts();
     }
 
     function renderPosts() {
-      const queryText = state.search.trim().toLowerCase();
-      const secFilter = state.sectionFilter;
-
-      const filtered = state.posts.filter((post) => {
-        if (secFilter !== 'all' && post.section !== secFilter) {
-          return false;
-        }
-        if (!queryText) return true;
-        const haystack = [
-          post.title || '',
-          post.caption || '',
-          ...(Array.isArray(post.tags) ? post.tags : []),
-        ]
-          .join(' ')
-          .toLowerCase();
-        return haystack.includes(queryText);
+      const q = state.search.trim().toLowerCase();
+      const filtered = state.posts.filter((p) => {
+        if (!q) return true;
+        return [p.title || '', p.caption || '', ...(p.tags || [])].join(' ').toLowerCase().includes(q);
       });
 
-      el.postsContainer.innerHTML = '';
-
+      ui.studioPostsGrid.innerHTML = '';
       if (filtered.length === 0) {
-        el.emptyPostsState.classList.remove('hidden');
+        ui.studioEmptyState.classList.remove('hidden');
         return;
       }
+      ui.studioEmptyState.classList.add('hidden');
 
-      el.emptyPostsState.classList.add('hidden');
-      const ownerCanManage = isOwnerSignedIn();
+      const delLabel = LABELS[state.lang]?.deletePost || 'Delete';
 
       filtered.forEach((post) => {
         const card = document.createElement('article');
         card.className = 'post-card';
 
         if (post.photoUrl) {
-          const photoBtn = document.createElement('button');
-          photoBtn.type = 'button';
-          photoBtn.className = 'post-photo-btn';
-          photoBtn.addEventListener('click', () => openLightbox(post));
-
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'post-photo-btn';
+          btn.addEventListener('click', () => {
+            ui.studioLightboxTitle.textContent = post.title || '';
+            ui.studioLightboxImg.src = post.photoUrl;
+            ui.studioLightboxCaption.textContent = post.caption || '';
+            ui.studioLightbox.classList.remove('hidden');
+          });
           const img = document.createElement('img');
           img.src = post.photoUrl;
-          img.alt = post.title || 'Blog photo';
+          img.alt = post.title || 'Post image';
           img.loading = 'lazy';
-          photoBtn.appendChild(img);
-          card.appendChild(photoBtn);
+          btn.appendChild(img);
+          card.appendChild(btn);
         }
 
         const body = document.createElement('div');
@@ -2363,182 +1314,91 @@ service cloud.firestore {
 
         const meta = document.createElement('div');
         meta.className = 'post-meta';
-        const dateLabel = post.createdAtLabel || new Date(post.createdAt || Date.now()).toLocaleDateString();
-        meta.innerHTML = `<span>${dateLabel}</span>${post.section ? `<span>${post.section}</span>` : ''}`;
+        const dt = post.createdAtLabel || new Date(post.createdAt || Date.now()).toLocaleDateString();
+        meta.innerHTML = `<span>${dt}</span>${post.section ? `<span>${post.section}</span>` : ''}`;
         body.appendChild(meta);
 
         if (post.title) {
-          const titleEl = document.createElement('h3');
-          titleEl.className = 'post-title';
-          titleEl.textContent = post.title;
-          body.appendChild(titleEl);
+          const h3 = document.createElement('h3');
+          h3.className = 'post-title';
+          h3.textContent = post.title;
+          body.appendChild(h3);
         }
 
         if (post.caption) {
-          const capEl = document.createElement('p');
-          capEl.className = 'post-caption';
-          capEl.textContent = post.caption;
-          body.appendChild(capEl);
+          const p = document.createElement('p');
+          p.className = 'post-caption';
+          p.textContent = post.caption;
+          body.appendChild(p);
         }
 
         if (Array.isArray(post.tags) && post.tags.length > 0) {
-          const tagsWrap = document.createElement('div');
-          tagsWrap.className = 'post-tags';
+          const tags = document.createElement('div');
+          tags.className = 'post-tags';
           post.tags.forEach((tag) => {
             const chip = document.createElement('span');
             chip.className = 'tag-chip';
             chip.textContent = `#${tag}`;
-            tagsWrap.appendChild(chip);
+            tags.appendChild(chip);
           });
-          body.appendChild(tagsWrap);
+          body.appendChild(tags);
         }
 
-        if (ownerCanManage) {
+        if (state.user) {
           const actions = document.createElement('div');
           actions.className = 'post-actions';
-
-          const delBtn = document.createElement('button');
-          delBtn.type = 'button';
-          delBtn.className = 'btn btn-danger btn-sm';
-          delBtn.textContent = t().toast.confirmDeleteBtn;
-          delBtn.addEventListener('click', () => requestDeletePost(post.id));
-
-          actions.appendChild(delBtn);
+          const del = document.createElement('button');
+          del.type = 'button';
+          del.className = 'btn btn-danger btn-sm';
+          del.textContent = delLabel;
+          del.addEventListener('click', async () => {
+            if (!state.user) return;
+            try {
+              if (state.fbDb) {
+                await deleteDoc(doc(state.fbDb, 'blog_posts', post.id));
+              } else {
+                state.posts = state.posts.filter((x) => x.id !== post.id);
+                localStorage.setItem(STORAGE_KEYS.POSTS, JSON.stringify(state.posts));
+                renderPosts();
+              }
+              toast('Deleted');
+            } catch (err) {
+              toast(err?.message || 'Delete failed');
+            }
+          });
+          actions.appendChild(del);
           body.appendChild(actions);
         }
 
         card.appendChild(body);
-        el.postsContainer.appendChild(card);
+        ui.studioPostsGrid.appendChild(card);
       });
     }
 
-    async function createNewPost({ title, section, photoDataUrl, caption, tags }) {
-      const tr = t();
-      if (!isOwnerSignedIn()) {
-        showToast(tr.auth.toastReadOnlyBlock);
-        return;
+    function initFirebase() {
+      const savedLang = localStorage.getItem(STORAGE_KEYS.LANG);
+      if (savedLang && LABELS[savedLang]) {
+        state.lang = savedLang;
       }
-
-      if (!title && !caption && !photoDataUrl) {
-        showToast(tr.toast.needTitleOrContent);
-        return;
-      }
-
-      let finalPhotoUrl = photoDataUrl || '';
+      applyLang(state.lang);
 
       try {
-        if (state.fbDb && photoDataUrl && state.fbConfig?.useStorage && state.fbStorage) {
-          const filePath = `blog_images/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`;
-          const storageRef = ref(state.fbStorage, filePath);
-          await uploadString(storageRef, photoDataUrl, 'data_url');
-          finalPhotoUrl = await getDownloadURL(storageRef);
-        }
-
-        const postRecord = {
-          title: title || '',
-          section: section || '',
-          photoUrl: finalPhotoUrl,
-          caption: caption || '',
-          tags,
-          createdAt: Date.now(),
-          createdAtLabel: new Date().toLocaleDateString(),
-        };
-
-        if (state.fbDb) {
-          await addDoc(collection(state.fbDb, 'blog_posts'), {
-            ...postRecord,
-            serverCreatedAt: serverTimestamp(),
-          });
-        } else {
-          const localPost = {
-            ...postRecord,
-            id: `local_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-          };
-          state.posts = [localPost, ...state.posts];
-          saveLocalPosts(state.posts);
+        const rawCfg = localStorage.getItem(STORAGE_KEYS.FB_CONFIG);
+        const cfg = rawCfg ? JSON.parse(rawCfg) : null;
+        if (!cfg || !cfg.apiKey || !cfg.projectId) {
+          ui.studioFbBadge.textContent = 'Local Mode';
+          if (sessionStorage.getItem('vongvilay_studio_authed_v1') === '1') {
+            state.user = { email: ADMIN_EMAIL };
+          }
+          state.profilePhotoUrl = localStorage.getItem(STORAGE_KEYS.PROFILE_PHOTO) || '';
+          const rawPosts = localStorage.getItem(STORAGE_KEYS.POSTS);
+          state.posts = rawPosts ? JSON.parse(rawPosts) : [];
+          renderAvatar();
           renderPosts();
+          syncUi();
+          return;
         }
 
-        showToast(tr.toast.postCreated);
-        closeComposerModal();
-      } catch (err) {
-        console.error('Failed to publish post:', err);
-        showToast(err?.message || tr.toast.imageTooLarge);
-      }
-    }
-
-    function requestDeletePost(postId) {
-      if (!isOwnerSignedIn()) {
-        showToast(t().auth.toastReadOnlyBlock);
-        return;
-      }
-      state.pendingDeleteId = postId;
-      el.confirmDeleteModal.classList.remove('hidden');
-    }
-
-    async function confirmDeletePendingPost() {
-      const postId = state.pendingDeleteId;
-      state.pendingDeleteId = null;
-      el.confirmDeleteModal.classList.add('hidden');
-
-      if (!postId) return;
-      if (!isOwnerSignedIn()) {
-        showToast(t().auth.toastReadOnlyBlock);
-        return;
-      }
-
-      try {
-        if (state.fbDb) {
-          await deleteDoc(doc(state.fbDb, 'blog_posts', postId));
-        } else {
-          state.posts = state.posts.filter((p) => p.id !== postId);
-          saveLocalPosts(state.posts);
-          renderPosts();
-        }
-        showToast(t().toast.postDeleted);
-      } catch (err) {
-        console.error('Failed to delete post:', err);
-        showToast(err?.message || 'Delete failed');
-      }
-    }
-
-    /* -----------------------------------------------------------------------
-       FIREBASE INITIALIZATION & AUTH STATE
-       ----------------------------------------------------------------------- */
-    function loadSavedFirebaseConfig() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEYS.FB_CONFIG);
-        return raw ? JSON.parse(raw) : null;
-      } catch (_) {
-        return null;
-      }
-    }
-
-    function teardownFirebase() {
-      if (typeof state.fbUnsubscribePosts === 'function') {
-        state.fbUnsubscribePosts();
-      }
-      state.fbUnsubscribePosts = null;
-      state.fbApp = null;
-      state.fbAuth = null;
-      state.fbDb = null;
-      state.fbStorage = null;
-      state.fbUser = null;
-      state.posts = loadLocalPosts();
-      state.profilePhotoUrl = loadProfilePhoto();
-      renderProfilePhoto();
-      applyTranslations();
-      syncOwnerUiVisibility();
-    }
-
-    function initFirebaseFromConfig(cfg) {
-      teardownFirebase();
-      if (!cfg || !cfg.apiKey || !cfg.projectId) {
-        state.fbConfig = null;
-        return;
-      }
-
-      try {
         state.fbConfig = cfg;
         const app = initializeApp({
           apiKey: cfg.apiKey,
@@ -2547,387 +1407,243 @@ service cloud.firestore {
           storageBucket: cfg.storageBucket || '',
           appId: cfg.appId || '',
         });
-
         state.fbApp = app;
         state.fbAuth = getAuth(app);
         state.fbDb = getFirestore(app);
         state.fbStorage = cfg.useStorage ? getStorage(app) : null;
 
+        ui.studioFbBadge.textContent = `Firebase: ${cfg.projectId}`;
+        ui.studioFbBadge.className = 'pill pill-accent';
+
         onAuthStateChanged(state.fbAuth, (user) => {
-          state.fbUser = user || null;
-          syncOwnerUiVisibility();
+          state.user = user || null;
+          syncUi();
         });
 
-        const postsQuery = query(collection(state.fbDb, 'blog_posts'), orderBy('createdAt', 'desc'));
-        state.fbUnsubscribePosts = onSnapshot(
-          postsQuery,
-          (snapshot) => {
-            state.posts = snapshot.docs.map((d) => ({
-              id: d.id,
-              ...d.data(),
-            }));
-            renderPosts();
-          },
-          (err) => {
-            console.error('Firestore listener error:', err);
+        onSnapshot(doc(state.fbDb, 'site_profile', 'main'), (snap) => {
+          if (snap.exists()) {
+            const d = snap.data() || {};
+            if (typeof d.photoUrl === 'string') {
+              state.profilePhotoUrl = d.photoUrl;
+              localStorage.setItem(STORAGE_KEYS.PROFILE_PHOTO, d.photoUrl);
+              renderAvatar();
+            }
           }
-        );
-
-        applyTranslations();
-        syncOwnerUiVisibility();
-      } catch (err) {
-        console.error('Firebase initialization failed:', err);
-        teardownFirebase();
-      }
-    }
-
-    /* -----------------------------------------------------------------------
-       MODALS & LIGHTBOX CONTROLS
-       ----------------------------------------------------------------------- */
-    function openComposerModal() {
-      if (!isOwnerSignedIn()) {
-        showToast(t().auth.toastReadOnlyBlock);
-        return;
-      }
-      el.postComposerForm.reset();
-      state.draftPhotoDataUrl = '';
-      el.photoPreviewBox.classList.add('hidden');
-      el.photoPreviewImg.src = '';
-      el.composerModal.classList.remove('hidden');
-    }
-
-    function closeComposerModal() {
-      el.composerModal.classList.add('hidden');
-      state.draftPhotoDataUrl = '';
-    }
-
-    function openAuthModal() {
-      el.authErrorText.classList.add('hidden');
-      el.authErrorText.textContent = '';
-      el.authSignInForm.reset();
-      el.authModal.classList.remove('hidden');
-    }
-
-    function closeAuthModal() {
-      el.authModal.classList.add('hidden');
-    }
-
-    function openFirebaseModal() {
-      const cfg = state.fbConfig || loadSavedFirebaseConfig() || {};
-      el.fbApiKey.value = cfg.apiKey || '';
-      el.fbAuthDomain.value = cfg.authDomain || '';
-      el.fbProjectId.value = cfg.projectId || '';
-      el.fbStorageBucket.value = cfg.storageBucket || '';
-      el.fbAppId.value = cfg.appId || '';
-      el.fbUseStorageCheckbox.checked = Boolean(cfg.useStorage);
-      el.firebaseModal.classList.remove('hidden');
-    }
-
-    function closeFirebaseModal() {
-      el.firebaseModal.classList.add('hidden');
-    }
-
-    function openLightbox(post) {
-      el.lightboxTitle.textContent = post.title || '';
-      el.lightboxImg.src = post.photoUrl || '';
-      el.lightboxImg.alt = post.title || 'Full photo';
-      el.lightboxCaption.textContent = post.caption || '';
-      el.lightboxModal.classList.remove('hidden');
-    }
-
-    function closeLightbox() {
-      el.lightboxModal.classList.add('hidden');
-      el.lightboxImg.src = '';
-    }
-
-    /* -----------------------------------------------------------------------
-       EVENT LISTENERS
-       ----------------------------------------------------------------------- */
-    function bindEvents() {
-      // Profile photo change (owner only)
-      el.changeAvatarBtn.addEventListener('click', () => {
-        if (!isOwnerSignedIn()) {
-          showToast(t().auth.toastReadOnlyBlock);
-          return;
-        }
-        el.profilePhotoInput.click();
-      });
-
-      el.profilePhotoInput.addEventListener('change', async (e) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-        if (!isOwnerSignedIn()) {
-          showToast(t().auth.toastReadOnlyBlock);
-          el.profilePhotoInput.value = '';
-          return;
-        }
-        try {
-          const compressed = await compressImageFile(file, 512, 0.82);
-          saveProfilePhoto(compressed);
-          showToast(t().toast.photoUpdated);
-        } catch (_) {
-          showToast(t().toast.imageTooLarge);
-        } finally {
-          el.profilePhotoInput.value = '';
-        }
-      });
-
-      // Language switcher
-      document.querySelectorAll('.lang-btn').forEach((btn) => {
-        btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
-      });
-
-      // Top nav tabs & page-to-page buttons
-      el.navPage1.addEventListener('click', () => switchView('page1'));
-      el.navPage2.addEventListener('click', () => switchView('page2'));
-      el.navBlog.addEventListener('click', () => switchView('blog'));
-      el.toPage2Btn.addEventListener('click', () => switchView('page2'));
-      el.backToPage1Btn.addEventListener('click', () => switchView('page1'));
-      el.goToBlogBtn.addEventListener('click', () => switchView('blog'));
-
-      // Copy phone number (+8562096944959)
-      el.copyPhoneBtn.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(PHONE_NUMBER);
-        } catch (_) {
-          const temp = document.createElement('textarea');
-          temp.value = PHONE_NUMBER;
-          document.body.appendChild(temp);
-          temp.select();
-          document.execCommand('copy');
-          temp.remove();
-        }
-        el.copyPhoneBtn.textContent = t().p2.copiedBtn;
-        showToast(t().toast.copied);
-        setTimeout(() => {
-          el.copyPhoneBtn.textContent = t().p2.copyBtn;
-        }, 1800);
-      });
-
-      // Search & section filter
-      el.searchInput.addEventListener('input', (e) => {
-        state.search = e.target.value;
-        renderPosts();
-      });
-
-      el.sectionFilterSelect.addEventListener('change', (e) => {
-        state.sectionFilter = e.target.value;
-        renderPosts();
-      });
-
-      // Composer modal & photo handling
-      el.newPostBtn.addEventListener('click', openComposerModal);
-      el.blogNewPostBtn.addEventListener('click', openComposerModal);
-      el.closeComposerBtn.addEventListener('click', closeComposerModal);
-      el.cancelComposerBtn.addEventListener('click', closeComposerModal);
-
-      el.postPhotoInput.addEventListener('change', async (e) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-        try {
-          const compressed = await compressImageFile(file);
-          state.draftPhotoDataUrl = compressed;
-          el.photoPreviewImg.src = compressed;
-          el.photoPreviewBox.classList.remove('hidden');
-        } catch (_) {
-          showToast(t().toast.imageTooLarge);
-        }
-      });
-
-      el.removePhotoBtn.addEventListener('click', () => {
-        state.draftPhotoDataUrl = '';
-        el.postPhotoInput.value = '';
-        el.photoPreviewImg.src = '';
-        el.photoPreviewBox.classList.add('hidden');
-      });
-
-      el.postComposerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const tr = t();
-        el.publishPostBtn.disabled = true;
-        el.publishPostBtn.textContent = tr.composer.publishingBtn;
-
-        const tags = el.postTagsInput.value
-          .split(',')
-          .map((item) => item.trim())
-          .filter(Boolean);
-
-        await createNewPost({
-          title: el.postTitleInput.value.trim(),
-          section: el.postSectionSelect.value,
-          photoDataUrl: state.draftPhotoDataUrl,
-          caption: el.postCaptionInput.value.trim(),
-          tags,
         });
 
-        el.publishPostBtn.disabled = false;
-        el.publishPostBtn.textContent = tr.composer.publishBtn;
-      });
+        onSnapshot(query(collection(state.fbDb, 'blog_posts'), orderBy('createdAt', 'desc')), (snap) => {
+          state.posts = snap.docs.map((item) => ({ id: item.id, ...item.data() }));
+          renderPosts();
+        });
+      } catch (err) {
+        console.error(err);
+        ui.studioFbBadge.textContent = 'Firebase Error';
+      }
+    }
 
-      // Owner auth modal & sign-in / sign-out
-      el.openAuthModalBtn.addEventListener('click', openAuthModal);
-      el.closeAuthModalBtn.addEventListener('click', closeAuthModal);
-      el.cancelAuthBtn.addEventListener('click', closeAuthModal);
+    document.querySelectorAll('.lang-btn').forEach((btn) => {
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+    });
 
-      el.authSignInForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const tr = t();
-        const email = el.authEmailInput.value.trim();
-        const password = el.authPasswordInput.value;
+    ui.studioLoginBtn.addEventListener('click', () => {
+      ui.studioAuthError.classList.add('hidden');
+      ui.studioAuthModal.classList.remove('hidden');
+    });
+    ui.closeStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
+    ui.cancelStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
 
-        el.authErrorText.classList.add('hidden');
-        if (!email || !password) {
-          el.authErrorText.textContent = tr.auth.errMissingFields;
-          el.authErrorText.classList.remove('hidden');
-          return;
-        }
+    const ADMIN_EMAIL = 'saisathomevongvilay@gmail.com';
+    const ADMIN_PASS = '99922246';
+    const STUDIO_PAGE = 'Admin%20Studio.html';
 
-        if (!state.fbAuth) {
-          el.authErrorText.textContent = tr.auth.errNoFirebase;
-          el.authErrorText.classList.remove('hidden');
-          return;
-        }
+    function goToAdminStudio() {
+      sessionStorage.setItem('vongvilay_studio_authed_v1', '1');
+      window.location.href = STUDIO_PAGE;
+    }
 
-        el.authSubmitBtn.disabled = true;
-        el.authSubmitBtn.textContent = tr.auth.signingIn;
+    ui.studioAuthForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const emailInput = ui.studioAuthEmail.value.trim().toLowerCase();
+      const passInput = ui.studioAuthPassword.value;
 
-        try {
-          await signInWithEmailAndPassword(state.fbAuth, email, password);
-          showToast(tr.auth.toastSignedIn);
-          closeAuthModal();
-        } catch (err) {
-          console.error('Auth sign-in error:', err);
-          el.authErrorText.textContent = tr.auth.errAuthFailed;
-          el.authErrorText.classList.remove('hidden');
-        } finally {
-          el.authSubmitBtn.disabled = false;
-          el.authSubmitBtn.textContent = tr.auth.signInSubmit;
-        }
-      });
+      ui.submitStudioAuthBtn.disabled = true;
+      ui.studioAuthError.classList.add('hidden');
 
-      async function handleSignOut() {
+      try {
+        const isMatchedAdmin = emailInput === ADMIN_EMAIL.toLowerCase() && passInput === ADMIN_PASS;
+
         if (state.fbAuth) {
           try {
-            await signOut(state.fbAuth);
-          } catch (err) {
-            console.error('Sign out error:', err);
+            await signInWithEmailAndPassword(state.fbAuth, emailInput, passInput);
+            ui.studioAuthModal.classList.add('hidden');
+            ui.studioAuthForm.reset();
+            if (isMatchedAdmin) {
+              goToAdminStudio();
+            } else {
+              toast('Signed in');
+            }
+            return;
+          } catch (fbErr) {
+            if (!isMatchedAdmin) {
+              throw fbErr;
+            }
           }
         }
-        state.fbUser = null;
-        syncOwnerUiVisibility();
-        closeAuthModal();
-        showToast(t().auth.toastSignedOut);
+
+        if (isMatchedAdmin) {
+          state.user = { email: ADMIN_EMAIL };
+          syncUi();
+          ui.studioAuthModal.classList.add('hidden');
+          ui.studioAuthForm.reset();
+          goToAdminStudio();
+        } else {
+          ui.studioAuthError.textContent = 'Invalid admin email or password.';
+          ui.studioAuthError.classList.remove('hidden');
+        }
+      } catch (err) {
+        ui.studioAuthError.textContent = err?.message || 'Sign-in failed';
+        ui.studioAuthError.classList.remove('hidden');
+      } finally {
+        ui.submitStudioAuthBtn.disabled = false;
       }
+    });
 
-      el.signOutBtn.addEventListener('click', handleSignOut);
-      el.signOutModalBtn.addEventListener('click', handleSignOut);
+    ui.studioLogoutBtn.addEventListener('click', async () => {
+      if (state.fbAuth) await signOut(state.fbAuth);
+      sessionStorage.removeItem('vongvilay_studio_authed_v1');
+      state.user = null;
+      syncUi();
+      toast('Signed out');
+    });
 
-      // Firebase config modal
-      el.openFirebaseModalBtn.addEventListener('click', openFirebaseModal);
-      el.closeFirebaseModalBtn.addEventListener('click', closeFirebaseModal);
+    ui.studioAvatarInput.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      state.draftAvatarDataUrl = await compressImage(file, 512, 0.82);
+      renderAvatar();
+    });
 
-      el.firebaseConfigForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const cfg = {
-          apiKey: el.fbApiKey.value.trim(),
-          authDomain: el.fbAuthDomain.value.trim(),
-          projectId: el.fbProjectId.value.trim(),
-          storageBucket: el.fbStorageBucket.value.trim(),
-          appId: el.fbAppId.value.trim(),
-          useStorage: el.fbUseStorageCheckbox.checked,
-        };
-        try {
-          localStorage.setItem(STORAGE_KEYS.FB_CONFIG, JSON.stringify(cfg));
-        } catch (_) {}
-        initFirebaseFromConfig(cfg);
-        closeFirebaseModal();
-        showToast(t().fbModal.savedToast);
-      });
-
-      el.disconnectFirebaseBtn.addEventListener('click', () => {
-        try {
-          localStorage.removeItem(STORAGE_KEYS.FB_CONFIG);
-        } catch (_) {}
-        teardownFirebase();
-        closeFirebaseModal();
-        showToast(t().fbModal.localToast);
-      });
-
-      el.copyRulesBtn.addEventListener('click', async () => {
-        const rulesText = document.getElementById('fbRulesCode').textContent;
-        try {
-          await navigator.clipboard.writeText(rulesText);
-        } catch (_) {}
-        showToast(t().fbModal.rulesCopied);
-      });
-
-      // Lightbox & delete confirmation modal
-      el.closeLightboxBtn.addEventListener('click', closeLightbox);
-      el.lightboxModal.addEventListener('click', (e) => {
-        if (e.target === el.lightboxModal) closeLightbox();
-      });
-
-      el.cancelDeleteBtn.addEventListener('click', () => {
-        state.pendingDeleteId = null;
-        el.confirmDeleteModal.classList.add('hidden');
-      });
-
-      el.confirmDeleteBtn.addEventListener('click', confirmDeletePendingPost);
+    async function saveProfile(photoUrl) {
+      if (!state.user) return;
+      let finalUrl = photoUrl || '';
+      if (finalUrl && state.fbDb && state.fbConfig?.useStorage && state.fbStorage) {
+        const sRef = ref(state.fbStorage, `profile_avatars/avatar_${Date.now()}.jpg`);
+        await uploadString(sRef, finalUrl, 'data_url');
+        finalUrl = await getDownloadURL(sRef);
+      }
+      state.profilePhotoUrl = finalUrl;
+      state.draftAvatarDataUrl = '';
+      localStorage.setItem(STORAGE_KEYS.PROFILE_PHOTO, finalUrl);
+      if (state.fbDb) {
+        await setDoc(
+          doc(state.fbDb, 'site_profile', 'main'),
+          { photoUrl: finalUrl, updatedAt: Date.now(), serverUpdatedAt: serverTimestamp() },
+          { merge: true }
+        );
+      }
+      renderAvatar();
+      toast('Profile saved to Firebase');
     }
 
-    /* -----------------------------------------------------------------------
-       INITIALIZATION
-       ----------------------------------------------------------------------- */
-    document.addEventListener('DOMContentLoaded', () => {
-      let savedLang = 'en';
+    ui.studioSaveAvatarBtn.addEventListener('click', async () => {
       try {
-        const stored = localStorage.getItem(STORAGE_KEYS.LANG);
-        if (stored && TRANSLATIONS[stored]) {
-          savedLang = stored;
-        }
-      } catch (_) {}
+        await saveProfile(state.draftAvatarDataUrl || state.profilePhotoUrl);
+      } catch (err) {
+        toast(err?.message || 'Save failed');
+      }
+    });
 
-      state.lang = savedLang;
-      state.posts = loadLocalPosts();
+    ui.studioResetAvatarBtn.addEventListener('click', async () => {
+      try {
+        await saveProfile('');
+      } catch (err) {
+        toast(err?.message || 'Reset failed');
+      }
+    });
 
-      bindEvents();
-      applyTranslations();
-      syncOwnerUiVisibility();
+    ui.studioPostPhoto.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const compressed = await compressImage(file);
+      state.draftPostPhotoDataUrl = compressed;
+      ui.studioPostPreviewImg.src = compressed;
+      ui.studioPostPreviewBox.classList.remove('hidden');
+    });
 
-      const savedFb = loadSavedFirebaseConfig();
-      if (savedFb && savedFb.apiKey && savedFb.projectId) {
-        initFirebaseFromConfig(savedFb);
+    ui.studioRemovePhotoBtn.addEventListener('click', () => {
+      state.draftPostPhotoDataUrl = '';
+      ui.studioPostPhoto.value = '';
+      ui.studioPostPreviewImg.src = '';
+      ui.studioPostPreviewBox.classList.add('hidden');
+    });
+
+    ui.studioPostForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!state.user) return;
+      const title = ui.studioPostTitle.value.trim();
+      const section = ui.studioPostSection.value;
+      const caption = ui.studioPostCaption.value.trim();
+      const tags = ui.studioPostTags.value.split(',').map((s) => s.trim()).filter(Boolean);
+      const photoData = state.draftPostPhotoDataUrl;
+
+      if (!title && !caption && !photoData) {
+        toast('Please enter a title, caption, or attach a photo.');
+        return;
       }
 
-      document.querySelectorAll('.lang-btn').forEach((btn) => {
-        btn.classList.toggle('active', btn.dataset.lang === state.lang);
-      });
+      ui.studioPublishBtn.disabled = true;
+      try {
+        let photoUrl = photoData || '';
+        if (photoData && state.fbDb && state.fbConfig?.useStorage && state.fbStorage) {
+          const pRef = ref(state.fbStorage, `blog_images/${Date.now()}_studio.jpg`);
+          await uploadString(pRef, photoData, 'data_url');
+          photoUrl = await getDownloadURL(pRef);
+        }
+
+        const record = {
+          title,
+          section,
+          caption,
+          tags,
+          photoUrl,
+          createdAt: Date.now(),
+          createdAtLabel: new Date().toLocaleDateString(),
+        };
+
+        if (state.fbDb) {
+          await addDoc(collection(state.fbDb, 'blog_posts'), {
+            ...record,
+            serverCreatedAt: serverTimestamp(),
+          });
+        } else {
+          state.posts = [{ id: `local_${Date.now()}`, ...record }, ...state.posts];
+          localStorage.setItem(STORAGE_KEYS.POSTS, JSON.stringify(state.posts));
+          renderPosts();
+        }
+
+        ui.studioPostForm.reset();
+        state.draftPostPhotoDataUrl = '';
+        ui.studioPostPreviewImg.src = '';
+        ui.studioPostPreviewBox.classList.add('hidden');
+        toast('Published to Firebase');
+      } catch (err) {
+        toast(err?.message || 'Publish failed');
+      } finally {
+        ui.studioPublishBtn.disabled = false;
+      }
     });
+
+    ui.studioSearchInput.addEventListener('input', (e) => {
+      state.search = e.target.value;
+      renderPosts();
+    });
+
+    ui.closeStudioLightboxBtn.addEventListener('click', () => ui.studioLightbox.classList.add('hidden'));
+    ui.studioLightbox.addEventListener('click', (e) => {
+      if (e.target === ui.studioLightbox) ui.studioLightbox.classList.add('hidden');
+    });
+
+    initFirebase();
   </script>
 </body>
 </html>
-Tools
-Learn & Research
-
-Mind map
-
-Study Map
-
-Book Map
-Writing & SEO
-
-Product Description Writer
-
-SEO Content Optimizer
-
-Instant SEO Blog
-
-The Humanizer
-
-SEO Topic Cluster Map
-Audio
-
-Podcast Studio
-
-Music Generator
-
