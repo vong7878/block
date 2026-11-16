@@ -1,1649 +1,1653 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Studio — Blog, Photo &amp; Profile Manager (Firebase)</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Lao:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
-
-  <style>
-
-
-    /* =========================================================================
-       DESIGN TOKENS & SYSTEM THEME SUPPORT
-       ========================================================================= */
-    :root {
-      --bg-page: #f7f6f2;
-      --bg-surface: #ffffff;
-      --bg-subtle: #efede6;
-      --bg-accent-soft: #eef3f0;
-      --text-primary: #181918;
-      --text-secondary: #494d4a;
-      --text-muted: #6c726d;
-      --border-subtle: #e2dfd5;
-      --border-strong: #c9c5b8;
-      --accent: #1f5c47;
-      --accent-hover: #174636;
-      --accent-text: #ffffff;
-      --danger: #b42318;
-      --danger-soft: #fef3f2;
-      --warn: #9a5b13;
-      --warn-soft: #fef6e7;
-      --shadow-sm: 0 1px 2px rgba(24, 25, 24, 0.05);
-      --shadow-md: 0 8px 24px rgba(24, 25, 24, 0.08);
-      --shadow-lg: 0 20px 48px rgba(24, 25, 24, 0.16);
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 18px;
-      --radius-pill: 999px;
-      --font-sans: 'Inter', 'Noto Sans Lao', 'IBM Plex Sans Thai', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --bg-page: #111312;
-        --bg-surface: #191c1a;
-        --bg-subtle: #222624;
-        --bg-accent-soft: #1a2d25;
-        --text-primary: #f2f4f2;
-        --text-secondary: #c5cbc6;
-        --text-muted: #8f9791;
-        --border-subtle: #2a2f2c;
-        --border-strong: #3c433f;
-        --accent: #389874;
-        --accent-hover: #45b088;
-        --accent-text: #0c1411;
-        --danger: #f04438;
-        --danger-soft: #2e1615;
-        --warn: #eab308;
-        --warn-soft: #2c2410;
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-        --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
-        --shadow-lg: 0 24px 56px rgba(0, 0, 0, 0.65);
-      }
-    }
-
-    :root[data-theme="dark"] {
-      --bg-page: #111312;
-      --bg-surface: #191c1a;
-      --bg-subtle: #222624;
-      --bg-accent-soft: #1a2d25;
-      --text-primary: #f2f4f2;
-      --text-secondary: #c5cbc6;
-      --text-muted: #8f9791;
-      --border-subtle: #2a2f2c;
-      --border-strong: #3c433f;
-      --accent: #389874;
-      --accent-hover: #45b088;
-      --accent-text: #0c1411;
-      --danger: #f04438;
-      --danger-soft: #2e1615;
-      --warn: #eab308;
-      --warn-soft: #2c2410;
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-      --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
-      --shadow-lg: 0 24px 56px rgba(0, 0, 0, 0.65);
-    }
-
-    /* =========================================================================
-       BASE & LAYOUT
-       ========================================================================= */
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: var(--font-sans);
-      background-color: var(--bg-page);
-      color: var(--text-primary);
-      line-height: 1.72;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    img {
-      display: block;
-      max-width: 100%;
-    }
-
-    button, input, textarea, select {
-      font-family: inherit;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* =========================================================================
-       TOP HEADER & NAVIGATION
-       ========================================================================= */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      background-color: color-mix(in srgb, var(--bg-surface) 90%, transparent);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .header-inner {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 20px;
-      max-width: 1120px;
-      margin: 0 auto;
-    }
-
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .brand-title {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      font-size: 0.76rem;
-      font-weight: 600;
-      border: 1px solid var(--border-subtle);
-      background-color: var(--bg-subtle);
-      color: var(--text-secondary);
-    }
-
-    .pill-accent {
-      background-color: var(--bg-accent-soft);
-      color: var(--accent);
-      border-color: color-mix(in srgb, var(--accent) 28%, transparent);
-    }
-
-    .pill-warn {
-      background-color: var(--warn-soft);
-      color: var(--warn);
-      border-color: color-mix(in srgb, var(--warn) 30%, transparent);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .lang-switcher {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      padding: 6px;
-      border-radius: var(--radius-md);
-      background-color: var(--bg-subtle);
-      border: 1px solid var(--border-subtle);
-      gap: 4px;
-      min-width: 150px;
-    }
-
-    .lang-btn {
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      padding: 6px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-align: left;
-      cursor: pointer;
-      transition: background-color 0.15s ease, color 0.15s ease;
-    }
-
-    .lang-btn.active {
-      background-color: var(--accent);
-      color: var(--accent-text);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 8px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      font-weight: 600;
-      border: 1px solid var(--border-strong);
-      background-color: var(--bg-surface);
-      color: var(--text-primary);
-      cursor: pointer;
-      transition: all 0.15s ease;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .btn:hover:not(:disabled) {
-      background-color: var(--bg-subtle);
-    }
-
-    .btn:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-
-    .btn-primary {
-      background-color: var(--accent);
-      border-color: var(--accent);
-      color: var(--accent-text);
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      background-color: var(--accent-hover);
-      border-color: var(--accent-hover);
-    }
-
-    .btn-danger {
-      background-color: var(--danger-soft);
-      border-color: color-mix(in srgb, var(--danger) 35%, transparent);
-      color: var(--danger);
-    }
-
-    .btn-sm {
-      padding: 6px 11px;
-      font-size: 0.8rem;
-    }
-
-    .page-nav-bar {
-      border-top: 1px solid var(--border-subtle);
-      background-color: var(--bg-page);
-    }
-
-    .page-nav-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 8px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .nav-tabs {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .nav-tab {
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-secondary);
-      padding: 7px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 0.86rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .nav-tab:hover {
-      background-color: var(--bg-subtle);
-      color: var(--text-primary);
-    }
-
-    .nav-tab.active {
-      background-color: var(--bg-surface);
-      color: var(--accent);
-      border-color: var(--border-subtle);
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* =========================================================================
-       HERO & EDITORIAL CARDS
-       ========================================================================= */
-    .hero-banner {
-      margin-top: 28px;
-      padding: 28px;
-      border-radius: var(--radius-lg);
-      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-accent-soft) 100%);
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      flex-wrap: wrap;
-    }
-
-    .profile-avatar-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .profile-avatar-box {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 2px solid var(--accent);
-      background-color: var(--bg-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .profile-avatar-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .profile-avatar-placeholder {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent);
-      user-select: none;
-    }
-
-    .hero-text-col {
-      flex: 1 1 320px;
-      min-width: 0;
-    }
-
-    .hero-title {
-      margin: 0 0 10px;
-      font-size: clamp(1.45rem, 2.8vw, 2.05rem);
-      line-height: 1.28;
-      letter-spacing: -0.02em;
-    }
-
-    .hero-subtitle {
-      margin: 0;
-      font-size: 0.98rem;
-      color: var(--text-secondary);
-      max-width: 76ch;
-    }
-
-    .main-content {
-      padding-bottom: 64px;
-    }
-
-    .page-view {
-      margin-top: 24px;
-    }
-
-    .page-header-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 26px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 18px;
-    }
-
-    .page-tag {
-      display: inline-block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .page-headline {
-      margin: 0;
-      font-size: clamp(1.22rem, 2.2vw, 1.58rem);
-      line-height: 1.38;
-    }
-
-    .section-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 22px 26px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .section-card h2 {
-      margin: 0 0 10px;
-      font-size: 1.15rem;
-      line-height: 1.4;
-    }
-
-    .section-card p {
-      margin: 0 0 12px;
-      color: var(--text-secondary);
-    }
-
-    .section-card p:last-child {
-      margin-bottom: 0;
-    }
-
-    .bullet-list {
-      margin: 10px 0 16px;
-      padding-left: 20px;
-      color: var(--text-secondary);
-    }
-
-    .bullet-list li {
-      margin-bottom: 6px;
-    }
-
-    .contact-box {
-      margin-top: 16px;
-      padding: 16px 18px;
-      border-radius: var(--radius-md);
-      background-color: var(--bg-subtle);
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .contact-value {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--accent);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .page-footer-nav {
-      margin-top: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    /* =========================================================================
-       BLOG & PHOTO STREAM
-       ========================================================================= */
-    .blog-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .search-filter-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      flex: 1 1 320px;
-    }
-
-    .input, .textarea, .select {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border-strong);
-      background-color: var(--bg-surface);
-      color: var(--text-primary);
-      font-size: 0.9rem;
-    }
-
-    .input:focus, .textarea:focus, .select:focus {
-      outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
-      border-color: var(--accent);
-    }
-
-    .textarea {
-      min-height: 105px;
-      resize: vertical;
-    }
-
-    .search-input {
-      max-width: 300px;
-    }
-
-    .filter-select {
-      max-width: 260px;
-    }
-
-    .notice-banner {
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      font-size: 0.86rem;
-      margin-bottom: 18px;
-      border: 1px solid var(--border-subtle);
-      background-color: var(--bg-subtle);
-      color: var(--text-secondary);
-    }
-
-    .notice-banner.owner {
-      background-color: var(--bg-accent-soft);
-      border-color: color-mix(in srgb, var(--accent) 30%, transparent);
-      color: var(--text-primary);
-    }
-
-    .posts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 18px;
-    }
-
-    .post-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .post-photo-btn {
-      padding: 0;
-      border: none;
-      background: var(--bg-subtle);
-      cursor: pointer;
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      overflow: hidden;
-    }
-
-    .post-photo-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.25s ease;
-    }
-
-    .post-photo-btn:hover img {
-      transform: scale(1.03);
-    }
-
-    .post-body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex: 1;
-    }
-
-    .post-meta {
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .post-title {
-      margin: 0;
-      font-size: 1.04rem;
-      line-height: 1.4;
-    }
-
-    .post-caption {
-      margin: 0;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      white-space: pre-line;
-    }
-
-    .post-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: auto;
-      padding-top: 6px;
-    }
-
-    .tag-chip {
-      font-size: 0.74rem;
-      padding: 2px 8px;
-      border-radius: var(--radius-pill);
-      background-color: var(--bg-subtle);
-      color: var(--text-secondary);
-    }
-
-    .post-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 10px;
-      border-top: 1px solid var(--border-subtle);
-      gap: 8px;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 44px 20px;
-      background-color: var(--bg-surface);
-      border: 1px dashed var(--border-strong);
-      border-radius: var(--radius-md);
-      color: var(--text-secondary);
-    }
-
-    /* =========================================================================
-       ADMIN STUDIO WORKSPACE (AFTER LOGIN)
-       ========================================================================= */
-    .admin-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 18px;
-      margin-top: 14px;
-    }
-
-    .admin-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .admin-card h3 {
-      margin: 0 0 8px;
-      font-size: 1.05rem;
-    }
-
-    .admin-avatar-preview {
-      width: 84px;
-      height: 84px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 2px solid var(--accent);
-      background-color: var(--bg-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .admin-avatar-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* =========================================================================
-       MODALS, LIGHTBOX & TOASTS
-       ========================================================================= */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 60;
-      background-color: rgba(10, 12, 11, 0.62);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      overflow-y: auto;
-    }
-
-    .modal-panel {
-      width: 100%;
-      max-width: 540px;
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
-      padding: 22px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .modal-header h3 {
-      margin: 0;
-      font-size: 1.1rem;
-    }
-
-    .field-group {
-      margin-bottom: 14px;
-    }
-
-    .field-label {
-      display: block;
-      font-size: 0.84rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-primary);
-    }
-
-    .field-hint {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .photo-preview-box {
-      margin-top: 10px;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 10px;
-      background-color: var(--bg-subtle);
-    }
-
-    .photo-preview-box img {
-      max-height: 210px;
-      border-radius: var(--radius-sm);
-      margin: 0 auto 8px;
-    }
-
-    .modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    .error-text {
-      color: var(--danger);
-      font-size: 0.83rem;
-      margin-top: 6px;
-    }
-
-    .rules-box {
-      background-color: var(--bg-subtle);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-      font-size: 0.75rem;
-      overflow-x: auto;
-      white-space: pre;
-      color: var(--text-secondary);
-      margin-top: 8px;
-    }
-
-    .lightbox-panel {
-      max-width: 860px;
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .lightbox-img {
-      max-height: 70vh;
-      margin: 0 auto 14px;
-      border-radius: var(--radius-sm);
-    }
-
-    .toast-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 80;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-width: 360px;
-    }
-
-    .toast-item {
-      background-color: var(--bg-surface);
-      color: var(--text-primary);
-      border: 1px solid var(--border-strong);
-      border-left: 4px solid var(--accent);
-      border-radius: var(--radius-sm);
-      padding: 11px 14px;
-      font-size: 0.85rem;
-      box-shadow: var(--shadow-md);
-    }
-  
-    .room-shell {
-      max-width: 1040px;
-      margin: 24px auto 64px;
-      padding: 0 20px;
-    }
-
-    .room-top-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-      gap: 18px;
-      margin-bottom: 22px;
-    }
-
-    .room-feed-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .status-strip {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-  
-    .studio-wrap {
-      max-width: 1040px;
-      margin: 24px auto 64px;
-      padding: 0 20px;
-    }
-
-    .studio-top-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-      gap: 18px;
-      margin-bottom: 22px;
-    }
-
-    .studio-feed-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .studio-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-  </style>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Admin Studio — Blog, Photo &amp; Profile Manager </title>
+
+ <link rel="preconnect" href="https://fonts.googleapis.com" />
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+ <link
+ href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Lao:wght@400;500;600;700&display=swap"
+ rel="stylesheet"
+ />
+
+ <style>
+
+
+ /* =========================================================================
+ DESIGN TOKENS & SYSTEM THEME SUPPORT
+ ========================================================================= */
+ :root {
+ --bg-page: #f7f6f2;
+ --bg-surface: #ffffff;
+ --bg-subtle: #efede6;
+ --bg-accent-soft: #eef3f0;
+ --text-primary: #181918;
+ --text-secondary: #494d4a;
+ --text-muted: #6c726d;
+ --border-subtle: #e2dfd5;
+ --border-strong: #c9c5b8;
+ --accent: #1f5c47;
+ --accent-hover: #174636;
+ --accent-text: #ffffff;
+ --danger: #b42318;
+ --danger-soft: #fef3f2;
+ --warn: #9a5b13;
+ --warn-soft: #fef6e7;
+ --shadow-sm: 0 1px 2px rgba(24, 25, 24, 0.05);
+ --shadow-md: 0 8px 24px rgba(24, 25, 24, 0.08);
+ --shadow-lg: 0 20px 48px rgba(24, 25, 24, 0.16);
+ --radius-sm: 8px;
+ --radius-md: 12px;
+ --radius-lg: 18px;
+ --radius-pill: 999px;
+ --font-sans: 'Inter', 'Noto Sans Lao', 'IBM Plex Sans Thai', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+ }
+
+ @media (prefers-color-scheme: dark) {
+ :root:not([data-theme="light"]) {
+ --bg-page: #111312;
+ --bg-surface: #191c1a;
+ --bg-subtle: #222624;
+ --bg-accent-soft: #1a2d25;
+ --text-primary: #f2f4f2;
+ --text-secondary: #c5cbc6;
+ --text-muted: #8f9791;
+ --border-subtle: #2a2f2c;
+ --border-strong: #3c433f;
+ --accent: #389874;
+ --accent-hover: #45b088;
+ --accent-text: #0c1411;
+ --danger: #f04438;
+ --danger-soft: #2e1615;
+ --warn: #eab308;
+ --warn-soft: #2c2410;
+ --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+ --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
+ --shadow-lg: 0 24px 56px rgba(0, 0, 0, 0.65);
+ }
+ }
+
+ :root[data-theme="dark"] {
+ --bg-page: #111312;
+ --bg-surface: #191c1a;
+ --bg-subtle: #222624;
+ --bg-accent-soft: #1a2d25;
+ --text-primary: #f2f4f2;
+ --text-secondary: #c5cbc6;
+ --text-muted: #8f9791;
+ --border-subtle: #2a2f2c;
+ --border-strong: #3c433f;
+ --accent: #389874;
+ --accent-hover: #45b088;
+ --accent-text: #0c1411;
+ --danger: #f04438;
+ --danger-soft: #2e1615;
+ --warn: #eab308;
+ --warn-soft: #2c2410;
+ --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+ --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
+ --shadow-lg: 0 24px 56px rgba(0, 0, 0, 0.65);
+ }
+
+ /* =========================================================================
+ BASE & LAYOUT
+ ========================================================================= */
+ *, *::before, *::after {
+ box-sizing: border-box;
+ }
+
+ html {
+ scroll-behavior: smooth;
+ }
+
+ body {
+ margin: 0;
+ padding: 0;
+ font-family: var(--font-sans);
+ background-color: var(--bg-page);
+ color: var(--text-primary);
+ line-height: 1.72;
+ -webkit-font-smoothing: antialiased;
+ }
+
+ img {
+ display: block;
+ max-width: 100%;
+ }
+
+ button, input, textarea, select {
+ font-family: inherit;
+ }
+
+ .container {
+ width: 100%;
+ max-width: 980px;
+ margin: 0 auto;
+ padding: 0 20px;
+ }
+
+ .hidden {
+ display: none !important;
+ }
+
+ /* =========================================================================
+ TOP HEADER & NAVIGATION
+ ========================================================================= */
+ .site-header {
+ position: sticky;
+ top: 0;
+ z-index: 30;
+ background-color: color-mix(in srgb, var(--bg-surface) 90%, transparent);
+ backdrop-filter: blur(12px);
+ border-bottom: 1px solid var(--border-subtle);
+ }
+
+ .header-inner {
+ display: flex;
+ flex-wrap: wrap;
+ align-items: center;
+ justify-content: space-between;
+ gap: 12px;
+ padding: 14px 20px;
+ max-width: 1120px;
+ margin: 0 auto;
+ }
+
+ .brand-group {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ flex-wrap: wrap;
+ }
+
+ .brand-title {
+ margin: 0;
+ font-size: 1rem;
+ font-weight: 700;
+ letter-spacing: -0.01em;
+ }
+
+ .pill {
+ display: inline-flex;
+ align-items: center;
+ gap: 6px;
+ padding: 4px 10px;
+ border-radius: var(--radius-pill);
+ font-size: 0.76rem;
+ font-weight: 600;
+ border: 1px solid var(--border-subtle);
+ background-color: var(--bg-subtle);
+ color: var(--text-secondary);
+ }
+
+ .pill-accent {
+ background-color: var(--bg-accent-soft);
+ color: var(--accent);
+ border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+ }
+
+ .pill-warn {
+ background-color: var(--warn-soft);
+ color: var(--warn);
+ border-color: color-mix(in srgb, var(--warn) 30%, transparent);
+ }
+
+ .header-actions {
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ flex-wrap: wrap;
+ }
+
+ .lang-switcher {
+ display: flex;
+ flex-direction: column;
+ align-items: stretch;
+ padding: 6px;
+ border-radius: var(--radius-md);
+ background-color: var(--bg-subtle);
+ border: 1px solid var(--border-subtle);
+ gap: 4px;
+ min-width: 150px;
+ }
+
+ .lang-btn {
+ border: none;
+ background: transparent;
+ color: var(--text-secondary);
+ padding: 6px 12px;
+ border-radius: var(--radius-sm);
+ font-size: 0.8rem;
+ font-weight: 600;
+ text-align: left;
+ cursor: pointer;
+ transition: background-color 0.15s ease, color 0.15s ease;
+ }
+
+ .lang-btn.active {
+ background-color: var(--accent);
+ color: var(--accent-text);
+ }
+
+ .btn {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 6px;
+ padding: 8px 14px;
+ border-radius: var(--radius-sm);
+ font-size: 0.85rem;
+ font-weight: 600;
+ border: 1px solid var(--border-strong);
+ background-color: var(--bg-surface);
+ color: var(--text-primary);
+ cursor: pointer;
+ transition: all 0.15s ease;
+ box-shadow: var(--shadow-sm);
+ }
+
+ .btn:hover:not(:disabled) {
+ background-color: var(--bg-subtle);
+ }
+
+ .btn:disabled {
+ opacity: 0.55;
+ cursor: not-allowed;
+ }
+
+ .btn-primary {
+ background-color: var(--accent);
+ border-color: var(--accent);
+ color: var(--accent-text);
+ }
+
+ .btn-primary:hover:not(:disabled) {
+ background-color: var(--accent-hover);
+ border-color: var(--accent-hover);
+ }
+
+ .btn-danger {
+ background-color: var(--danger-soft);
+ border-color: color-mix(in srgb, var(--danger) 35%, transparent);
+ color: var(--danger);
+ }
+
+ .btn-sm {
+ padding: 6px 11px;
+ font-size: 0.8rem;
+ }
+
+ .page-nav-bar {
+ border-top: 1px solid var(--border-subtle);
+ background-color: var(--bg-page);
+ }
+
+ .page-nav-inner {
+ max-width: 1120px;
+ margin: 0 auto;
+ padding: 8px 20px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 12px;
+ flex-wrap: wrap;
+ }
+
+ .nav-tabs {
+ display: flex;
+ gap: 6px;
+ flex-wrap: wrap;
+ }
+
+ .nav-tab {
+ border: 1px solid transparent;
+ background: transparent;
+ color: var(--text-secondary);
+ padding: 7px 14px;
+ border-radius: var(--radius-sm);
+ font-size: 0.86rem;
+ font-weight: 600;
+ cursor: pointer;
+ transition: all 0.15s ease;
+ }
+
+ .nav-tab:hover {
+ background-color: var(--bg-subtle);
+ color: var(--text-primary);
+ }
+
+ .nav-tab.active {
+ background-color: var(--bg-surface);
+ color: var(--accent);
+ border-color: var(--border-subtle);
+ box-shadow: var(--shadow-sm);
+ }
+
+ /* =========================================================================
+ HERO & EDITORIAL CARDS
+ ========================================================================= */
+ .hero-banner {
+ margin-top: 28px;
+ padding: 28px;
+ border-radius: var(--radius-lg);
+ background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-accent-soft) 100%);
+ border: 1px solid var(--border-subtle);
+ box-shadow: var(--shadow-sm);
+ display: flex;
+ align-items: center;
+ gap: 22px;
+ flex-wrap: wrap;
+ }
+
+ .profile-avatar-wrap {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ gap: 8px;
+ flex-shrink: 0;
+ }
+
+ .profile-avatar-box {
+ width: 96px;
+ height: 96px;
+ border-radius: 50%;
+ overflow: hidden;
+ border: 2px solid var(--accent);
+ background-color: var(--bg-subtle);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ box-shadow: var(--shadow-sm);
+ }
+
+ .profile-avatar-box img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ }
+
+ .profile-avatar-placeholder {
+ font-size: 1.5rem;
+ font-weight: 700;
+ color: var(--accent);
+ user-select: none;
+ }
+
+ .hero-text-col {
+ flex: 1 1 320px;
+ min-width: 0;
+ }
+
+ .hero-title {
+ margin: 0 0 10px;
+ font-size: clamp(1.45rem, 2.8vw, 2.05rem);
+ line-height: 1.28;
+ letter-spacing: -0.02em;
+ }
+
+ .hero-subtitle {
+ margin: 0;
+ font-size: 0.98rem;
+ color: var(--text-secondary);
+ max-width: 76ch;
+ }
+
+ .main-content {
+ padding-bottom: 64px;
+ }
+
+ .page-view {
+ margin-top: 24px;
+ }
+
+ .page-header-card {
+ background-color: var(--bg-surface);
+ border: 1px solid var(--border-subtle);
+ border-radius: var(--radius-lg);
+ padding: 26px;
+ box-shadow: var(--shadow-sm);
+ margin-bottom: 18px;
+ }
+
+ .page-tag {
+ display: inline-block;
+ font-size: 0.78rem;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.04em;
+ color: var(--accent);
+ margin-bottom: 8px;
+ }
+
+ .page-headline {
+ margin: 0;
+ font-size: clamp(1.22rem, 2.2vw, 1.58rem);
+ line-height: 1.38;
+ }
+
+ .section-card {
+ background-color: var(--bg-surface);
+ border: 1px solid var(--border-subtle);
+ border-radius: var(--radius-md);
+ padding: 22px 26px;
+ margin-bottom: 16px;
+ box-shadow: var(--shadow-sm);
+ }
+
+ .section-card h2 {
+ margin: 0 0 10px;
+ font-size: 1.15rem;
+ line-height: 1.4;
+ }
+
+ .section-card p {
+ margin: 0 0 12px;
+ color: var(--text-secondary);
+ }
+
+ .section-card p:last-child {
+ margin-bottom: 0;
+ }
+
+ .bullet-list {
+ margin: 10px 0 16px;
+ padding-left: 20px;
+ color: var(--text-secondary);
+ }
+
+ .bullet-list li {
+ margin-bottom: 6px;
+ }
+
+ .contact-box {
+ margin-top: 16px;
+ padding: 16px 18px;
+ border-radius: var(--radius-md);
+ background-color: var(--bg-subtle);
+ border: 1px solid var(--border-subtle);
+ display: flex;
+ flex-wrap: wrap;
+ align-items: center;
+ justify-content: space-between;
+ gap: 12px;
+ }
+
+ .contact-value {
+ font-size: 1.05rem;
+ font-weight: 700;
+ color: var(--accent);
+ font-variant-numeric: tabular-nums;
+ }
+
+ .page-footer-nav {
+ margin-top: 24px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ gap: 12px;
+ flex-wrap: wrap;
+ }
+
+ /* =========================================================================
+ BLOG & PHOTO STREAM
+ ========================================================================= */
+ .blog-toolbar {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 10px;
+ align-items: center;
+ justify-content: space-between;
+ margin-bottom: 16px;
+ }
+
+ .search-filter-group {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 8px;
+ flex: 1 1 320px;
+ }
+
+ .input, .textarea, .select {
+ width: 100%;
+ padding: 10px 12px;
+ border-radius: var(--radius-sm);
+ border: 1px solid var(--border-strong);
+ background-color: var(--bg-surface);
+ color: var(--text-primary);
+ font-size: 0.9rem;
+ }
+
+ .input:focus, .textarea:focus, .select:focus {
+ outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+ border-color: var(--accent);
+ }
+
+ .textarea {
+ min-height: 105px;
+ resize: vertical;
+ }
+
+ .search-input {
+ max-width: 300px;
+ }
+
+ .filter-select {
+ max-width: 260px;
+ }
+
+ .notice-banner {
+ padding: 12px 16px;
+ border-radius: var(--radius-md);
+ font-size: 0.86rem;
+ margin-bottom: 18px;
+ border: 1px solid var(--border-subtle);
+ background-color: var(--bg-subtle);
+ color: var(--text-secondary);
+ }
+
+ .notice-banner.owner {
+ background-color: var(--bg-accent-soft);
+ border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+ color: var(--text-primary);
+ }
+
+ .posts-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+ gap: 18px;
+ }
+
+ .post-card {
+ background-color: var(--bg-surface);
+ border: 1px solid var(--border-subtle);
+ border-radius: var(--radius-md);
+ overflow: hidden;
+ box-shadow: var(--shadow-sm);
+ display: flex;
+ flex-direction: column;
+ }
+
+ .post-photo-btn {
+ padding: 0;
+ border: none;
+ background: var(--bg-subtle);
+ cursor: pointer;
+ width: 100%;
+ aspect-ratio: 16 / 10;
+ overflow: hidden;
+ }
+
+ .post-photo-btn img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ transition: transform 0.25s ease;
+ }
+
+ .post-photo-btn:hover img {
+ transform: scale(1.03);
+ }
+
+ .post-body {
+ padding: 16px;
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+ flex: 1;
+ }
+
+ .post-meta {
+ font-size: 0.76rem;
+ color: var(--text-muted);
+ display: flex;
+ justify-content: space-between;
+ gap: 8px;
+ flex-wrap: wrap;
+ }
+
+ .post-title {
+ margin: 0;
+ font-size: 1.04rem;
+ line-height: 1.4;
+ }
+
+ .post-caption {
+ margin: 0;
+ font-size: 0.9rem;
+ color: var(--text-secondary);
+ white-space: pre-line;
+ }
+
+ .post-tags {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 6px;
+ margin-top: auto;
+ padding-top: 6px;
+ }
+
+ .tag-chip {
+ font-size: 0.74rem;
+ padding: 2px 8px;
+ border-radius: var(--radius-pill);
+ background-color: var(--bg-subtle);
+ color: var(--text-secondary);
+ }
+
+ .post-actions {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding-top: 10px;
+ border-top: 1px solid var(--border-subtle);
+ gap: 8px;
+ }
+
+ .empty-state {
+ text-align: center;
+ padding: 44px 20px;
+ background-color: var(--bg-surface);
+ border: 1px dashed var(--border-strong);
+ border-radius: var(--radius-md);
+ color: var(--text-secondary);
+ }
+
+ /* =========================================================================
+ ADMIN STUDIO WORKSPACE (AFTER LOGIN)
+ ========================================================================= */
+ .admin-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ gap: 18px;
+ margin-top: 14px;
+ }
+
+ .admin-card {
+ background-color: var(--bg-surface);
+ border: 1px solid var(--border-subtle);
+ border-radius: var(--radius-md);
+ padding: 20px;
+ box-shadow: var(--shadow-sm);
+ }
+
+ .admin-card h3 {
+ margin: 0 0 8px;
+ font-size: 1.05rem;
+ }
+
+ .admin-avatar-preview {
+ width: 84px;
+ height: 84px;
+ border-radius: 50%;
+ overflow: hidden;
+ border: 2px solid var(--accent);
+ background-color: var(--bg-subtle);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-shrink: 0;
+ }
+
+ .admin-avatar-preview img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ }
+
+ /* =========================================================================
+ MODALS, LIGHTBOX & TOASTS
+ ========================================================================= */
+ .modal-backdrop {
+ position: fixed;
+ inset: 0;
+ z-index: 60;
+ background-color: rgba(10, 12, 11, 0.62);
+ backdrop-filter: blur(4px);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ padding: 16px;
+ overflow-y: auto;
+ }
+
+ .modal-panel {
+ width: 100%;
+ max-width: 540px;
+ background-color: var(--bg-surface);
+ border: 1px solid var(--border-subtle);
+ border-radius: var(--radius-lg);
+ box-shadow: var(--shadow-lg);
+ padding: 22px;
+ max-height: 90vh;
+ overflow-y: auto;
+ }
+
+ .modal-header {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 12px;
+ margin-bottom: 14px;
+ }
+
+ .modal-header h3 {
+ margin: 0;
+ font-size: 1.1rem;
+ }
+
+ .field-group {
+ margin-bottom: 14px;
+ }
+
+ .field-label {
+ display: block;
+ font-size: 0.84rem;
+ font-weight: 600;
+ margin-bottom: 6px;
+ color: var(--text-primary);
+ }
+
+ .field-hint {
+ font-size: 0.78rem;
+ color: var(--text-muted);
+ margin-top: 4px;
+ }
+
+ .photo-preview-box {
+ margin-top: 10px;
+ border: 1px solid var(--border-subtle);
+ border-radius: var(--radius-sm);
+ padding: 10px;
+ background-color: var(--bg-subtle);
+ }
+
+ .photo-preview-box img {
+ max-height: 210px;
+ border-radius: var(--radius-sm);
+ margin: 0 auto 8px;
+ }
+
+ .modal-footer {
+ display: flex;
+ justify-content: flex-end;
+ gap: 8px;
+ flex-wrap: wrap;
+ margin-top: 18px;
+ }
+
+ .error-text {
+ color: var(--danger);
+ font-size: 0.83rem;
+ margin-top: 6px;
+ }
+
+ .rules-box {
+ background-color: var(--bg-subtle);
+ border: 1px solid var(--border-subtle);
+ border-radius: var(--radius-sm);
+ padding: 10px 12px;
+ font-size: 0.75rem;
+ overflow-x: auto;
+ white-space: pre;
+ color: var(--text-secondary);
+ margin-top: 8px;
+ }
+
+ .lightbox-panel {
+ max-width: 860px;
+ background-color: var(--bg-surface);
+ border: 1px solid var(--border-subtle);
+ border-radius: var(--radius-lg);
+ padding: 18px;
+ box-shadow: var(--shadow-lg);
+ }
+
+ .lightbox-img {
+ max-height: 70vh;
+ margin: 0 auto 14px;
+ border-radius: var(--radius-sm);
+ }
+
+ .toast-container {
+ position: fixed;
+ bottom: 20px;
+ right: 20px;
+ z-index: 80;
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+ max-width: 360px;
+ }
+
+ .toast-item {
+ background-color: var(--bg-surface);
+ color: var(--text-primary);
+ border: 1px solid var(--border-strong);
+ border-left: 4px solid var(--accent);
+ border-radius: var(--radius-sm);
+ padding: 11px 14px;
+ font-size: 0.85rem;
+ box-shadow: var(--shadow-md);
+ }
+ 
+ .room-shell {
+ max-width: 1040px;
+ margin: 24px auto 64px;
+ padding: 0 20px;
+ }
+
+ .room-top-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+ gap: 18px;
+ margin-bottom: 22px;
+ }
+
+ .room-feed-card {
+ background-color: var(--bg-surface);
+ border: 1px solid var(--border-subtle);
+ border-radius: var(--radius-lg);
+ padding: 22px;
+ box-shadow: var(--shadow-sm);
+ }
+
+ .status-strip {
+ display: flex;
+ flex-wrap: wrap;
+ align-items: center;
+ justify-content: space-between;
+ gap: 12px;
+ margin-bottom: 18px;
+ }
+ 
+ .studio-wrap {
+ max-width: 1040px;
+ margin: 24px auto 64px;
+ padding: 0 20px;
+ }
+
+ .studio-top-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+ gap: 18px;
+ margin-bottom: 22px;
+ }
+
+ .studio-feed-card {
+ background-color: var(--bg-surface);
+ border: 1px solid var(--border-subtle);
+ border-radius: var(--radius-lg);
+ padding: 22px;
+ box-shadow: var(--shadow-sm);
+ }
+
+ .studio-toolbar {
+ display: flex;
+ flex-wrap: wrap;
+ align-items: center;
+ justify-content: space-between;
+ gap: 12px;
+ margin-bottom: 18px;
+ }
+ 
+ .hide-fb {
+ display: none !important;
+ }
+ </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="brand-group">
-        <h1 class="brand-title">Admin Studio</h1>
-        <span id="studioBadge" class="pill pill-accent">Firebase Sync · Profile &amp; Blog</span>
-        <span id="studioAuthBadge" class="pill pill-warn">Checking Auth...</span>
-        <span id="studioFbBadge" class="pill">Checking Firebase...</span>
-      </div>
-
-      <div class="header-actions">
-        <div class="lang-switcher" role="group" aria-label="Language switcher">
-          <button type="button" class="lang-btn active" data-lang="en">English (EN)</button>
-          <button type="button" class="lang-btn" data-lang="lo">ພາສາລາວ (LO)</button>
-          <button type="button" class="lang-btn" data-lang="th">ภาษาไทย (TH)</button>
-          <button type="button" class="lang-btn" data-lang="vi">Tiếng Việt (VI)</button>
-        </div>
-
-        <a href="index.html" id="backHomeLink" class="btn btn-sm" style="text-decoration: none;">← Home</a>
-        <button type="button" id="studioLoginBtn" class="btn btn-primary btn-sm">Admin Sign In</button>
-        <button type="button" id="studioLogoutBtn" class="btn btn-danger btn-sm hidden">Sign Out</button>
-      </div>
-    </div>
-  </header>
-
-  <main class="studio-wrap">
-    <div id="studioLockBanner" class="notice-banner">
-      Please sign in with your admin account (Email + Password) to change your profile photo, publish blog &amp; photo posts, and manage Firebase entries.
-    </div>
-
-    <div id="studioWorkspace" class="hidden">
-      <div class="studio-top-grid">
-        <!-- 1. Profile Photo Manager -->
-        <article class="admin-card">
-          <h3 id="sec1Heading">1. Profile Photo &amp; Firebase Sync</h3>
-          <p id="sec1Desc" class="field-hint" style="margin-top: 0; margin-bottom: 14px;">
-            Upload a new avatar (auto-compressed to 512px) and save to <code>site_profile/main</code> or Firebase Storage.
-          </p>
-
-          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
-            <div class="admin-avatar-preview">
-              <img id="studioAvatarImg" src="" alt="Profile avatar preview" class="hidden" />
-              <span id="studioAvatarFallback" class="profile-avatar-placeholder">VS</span>
-            </div>
-            <div style="flex: 1; min-width: 0;">
-              <input type="file" id="studioAvatarInput" class="input" accept="image/jpeg,image/png,image/webp" />
-              <div class="field-hint">JPG, PNG, WebP · Syncs across pages</div>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" id="studioSaveAvatarBtn" class="btn btn-primary btn-sm">Save Profile to Firebase</button>
-            <button type="button" id="studioResetAvatarBtn" class="btn btn-danger btn-sm">Reset Photo</button>
-          </div>
-        </article>
-
-        <!-- 2. Blog & Photo Publisher -->
-        <article class="admin-card">
-          <h3 id="sec2Heading">2. Publish Blog &amp; Photo Post</h3>
-          <p id="sec2Desc" class="field-hint" style="margin-top: 0; margin-bottom: 14px;">
-            Write a blog note, attach an optional photo, and publish directly to <code>blog_posts</code> in Firestore.
-          </p>
-
-          <form id="studioPostForm">
-            <div class="field-group">
-              <label for="studioPostTitle" class="field-label">Post Title</label>
-              <input type="text" id="studioPostTitle" class="input" placeholder="e.g., Daily Note &amp; Photo" />
-            </div>
-
-            <div class="field-group">
-              <label for="studioPostSection" class="field-label">Section Anchor</label>
-              <select id="studioPostSection" class="select">
-                <option value="">General / Stream Top</option>
-                <option value="p1-sec-1">p1-sec-1</option>
-                <option value="p1-sec-2">p1-sec-2</option>
-                <option value="p1-sec-3">p1-sec-3</option>
-                <option value="p2-sec-1">p2-sec-1</option>
-                <option value="p2-sec-2">p2-sec-2</option>
-                <option value="p2-sec-3">p2-sec-3</option>
-              </select>
-            </div>
-
-            <div class="field-group">
-              <label for="studioPostPhoto" class="field-label">Attach Photo</label>
-              <input type="file" id="studioPostPhoto" class="input" accept="image/jpeg,image/png,image/webp" />
-              <div id="studioPostPreviewBox" class="photo-preview-box hidden">
-                <img id="studioPostPreviewImg" src="" alt="Post photo preview" />
-                <div style="text-align: right;">
-                  <button type="button" id="studioRemovePhotoBtn" class="btn btn-danger btn-sm">Remove Photo</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="field-group">
-              <label for="studioPostCaption" class="field-label">Blog Content / Caption</label>
-              <textarea id="studioPostCaption" class="textarea" placeholder="Write your blog story or photo caption..."></textarea>
-            </div>
-
-            <div class="field-group">
-              <label for="studioPostTags" class="field-label">Tags (comma separated)</label>
-              <input type="text" id="studioPostTags" class="input" placeholder="blog, photo, firebase, VKU" />
-            </div>
-
-            <button type="submit" id="studioPublishBtn" class="btn btn-primary">Publish to Firebase</button>
-          </form>
-        </article>
-      </div>
-
-      <!-- 3. Published Posts List -->
-      <section class="studio-feed-card" aria-labelledby="sec3Heading">
-        <div class="studio-toolbar">
-          <div>
-            <h2 id="sec3Heading" style="margin: 0; font-size: 1.15rem;">3. Published Blog &amp; Photo Posts</h2>
-            <p class="field-hint" style="margin: 4px 0 0;">Click any photo to view full size or delete posts from Firebase.</p>
-          </div>
-          <input type="search" id="studioSearchInput" class="input search-input" placeholder="Search title, caption, or tag..." />
-        </div>
-
-        <div id="studioPostsGrid" class="posts-grid"></div>
-        <div id="studioEmptyState" class="empty-state hidden">
-          <h3 style="margin: 0 0 6px;">No posts found</h3>
-          <p style="margin: 0;">Publish your first blog or photo post using the form above.</p>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <!-- Admin Auth Modal -->
-  <div id="studioAuthModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="studioAuthTitle">
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h3 id="studioAuthTitle">Admin Sign In</h3>
-        <button type="button" id="closeStudioAuthBtn" class="btn btn-sm">✕</button>
-      </div>
-      <form id="studioAuthForm">
-        <div class="field-group">
-          <label for="studioAuthEmail" class="field-label">Admin Email</label>
-          <input type="email" id="studioAuthEmail" class="input" autocomplete="email" required />
-        </div>
-        <div class="field-group">
-          <label for="studioAuthPassword" class="field-label">Password</label>
-          <input type="password" id="studioAuthPassword" class="input" autocomplete="current-password" required />
-        </div>
-        <div id="studioAuthError" class="error-text hidden"></div>
-        <div class="modal-footer">
-          <button type="button" id="cancelStudioAuthBtn" class="btn">Cancel</button>
-          <button type="submit" id="submitStudioAuthBtn" class="btn btn-primary">Sign In</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Lightbox Modal -->
-  <div id="studioLightbox" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="studioLightboxTitle">
-    <div class="lightbox-panel">
-      <div class="modal-header">
-        <h3 id="studioLightboxTitle"></h3>
-        <button type="button" id="closeStudioLightboxBtn" class="btn btn-sm">✕</button>
-      </div>
-      <img id="studioLightboxImg" src="" alt="" class="lightbox-img" />
-      <p id="studioLightboxCaption" class="post-caption"></p>
-    </div>
-  </div>
-
-  <div id="studioToastContainer" class="toast-container" aria-live="polite"></div>
-
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged,
-    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      setDoc,
-      deleteDoc,
-      doc,
-      onSnapshot,
-      query,
-      orderBy,
-      serverTimestamp,
-    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-    import {
-      getStorage,
-      ref,
-      uploadString,
-      getDownloadURL,
-    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
-
-    const STORAGE_KEYS = {
-      LANG: 'vongvilay_blog_lang_v1',
-      POSTS: 'vongvilay_blog_posts_v1',
-      PROFILE_PHOTO: 'vongvilay_profile_photo_v1',
-      FB_CONFIG: 'vongvilay_firebase_config_v1',
-    };
-
-    const LABELS = {
-      en: {
-        backHome: '← Home',
-        signIn: 'Admin Sign In',
-        signOut: 'Sign Out',
-        saveAvatar: 'Save Profile to Firebase',
-        resetAvatar: 'Reset Photo',
-        publish: 'Publish to Firebase',
-        deletePost: 'Delete',
-      },
-      lo: {
-        backHome: '← ໜ້າຫຼັກ',
-        signIn: 'ລັອກອິນແອັດມິນ',
-        signOut: 'ອອກຈາກລະບົບ',
-        saveAvatar: 'ບັນທຶກຮູບໂປຣໄຟລ໌ລົງ Firebase',
-        resetAvatar: 'ລ້າງຮູບໂປຣໄຟລ໌',
-        publish: 'ໂພສບັນທຶກລົງ Firebase',
-        deletePost: 'ລຶບໂພສ',
-      },
-      th: {
-        backHome: '← หน้าหลัก',
-        signIn: 'เข้าสู่ระบบแอดมิน',
-        signOut: 'ออกจากระบบ',
-        saveAvatar: 'บันทึกโปรไฟล์ลง Firebase',
-        resetAvatar: 'ล้างรูปโปรไฟล์',
-        publish: 'โพสต์บันทึกลง Firebase',
-        deletePost: 'ลบโพสต์',
-      },
-      vi: {
-        backHome: '← Trang Chủ',
-        signIn: 'Admin Đăng Nhập',
-        signOut: 'Đăng Xuất',
-        saveAvatar: 'Lưu Ảnh Đại Diện Lên Firebase',
-        resetAvatar: 'Xóa Ảnh Đại Diện',
-        publish: 'Đăng Lên Firebase',
-        deletePost: 'Xóa Bài',
-      },
-    };
-
-    const state = {
-      lang: 'en',
-      fbApp: null,
-      fbAuth: null,
-      fbDb: null,
-      fbStorage: null,
-      fbConfig: null,
-      user: null,
-      posts: [],
-      search: '',
-      profilePhotoUrl: '',
-      draftAvatarDataUrl: '',
-      draftPostPhotoDataUrl: '',
-    };
-
-    const ui = {
-      backHomeLink: document.getElementById('backHomeLink'),
-      studioAuthBadge: document.getElementById('studioAuthBadge'),
-      studioFbBadge: document.getElementById('studioFbBadge'),
-      studioLoginBtn: document.getElementById('studioLoginBtn'),
-      studioLogoutBtn: document.getElementById('studioLogoutBtn'),
-      studioLockBanner: document.getElementById('studioLockBanner'),
-      studioWorkspace: document.getElementById('studioWorkspace'),
-
-      studioAvatarImg: document.getElementById('studioAvatarImg'),
-      studioAvatarFallback: document.getElementById('studioAvatarFallback'),
-      studioAvatarInput: document.getElementById('studioAvatarInput'),
-      studioSaveAvatarBtn: document.getElementById('studioSaveAvatarBtn'),
-      studioResetAvatarBtn: document.getElementById('studioResetAvatarBtn'),
-
-      studioPostForm: document.getElementById('studioPostForm'),
-      studioPostTitle: document.getElementById('studioPostTitle'),
-      studioPostSection: document.getElementById('studioPostSection'),
-      studioPostPhoto: document.getElementById('studioPostPhoto'),
-      studioPostPreviewBox: document.getElementById('studioPostPreviewBox'),
-      studioPostPreviewImg: document.getElementById('studioPostPreviewImg'),
-      studioRemovePhotoBtn: document.getElementById('studioRemovePhotoBtn'),
-      studioPostCaption: document.getElementById('studioPostCaption'),
-      studioPostTags: document.getElementById('studioPostTags'),
-      studioPublishBtn: document.getElementById('studioPublishBtn'),
-
-      studioSearchInput: document.getElementById('studioSearchInput'),
-      studioPostsGrid: document.getElementById('studioPostsGrid'),
-      studioEmptyState: document.getElementById('studioEmptyState'),
-
-      studioAuthModal: document.getElementById('studioAuthModal'),
-      closeStudioAuthBtn: document.getElementById('closeStudioAuthBtn'),
-      cancelStudioAuthBtn: document.getElementById('cancelStudioAuthBtn'),
-      studioAuthForm: document.getElementById('studioAuthForm'),
-      studioAuthEmail: document.getElementById('studioAuthEmail'),
-      studioAuthPassword: document.getElementById('studioAuthPassword'),
-      studioAuthError: document.getElementById('studioAuthError'),
-      submitStudioAuthBtn: document.getElementById('submitStudioAuthBtn'),
-
-      studioLightbox: document.getElementById('studioLightbox'),
-      studioLightboxTitle: document.getElementById('studioLightboxTitle'),
-      studioLightboxImg: document.getElementById('studioLightboxImg'),
-      studioLightboxCaption: document.getElementById('studioLightboxCaption'),
-      closeStudioLightboxBtn: document.getElementById('closeStudioLightboxBtn'),
-      toastContainer: document.getElementById('studioToastContainer'),
-    };
-
-    function toast(msg) {
-      const el = document.createElement('div');
-      el.className = 'toast-item';
-      el.textContent = msg;
-      ui.toastContainer.appendChild(el);
-      setTimeout(() => {
-        el.style.opacity = '0';
-        el.style.transition = 'opacity 0.25s ease';
-        setTimeout(() => el.remove(), 260);
-      }, 3000);
-    }
-
-    function applyLang(lang) {
-      if (!LABELS[lang]) return;
-      state.lang = lang;
-      localStorage.setItem(STORAGE_KEYS.LANG, lang);
-      document.querySelectorAll('.lang-btn').forEach((b) => b.classList.toggle('active', b.dataset.lang === lang));
-      const L = LABELS[lang];
-      ui.backHomeLink.textContent = L.backHome;
-      ui.studioLoginBtn.textContent = L.signIn;
-      ui.studioLogoutBtn.textContent = L.signOut;
-      ui.studioSaveAvatarBtn.textContent = L.saveAvatar;
-      ui.studioResetAvatarBtn.textContent = L.resetAvatar;
-      ui.studioPublishBtn.textContent = L.publish;
-      renderPosts();
-    }
-
-    function compressImage(file, maxWidth = 1280, quality = 0.8) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = reject;
-        reader.onload = () => {
-          const img = new Image();
-          img.onerror = reject;
-          img.onload = () => {
-            let { width, height } = img;
-            if (width > maxWidth) {
-              height = Math.round((height * maxWidth) / width);
-              width = maxWidth;
-            }
-            const canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
-            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', quality));
-          };
-          img.src = reader.result;
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function renderAvatar() {
-      const url = state.draftAvatarDataUrl || state.profilePhotoUrl || '';
-      const has = Boolean(url);
-      ui.studioAvatarImg.classList.toggle('hidden', !has);
-      ui.studioAvatarFallback.classList.toggle('hidden', has);
-      ui.studioAvatarImg.src = has ? url : '';
-    }
-
-    function syncUi() {
-      const signedIn = Boolean(state.user);
-      ui.studioLoginBtn.classList.toggle('hidden', signedIn);
-      ui.studioLogoutBtn.classList.toggle('hidden', !signedIn);
-      ui.studioLockBanner.classList.toggle('hidden', signedIn);
-      ui.studioWorkspace.classList.toggle('hidden', !signedIn);
-
-      if (signedIn) {
-        ui.studioAuthBadge.textContent = `Admin: ${state.user.email || 'Signed In'}`;
-        ui.studioAuthBadge.className = 'pill pill-accent';
-      } else {
-        ui.studioAuthBadge.textContent = 'Signed Out';
-        ui.studioAuthBadge.className = 'pill pill-warn';
-      }
-      renderPosts();
-    }
-
-    function renderPosts() {
-      const q = state.search.trim().toLowerCase();
-      const filtered = state.posts.filter((p) => {
-        if (!q) return true;
-        return [p.title || '', p.caption || '', ...(p.tags || [])].join(' ').toLowerCase().includes(q);
-      });
-
-      ui.studioPostsGrid.innerHTML = '';
-      if (filtered.length === 0) {
-        ui.studioEmptyState.classList.remove('hidden');
-        return;
-      }
-      ui.studioEmptyState.classList.add('hidden');
-
-      const delLabel = LABELS[state.lang]?.deletePost || 'Delete';
-
-      filtered.forEach((post) => {
-        const card = document.createElement('article');
-        card.className = 'post-card';
-
-        if (post.photoUrl) {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'post-photo-btn';
-          btn.addEventListener('click', () => {
-            ui.studioLightboxTitle.textContent = post.title || '';
-            ui.studioLightboxImg.src = post.photoUrl;
-            ui.studioLightboxCaption.textContent = post.caption || '';
-            ui.studioLightbox.classList.remove('hidden');
-          });
-          const img = document.createElement('img');
-          img.src = post.photoUrl;
-          img.alt = post.title || 'Post image';
-          img.loading = 'lazy';
-          btn.appendChild(img);
-          card.appendChild(btn);
-        }
-
-        const body = document.createElement('div');
-        body.className = 'post-body';
-
-        const meta = document.createElement('div');
-        meta.className = 'post-meta';
-        const dt = post.createdAtLabel || new Date(post.createdAt || Date.now()).toLocaleDateString();
-        meta.innerHTML = `<span>${dt}</span>${post.section ? `<span>${post.section}</span>` : ''}`;
-        body.appendChild(meta);
-
-        if (post.title) {
-          const h3 = document.createElement('h3');
-          h3.className = 'post-title';
-          h3.textContent = post.title;
-          body.appendChild(h3);
-        }
-
-        if (post.caption) {
-          const p = document.createElement('p');
-          p.className = 'post-caption';
-          p.textContent = post.caption;
-          body.appendChild(p);
-        }
-
-        if (Array.isArray(post.tags) && post.tags.length > 0) {
-          const tags = document.createElement('div');
-          tags.className = 'post-tags';
-          post.tags.forEach((tag) => {
-            const chip = document.createElement('span');
-            chip.className = 'tag-chip';
-            chip.textContent = `#${tag}`;
-            tags.appendChild(chip);
-          });
-          body.appendChild(tags);
-        }
-
-        if (state.user) {
-          const actions = document.createElement('div');
-          actions.className = 'post-actions';
-          const del = document.createElement('button');
-          del.type = 'button';
-          del.className = 'btn btn-danger btn-sm';
-          del.textContent = delLabel;
-          del.addEventListener('click', async () => {
-            if (!state.user) return;
-            try {
-              if (state.fbDb) {
-                await deleteDoc(doc(state.fbDb, 'blog_posts', post.id));
-              } else {
-                state.posts = state.posts.filter((x) => x.id !== post.id);
-                localStorage.setItem(STORAGE_KEYS.POSTS, JSON.stringify(state.posts));
-                renderPosts();
-              }
-              toast('Deleted');
-            } catch (err) {
-              toast(err?.message || 'Delete failed');
-            }
-          });
-          actions.appendChild(del);
-          body.appendChild(actions);
-        }
-
-        card.appendChild(body);
-        ui.studioPostsGrid.appendChild(card);
-      });
-    }
-
-    function initFirebase() {
-      const savedLang = localStorage.getItem(STORAGE_KEYS.LANG);
-      if (savedLang && LABELS[savedLang]) {
-        state.lang = savedLang;
-      }
-      applyLang(state.lang);
-
-      try {
-        const rawCfg = localStorage.getItem(STORAGE_KEYS.FB_CONFIG);
-        const cfg = rawCfg ? JSON.parse(rawCfg) : null;
-        if (!cfg || !cfg.apiKey || !cfg.projectId) {
-          ui.studioFbBadge.textContent = 'Local Mode';
-          if (sessionStorage.getItem('vongvilay_studio_authed_v1') === '1') {
-            state.user = { email: ADMIN_EMAIL };
-          }
-          state.profilePhotoUrl = localStorage.getItem(STORAGE_KEYS.PROFILE_PHOTO) || '';
-          const rawPosts = localStorage.getItem(STORAGE_KEYS.POSTS);
-          state.posts = rawPosts ? JSON.parse(rawPosts) : [];
-          renderAvatar();
-          renderPosts();
-          syncUi();
-          return;
-        }
-
-        state.fbConfig = cfg;
-        const app = initializeApp({
-          apiKey: cfg.apiKey,
-          authDomain: cfg.authDomain || '',
-          projectId: cfg.projectId,
-          storageBucket: cfg.storageBucket || '',
-          appId: cfg.appId || '',
-        });
-        state.fbApp = app;
-        state.fbAuth = getAuth(app);
-        state.fbDb = getFirestore(app);
-        state.fbStorage = cfg.useStorage ? getStorage(app) : null;
-
-        ui.studioFbBadge.textContent = `Firebase: ${cfg.projectId}`;
-        ui.studioFbBadge.className = 'pill pill-accent';
-
-        onAuthStateChanged(state.fbAuth, (user) => {
-          state.user = user || null;
-          syncUi();
-        });
-
-        onSnapshot(doc(state.fbDb, 'site_profile', 'main'), (snap) => {
-          if (snap.exists()) {
-            const d = snap.data() || {};
-            if (typeof d.photoUrl === 'string') {
-              state.profilePhotoUrl = d.photoUrl;
-              localStorage.setItem(STORAGE_KEYS.PROFILE_PHOTO, d.photoUrl);
-              renderAvatar();
-            }
-          }
-        });
-
-        onSnapshot(query(collection(state.fbDb, 'blog_posts'), orderBy('createdAt', 'desc')), (snap) => {
-          state.posts = snap.docs.map((item) => ({ id: item.id, ...item.data() }));
-          renderPosts();
-        });
-      } catch (err) {
-        console.error(err);
-        ui.studioFbBadge.textContent = 'Firebase Error';
-      }
-    }
-
-    document.querySelectorAll('.lang-btn').forEach((btn) => {
-      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
-    });
-
-    ui.studioLoginBtn.addEventListener('click', () => {
-      ui.studioAuthError.classList.add('hidden');
-      ui.studioAuthModal.classList.remove('hidden');
-    });
-    ui.closeStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
-    ui.cancelStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
-
-    const ADMIN_EMAIL = 'saisathomevongvilay@gmail.com';
-    const ADMIN_PASS = '99922246';
-    const STUDIO_PAGE = 'Admin%20Studio.html';
-
-    function goToAdminStudio() {
-      sessionStorage.setItem('vongvilay_studio_authed_v1', '1');
-      window.location.href = STUDIO_PAGE;
-    }
-
-    ui.studioAuthForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const emailInput = ui.studioAuthEmail.value.trim().toLowerCase();
-      const passInput = ui.studioAuthPassword.value;
-
-      ui.submitStudioAuthBtn.disabled = true;
-      ui.studioAuthError.classList.add('hidden');
-
-      try {
-        const isMatchedAdmin = emailInput === ADMIN_EMAIL.toLowerCase() && passInput === ADMIN_PASS;
-
-        if (state.fbAuth) {
-          try {
-            await signInWithEmailAndPassword(state.fbAuth, emailInput, passInput);
-            ui.studioAuthModal.classList.add('hidden');
-            ui.studioAuthForm.reset();
-            if (isMatchedAdmin) {
-              goToAdminStudio();
-            } else {
-              toast('Signed in');
-            }
-            return;
-          } catch (fbErr) {
-            if (!isMatchedAdmin) {
-              throw fbErr;
-            }
-          }
-        }
-
-        if (isMatchedAdmin) {
-          state.user = { email: ADMIN_EMAIL };
-          syncUi();
-          ui.studioAuthModal.classList.add('hidden');
-          ui.studioAuthForm.reset();
-          goToAdminStudio();
-        } else {
-          ui.studioAuthError.textContent = 'Invalid admin email or password.';
-          ui.studioAuthError.classList.remove('hidden');
-        }
-      } catch (err) {
-        ui.studioAuthError.textContent = err?.message || 'Sign-in failed';
-        ui.studioAuthError.classList.remove('hidden');
-      } finally {
-        ui.submitStudioAuthBtn.disabled = false;
-      }
-    });
-
-    ui.studioLogoutBtn.addEventListener('click', async () => {
-      if (state.fbAuth) await signOut(state.fbAuth);
-      sessionStorage.removeItem('vongvilay_studio_authed_v1');
-      state.user = null;
-      syncUi();
-      toast('Signed out');
-    });
-
-    ui.studioAvatarInput.addEventListener('change', async (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      state.draftAvatarDataUrl = await compressImage(file, 512, 0.82);
-      renderAvatar();
-    });
-
-    async function saveProfile(photoUrl) {
-      if (!state.user) return;
-      let finalUrl = photoUrl || '';
-      if (finalUrl && state.fbDb && state.fbConfig?.useStorage && state.fbStorage) {
-        const sRef = ref(state.fbStorage, `profile_avatars/avatar_${Date.now()}.jpg`);
-        await uploadString(sRef, finalUrl, 'data_url');
-        finalUrl = await getDownloadURL(sRef);
-      }
-      state.profilePhotoUrl = finalUrl;
-      state.draftAvatarDataUrl = '';
-      localStorage.setItem(STORAGE_KEYS.PROFILE_PHOTO, finalUrl);
-      if (state.fbDb) {
-        await setDoc(
-          doc(state.fbDb, 'site_profile', 'main'),
-          { photoUrl: finalUrl, updatedAt: Date.now(), serverUpdatedAt: serverTimestamp() },
-          { merge: true }
-        );
-      }
-      renderAvatar();
-      toast('Profile saved to Firebase');
-    }
-
-    ui.studioSaveAvatarBtn.addEventListener('click', async () => {
-      try {
-        await saveProfile(state.draftAvatarDataUrl || state.profilePhotoUrl);
-      } catch (err) {
-        toast(err?.message || 'Save failed');
-      }
-    });
-
-    ui.studioResetAvatarBtn.addEventListener('click', async () => {
-      try {
-        await saveProfile('');
-      } catch (err) {
-        toast(err?.message || 'Reset failed');
-      }
-    });
-
-    ui.studioPostPhoto.addEventListener('change', async (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      const compressed = await compressImage(file);
-      state.draftPostPhotoDataUrl = compressed;
-      ui.studioPostPreviewImg.src = compressed;
-      ui.studioPostPreviewBox.classList.remove('hidden');
-    });
-
-    ui.studioRemovePhotoBtn.addEventListener('click', () => {
-      state.draftPostPhotoDataUrl = '';
-      ui.studioPostPhoto.value = '';
-      ui.studioPostPreviewImg.src = '';
-      ui.studioPostPreviewBox.classList.add('hidden');
-    });
-
-    ui.studioPostForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!state.user) return;
-      const title = ui.studioPostTitle.value.trim();
-      const section = ui.studioPostSection.value;
-      const caption = ui.studioPostCaption.value.trim();
-      const tags = ui.studioPostTags.value.split(',').map((s) => s.trim()).filter(Boolean);
-      const photoData = state.draftPostPhotoDataUrl;
-
-      if (!title && !caption && !photoData) {
-        toast('Please enter a title, caption, or attach a photo.');
-        return;
-      }
-
-      ui.studioPublishBtn.disabled = true;
-      try {
-        let photoUrl = photoData || '';
-        if (photoData && state.fbDb && state.fbConfig?.useStorage && state.fbStorage) {
-          const pRef = ref(state.fbStorage, `blog_images/${Date.now()}_studio.jpg`);
-          await uploadString(pRef, photoData, 'data_url');
-          photoUrl = await getDownloadURL(pRef);
-        }
-
-        const record = {
-          title,
-          section,
-          caption,
-          tags,
-          photoUrl,
-          createdAt: Date.now(),
-          createdAtLabel: new Date().toLocaleDateString(),
-        };
-
-        if (state.fbDb) {
-          await addDoc(collection(state.fbDb, 'blog_posts'), {
-            ...record,
-            serverCreatedAt: serverTimestamp(),
-          });
-        } else {
-          state.posts = [{ id: `local_${Date.now()}`, ...record }, ...state.posts];
-          localStorage.setItem(STORAGE_KEYS.POSTS, JSON.stringify(state.posts));
-          renderPosts();
-        }
-
-        ui.studioPostForm.reset();
-        state.draftPostPhotoDataUrl = '';
-        ui.studioPostPreviewImg.src = '';
-        ui.studioPostPreviewBox.classList.add('hidden');
-        toast('Published to Firebase');
-      } catch (err) {
-        toast(err?.message || 'Publish failed');
-      } finally {
-        ui.studioPublishBtn.disabled = false;
-      }
-    });
-
-    ui.studioSearchInput.addEventListener('input', (e) => {
-      state.search = e.target.value;
-      renderPosts();
-    });
-
-    ui.closeStudioLightboxBtn.addEventListener('click', () => ui.studioLightbox.classList.add('hidden'));
-    ui.studioLightbox.addEventListener('click', (e) => {
-      if (e.target === ui.studioLightbox) ui.studioLightbox.classList.add('hidden');
-    });
-
-    initFirebase();
-  </script>
+ <header class="site-header">
+ <div class="header-inner">
+ <div class="brand-group">
+ <h1 class="brand-title">Admin Studio</h1>
+ <span id="studioBadge" class="pill pill-accent hide-fb">Profile &amp; Blog</span>
+ <span id="studioAuthBadge" class="pill pill-warn">Checking Auth...</span>
+ <span id="studioFbBadge" class="pill hide-fb">Checking...</span>
+ </div>
+
+ <div class="header-actions">
+ <div class="lang-switcher" role="group" aria-label="Language switcher">
+ <button type="button" class="lang-btn active" data-lang="en">English (EN)</button>
+ <button type="button" class="lang-btn" data-lang="lo">ພາສາລາວ (LO)</button>
+ <button type="button" class="lang-btn" data-lang="th">ภาษาไทย (TH)</button>
+ <button type="button" class="lang-btn" data-lang="vi">Tiếng Việt (VI)</button>
+ </div>
+
+ <a href="index.html" id="backHomeLink" class="btn btn-sm" style="text-decoration: none;">← Home</a>
+ <button type="button" id="studioLoginBtn" class="btn btn-primary btn-sm">Admin Sign In</button>
+ <button type="button" id="studioLogoutBtn" class="btn btn-danger btn-sm hidden">Sign Out</button>
+ </div>
+ </div>
+ </header>
+
+ <main class="studio-wrap">
+ <div id="studioLockBanner" class="notice-banner">
+ Please sign in with your admin account (Email + Password) to change your profile photo, publish blog &amp; photo posts, and manage entries.
+ </div>
+
+ <div id="studioWorkspace" class="hidden">
+ <div class="studio-top-grid">
+ <!-- 1. Profile Photo Manager -->
+ <article class="admin-card">
+ <h3 id="sec1Heading">1. Profile Photo &amp; Sync</h3>
+ <p id="sec1Desc" class="field-hint" style="margin-top: 0; margin-bottom: 14px;">
+ Upload a new avatar (auto-compressed to 512px) and save to <code>site_profile/main</code> or Cloud Storage.
+ </p>
+
+ <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
+ <div class="admin-avatar-preview">
+ <img id="studioAvatarImg" src="" alt="Profile avatar preview" class="hidden" />
+ <span id="studioAvatarFallback" class="profile-avatar-placeholder">VS</span>
+ </div>
+ <div style="flex: 1; min-width: 0;">
+ <input type="file" id="studioAvatarInput" class="input" accept="image/jpeg,image/png,image/webp" />
+ <div class="field-hint">JPG, PNG, WebP · Syncs across pages</div>
+ </div>
+ </div>
+
+ <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+ <button type="button" id="studioSaveAvatarBtn" class="btn btn-primary btn-sm">Save Profile</button>
+ <button type="button" id="studioResetAvatarBtn" class="btn btn-danger btn-sm">Reset Photo</button>
+ </div>
+ </article>
+
+ <!-- 2. Blog & Photo Publisher -->
+ <article class="admin-card">
+ <h3 id="sec2Heading">2. Publish Blog &amp; Photo Post</h3>
+ <p id="sec2Desc" class="field-hint" style="margin-top: 0; margin-bottom: 14px;">
+ Write a blog note, attach an optional photo, and publish directly to <code>blog_posts</code> in Firestore.
+ </p>
+
+ <form id="studioPostForm">
+ <div class="field-group">
+ <label for="studioPostTitle" class="field-label">Post Title</label>
+ <input type="text" id="studioPostTitle" class="input" placeholder="e.g., Daily Note &amp; Photo" />
+ </div>
+
+ <div class="field-group">
+ <label for="studioPostSection" class="field-label">Section Anchor</label>
+ <select id="studioPostSection" class="select">
+ <option value="">General / Stream Top</option>
+ <option value="p1-sec-1">p1-sec-1</option>
+ <option value="p1-sec-2">p1-sec-2</option>
+ <option value="p1-sec-3">p1-sec-3</option>
+ <option value="p2-sec-1">p2-sec-1</option>
+ <option value="p2-sec-2">p2-sec-2</option>
+ <option value="p2-sec-3">p2-sec-3</option>
+ </select>
+ </div>
+
+ <div class="field-group">
+ <label for="studioPostPhoto" class="field-label">Attach Photo</label>
+ <input type="file" id="studioPostPhoto" class="input" accept="image/jpeg,image/png,image/webp" />
+ <div id="studioPostPreviewBox" class="photo-preview-box hidden">
+ <img id="studioPostPreviewImg" src="" alt="Post photo preview" />
+ <div style="text-align: right;">
+ <button type="button" id="studioRemovePhotoBtn" class="btn btn-danger btn-sm">Remove Photo</button>
+ </div>
+ </div>
+ </div>
+
+ <div class="field-group">
+ <label for="studioPostCaption" class="field-label">Blog Content / Caption</label>
+ <textarea id="studioPostCaption" class="textarea" placeholder="Write your blog story or photo caption..."></textarea>
+ </div>
+
+ <div class="field-group">
+ <label for="studioPostTags" class="field-label">Tags (comma separated)</label>
+ <input type="text" id="studioPostTags" class="input" placeholder="blog, photo,, VKU" />
+ </div>
+
+ <button type="submit" id="studioPublishBtn" class="btn btn-primary">Publish</button>
+ </form>
+ </article>
+ </div>
+
+ <!-- 3. Published Posts List -->
+ <section class="studio-feed-card" aria-labelledby="sec3Heading">
+ <div class="studio-toolbar">
+ <div>
+ <h2 id="sec3Heading" style="margin: 0; font-size: 1.15rem;">3. Published Blog &amp; Photo Posts</h2>
+ <p class="field-hint" style="margin: 4px 0 0;">Click any photo to view full size or delete posts.</p>
+ </div>
+ <input type="search" id="studioSearchInput" class="input search-input" placeholder="Search title, caption, or tag..." />
+ </div>
+
+ <div id="studioPostsGrid" class="posts-grid"></div>
+ <div id="studioEmptyState" class="empty-state hidden">
+ <h3 style="margin: 0 0 6px;">No posts found</h3>
+ <p style="margin: 0;">Publish your first blog or photo post using the form above.</p>
+ </div>
+ </section>
+ </div>
+ </main>
+
+ <!-- Admin Auth Modal -->
+ <div id="studioAuthModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="studioAuthTitle">
+ <div class="modal-panel">
+ <div class="modal-header">
+ <h3 id="studioAuthTitle">Admin Sign In</h3>
+ <button type="button" id="closeStudioAuthBtn" class="btn btn-sm">✕</button>
+ </div>
+ <form id="studioAuthForm">
+ <div class="field-group">
+ <label for="studioAuthEmail" class="field-label">Admin Email</label>
+ <input type="email" id="studioAuthEmail" class="input" autocomplete="email" required />
+ </div>
+ <div class="field-group">
+ <label for="studioAuthPassword" class="field-label">Password</label>
+ <input type="password" id="studioAuthPassword" class="input" autocomplete="current-password" required />
+ </div>
+ <div id="studioAuthError" class="error-text hidden"></div>
+ <div class="modal-footer">
+ <button type="button" id="cancelStudioAuthBtn" class="btn">Cancel</button>
+ <button type="submit" id="submitStudioAuthBtn" class="btn btn-primary">Sign In</button>
+ </div>
+ </form>
+ </div>
+ </div>
+
+ <!-- Lightbox Modal -->
+ <div id="studioLightbox" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="studioLightboxTitle">
+ <div class="lightbox-panel">
+ <div class="modal-header">
+ <h3 id="studioLightboxTitle"></h3>
+ <button type="button" id="closeStudioLightboxBtn" class="btn btn-sm">✕</button>
+ </div>
+ <img id="studioLightboxImg" src="" alt="" class="lightbox-img" />
+ <p id="studioLightboxCaption" class="post-caption"></p>
+ </div>
+ </div>
+
+ <div id="studioToastContainer" class="toast-container" aria-live="polite"></div>
+
+ <script type="module">
+ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/-app.js';
+ import {
+ getAuth,
+ signInWithEmailAndPassword,
+ signOut,
+ onAuthStateChanged,
+ } from 'https://www.gstatic.com/firebasejs/10.12.2/-auth.js';
+ import {
+ getFirestore,
+ collection,
+ addDoc,
+ setDoc,
+ deleteDoc,
+ doc,
+ onSnapshot,
+ query,
+ orderBy,
+ serverTimestamp,
+ } from 'https://www.gstatic.com/firebasejs/10.12.2/-firestore.js';
+ import {
+ getStorage,
+ ref,
+ uploadString,
+ getDownloadURL,
+ } from 'https://www.gstatic.com/firebasejs/10.12.2/-storage.js';
+
+ const STORAGE_KEYS = {
+ LANG: 'vongvilay_blog_lang_v1',
+ POSTS: 'vongvilay_blog_posts_v1',
+ PROFILE_PHOTO: 'vongvilay_profile_photo_v1',
+ FB_CONFIG: 'vongvilay_firebase_config_v1',
+ };
+
+ const LABELS = {
+ en: {
+ backHome: '← Home',
+ signIn: 'Admin Sign In',
+ signOut: 'Sign Out',
+ saveAvatar: 'Save Profile',
+ resetAvatar: 'Reset Photo',
+ publish: 'Publish',
+ deletePost: 'Delete',
+ },
+ lo: {
+ backHome: '← ໜ້າຫຼັກ',
+ signIn: 'ລັອກອິນແອັດມິນ',
+ signOut: 'ອອກຈາກລະບົບ',
+ saveAvatar: 'ບັນທຶກຮູບໂປຣໄຟລ໌',
+ resetAvatar: 'ລ້າງຮູບໂປຣໄຟລ໌',
+ publish: 'ໂພສບັນທຶກ',
+ deletePost: 'ລຶບໂພສ',
+ },
+ th: {
+ backHome: '← หน้าหลัก',
+ signIn: 'เข้าสู่ระบบแอดมิน',
+ signOut: 'ออกจากระบบ',
+ saveAvatar: 'บันทึกโปรไฟล์',
+ resetAvatar: 'ล้างรูปโปรไฟล์',
+ publish: 'โพสต์บันทึก',
+ deletePost: 'ลบโพสต์',
+ },
+ vi: {
+ backHome: '← Trang Chủ',
+ signIn: 'Admin Đăng Nhập',
+ signOut: 'Đăng Xuất',
+ saveAvatar: 'Lưu Ảnh Đại Diện',
+ resetAvatar: 'Xóa Ảnh Đại Diện',
+ publish: 'Đăng',
+ deletePost: 'Xóa Bài',
+ },
+ };
+
+ const state = {
+ lang: 'en',
+ fbApp: null,
+ fbAuth: null,
+ fbDb: null,
+ fbStorage: null,
+ fbConfig: null,
+ user: null,
+ posts: [],
+ search: '',
+ profilePhotoUrl: '',
+ draftAvatarDataUrl: '',
+ draftPostPhotoDataUrl: '',
+ };
+
+ const ui = {
+ backHomeLink: document.getElementById('backHomeLink'),
+ studioAuthBadge: document.getElementById('studioAuthBadge'),
+ studioFbBadge: document.getElementById('studioFbBadge'),
+ studioLoginBtn: document.getElementById('studioLoginBtn'),
+ studioLogoutBtn: document.getElementById('studioLogoutBtn'),
+ studioLockBanner: document.getElementById('studioLockBanner'),
+ studioWorkspace: document.getElementById('studioWorkspace'),
+
+ studioAvatarImg: document.getElementById('studioAvatarImg'),
+ studioAvatarFallback: document.getElementById('studioAvatarFallback'),
+ studioAvatarInput: document.getElementById('studioAvatarInput'),
+ studioSaveAvatarBtn: document.getElementById('studioSaveAvatarBtn'),
+ studioResetAvatarBtn: document.getElementById('studioResetAvatarBtn'),
+
+ studioPostForm: document.getElementById('studioPostForm'),
+ studioPostTitle: document.getElementById('studioPostTitle'),
+ studioPostSection: document.getElementById('studioPostSection'),
+ studioPostPhoto: document.getElementById('studioPostPhoto'),
+ studioPostPreviewBox: document.getElementById('studioPostPreviewBox'),
+ studioPostPreviewImg: document.getElementById('studioPostPreviewImg'),
+ studioRemovePhotoBtn: document.getElementById('studioRemovePhotoBtn'),
+ studioPostCaption: document.getElementById('studioPostCaption'),
+ studioPostTags: document.getElementById('studioPostTags'),
+ studioPublishBtn: document.getElementById('studioPublishBtn'),
+
+ studioSearchInput: document.getElementById('studioSearchInput'),
+ studioPostsGrid: document.getElementById('studioPostsGrid'),
+ studioEmptyState: document.getElementById('studioEmptyState'),
+
+ studioAuthModal: document.getElementById('studioAuthModal'),
+ closeStudioAuthBtn: document.getElementById('closeStudioAuthBtn'),
+ cancelStudioAuthBtn: document.getElementById('cancelStudioAuthBtn'),
+ studioAuthForm: document.getElementById('studioAuthForm'),
+ studioAuthEmail: document.getElementById('studioAuthEmail'),
+ studioAuthPassword: document.getElementById('studioAuthPassword'),
+ studioAuthError: document.getElementById('studioAuthError'),
+ submitStudioAuthBtn: document.getElementById('submitStudioAuthBtn'),
+
+ studioLightbox: document.getElementById('studioLightbox'),
+ studioLightboxTitle: document.getElementById('studioLightboxTitle'),
+ studioLightboxImg: document.getElementById('studioLightboxImg'),
+ studioLightboxCaption: document.getElementById('studioLightboxCaption'),
+ closeStudioLightboxBtn: document.getElementById('closeStudioLightboxBtn'),
+ toastContainer: document.getElementById('studioToastContainer'),
+ };
+
+ function toast(msg) {
+ const el = document.createElement('div');
+ el.className = 'toast-item';
+ el.textContent = msg;
+ ui.toastContainer.appendChild(el);
+ setTimeout(() => {
+ el.style.opacity = '0';
+ el.style.transition = 'opacity 0.25s ease';
+ setTimeout(() => el.remove(), 260);
+ }, 3000);
+ }
+
+ function applyLang(lang) {
+ if (!LABELS[lang]) return;
+ state.lang = lang;
+ localStorage.setItem(STORAGE_KEYS.LANG, lang);
+ document.querySelectorAll('.lang-btn').forEach((b) => b.classList.toggle('active', b.dataset.lang === lang));
+ const L = LABELS[lang];
+ ui.backHomeLink.textContent = L.backHome;
+ ui.studioLoginBtn.textContent = L.signIn;
+ ui.studioLogoutBtn.textContent = L.signOut;
+ ui.studioSaveAvatarBtn.textContent = L.saveAvatar;
+ ui.studioResetAvatarBtn.textContent = L.resetAvatar;
+ ui.studioPublishBtn.textContent = L.publish;
+ renderPosts();
+ }
+
+ function compressImage(file, maxWidth = 1280, quality = 0.8) {
+ return new Promise((resolve, reject) => {
+ const reader = new FileReader();
+ reader.onerror = reject;
+ reader.onload = () => {
+ const img = new Image();
+ img.onerror = reject;
+ img.onload = () => {
+ let { width, height } = img;
+ if (width > maxWidth) {
+ height = Math.round((height * maxWidth) / width);
+ width = maxWidth;
+ }
+ const canvas = document.createElement('canvas');
+ canvas.width = width;
+ canvas.height = height;
+ canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+ resolve(canvas.toDataURL('image/jpeg', quality));
+ };
+ img.src = reader.result;
+ };
+ reader.readAsDataURL(file);
+ });
+ }
+
+ function renderAvatar() {
+ const url = state.draftAvatarDataUrl || state.profilePhotoUrl || '';
+ const has = Boolean(url);
+ ui.studioAvatarImg.classList.toggle('hidden', !has);
+ ui.studioAvatarFallback.classList.toggle('hidden', has);
+ ui.studioAvatarImg.src = has ? url : '';
+ }
+
+ function syncUi() {
+ const signedIn = Boolean(state.user);
+ ui.studioLoginBtn.classList.toggle('hidden', signedIn);
+ ui.studioLogoutBtn.classList.toggle('hidden', !signedIn);
+ ui.studioLockBanner.classList.toggle('hidden', signedIn);
+ ui.studioWorkspace.classList.toggle('hidden', !signedIn);
+
+ if (signedIn) {
+ ui.studioAuthBadge.textContent = `Admin: ${state.user.email || 'Signed In'}`;
+ ui.studioAuthBadge.className = 'pill pill-accent';
+ } else {
+ ui.studioAuthBadge.textContent = 'Signed Out';
+ ui.studioAuthBadge.className = 'pill pill-warn';
+ }
+ renderPosts();
+ }
+
+ function renderPosts() {
+ const q = state.search.trim().toLowerCase();
+ const filtered = state.posts.filter((p) => {
+ if (!q) return true;
+ return [p.title || '', p.caption || '', ...(p.tags || [])].join(' ').toLowerCase().includes(q);
+ });
+
+ ui.studioPostsGrid.innerHTML = '';
+ if (filtered.length === 0) {
+ ui.studioEmptyState.classList.remove('hidden');
+ return;
+ }
+ ui.studioEmptyState.classList.add('hidden');
+
+ const delLabel = LABELS[state.lang]?.deletePost || 'Delete';
+
+ filtered.forEach((post) => {
+ const card = document.createElement('article');
+ card.className = 'post-card';
+
+ if (post.photoUrl) {
+ const btn = document.createElement('button');
+ btn.type = 'button';
+ btn.className = 'post-photo-btn';
+ btn.addEventListener('click', () => {
+ ui.studioLightboxTitle.textContent = post.title || '';
+ ui.studioLightboxImg.src = post.photoUrl;
+ ui.studioLightboxCaption.textContent = post.caption || '';
+ ui.studioLightbox.classList.remove('hidden');
+ });
+ const img = document.createElement('img');
+ img.src = post.photoUrl;
+ img.alt = post.title || 'Post image';
+ img.loading = 'lazy';
+ btn.appendChild(img);
+ card.appendChild(btn);
+ }
+
+ const body = document.createElement('div');
+ body.className = 'post-body';
+
+ const meta = document.createElement('div');
+ meta.className = 'post-meta';
+ const dt = post.createdAtLabel || new Date(post.createdAt || Date.now()).toLocaleDateString();
+ meta.innerHTML = `<span>${dt}</span>${post.section ? `<span>${post.section}</span>` : ''}`;
+ body.appendChild(meta);
+
+ if (post.title) {
+ const h3 = document.createElement('h3');
+ h3.className = 'post-title';
+ h3.textContent = post.title;
+ body.appendChild(h3);
+ }
+
+ if (post.caption) {
+ const p = document.createElement('p');
+ p.className = 'post-caption';
+ p.textContent = post.caption;
+ body.appendChild(p);
+ }
+
+ if (Array.isArray(post.tags) && post.tags.length > 0) {
+ const tags = document.createElement('div');
+ tags.className = 'post-tags';
+ post.tags.forEach((tag) => {
+ const chip = document.createElement('span');
+ chip.className = 'tag-chip';
+ chip.textContent = `#${tag}`;
+ tags.appendChild(chip);
+ });
+ body.appendChild(tags);
+ }
+
+ if (state.user) {
+ const actions = document.createElement('div');
+ actions.className = 'post-actions';
+ const del = document.createElement('button');
+ del.type = 'button';
+ del.className = 'btn btn-danger btn-sm';
+ del.textContent = delLabel;
+ del.addEventListener('click', async () => {
+ if (!state.user) return;
+ try {
+ if (state.fbDb) {
+ await deleteDoc(doc(state.fbDb, 'blog_posts', post.id));
+ } else {
+ state.posts = state.posts.filter((x) => x.id !== post.id);
+ localStorage.setItem(STORAGE_KEYS.POSTS, JSON.stringify(state.posts));
+ renderPosts();
+ }
+ toast('Deleted');
+ } catch (err) {
+ toast(err?.message || 'Delete failed');
+ }
+ });
+ actions.appendChild(del);
+ body.appendChild(actions);
+ }
+
+ card.appendChild(body);
+ ui.studioPostsGrid.appendChild(card);
+ });
+ }
+
+ function initFirebase() {
+ const savedLang = localStorage.getItem(STORAGE_KEYS.LANG);
+ if (savedLang && LABELS[savedLang]) {
+ state.lang = savedLang;
+ }
+ applyLang(state.lang);
+
+ try {
+ const rawCfg = localStorage.getItem(STORAGE_KEYS.FB_CONFIG);
+ const cfg = rawCfg ? JSON.parse(rawCfg) : null;
+ if (!cfg || !cfg.apiKey || !cfg.projectId) {
+ ui.studioFbBadge.textContent = 'Local Mode';
+ if (sessionStorage.getItem('vongvilay_studio_authed_v1') === '1') {
+ state.user = { email: ADMIN_EMAIL };
+ }
+ state.profilePhotoUrl = localStorage.getItem(STORAGE_KEYS.PROFILE_PHOTO) || '';
+ const rawPosts = localStorage.getItem(STORAGE_KEYS.POSTS);
+ state.posts = rawPosts ? JSON.parse(rawPosts) : [];
+ renderAvatar();
+ renderPosts();
+ syncUi();
+ return;
+ }
+
+ state.fbConfig = cfg;
+ const app = initializeApp({
+ apiKey: cfg.apiKey,
+ authDomain: cfg.authDomain || '',
+ projectId: cfg.projectId,
+ storageBucket: cfg.storageBucket || '',
+ appId: cfg.appId || '',
+ });
+ state.fbApp = app;
+ state.fbAuth = getAuth(app);
+ state.fbDb = getFirestore(app);
+ state.fbStorage = cfg.useStorage ? getStorage(app) : null;
+
+ ui.studioFbBadge.textContent = `${cfg.projectId}`;
+ ui.studioFbBadge.className = 'pill pill-accent';
+
+ onAuthStateChanged(state.fbAuth, (user) => {
+ state.user = user || null;
+ syncUi();
+ });
+
+ onSnapshot(doc(state.fbDb, 'site_profile', 'main'), (snap) => {
+ if (snap.exists()) {
+ const d = snap.data() || {};
+ if (typeof d.photoUrl === 'string') {
+ state.profilePhotoUrl = d.photoUrl;
+ localStorage.setItem(STORAGE_KEYS.PROFILE_PHOTO, d.photoUrl);
+ renderAvatar();
+ }
+ }
+ });
+
+ onSnapshot(query(collection(state.fbDb, 'blog_posts'), orderBy('createdAt', 'desc')), (snap) => {
+ state.posts = snap.docs.map((item) => ({ id: item.id, ...item.data() }));
+ renderPosts();
+ });
+ } catch (err) {
+ console.error(err);
+ ui.studioFbBadge.textContent = 'Connection Error';
+ }
+ }
+
+ document.querySelectorAll('.lang-btn').forEach((btn) => {
+ btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+ });
+
+ ui.studioLoginBtn.addEventListener('click', () => {
+ ui.studioAuthError.classList.add('hidden');
+ ui.studioAuthModal.classList.remove('hidden');
+ });
+ ui.closeStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
+ ui.cancelStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
+
+ const ADMIN_EMAIL = 'saisathomevongvilay@gmail.com';
+ const ADMIN_PASS = '99922246';
+ const STUDIO_PAGE = 'Admin%20Studio.html';
+
+ function goToAdminStudio() {
+ sessionStorage.setItem('vongvilay_studio_authed_v1', '1');
+ window.location.href = STUDIO_PAGE;
+ }
+
+ ui.studioAuthForm.addEventListener('submit', async (e) => {
+ e.preventDefault();
+ const emailInput = ui.studioAuthEmail.value.trim().toLowerCase();
+ const passInput = ui.studioAuthPassword.value;
+
+ ui.submitStudioAuthBtn.disabled = true;
+ ui.studioAuthError.classList.add('hidden');
+
+ try {
+ const isMatchedAdmin = emailInput === ADMIN_EMAIL.toLowerCase() && passInput === ADMIN_PASS;
+
+ if (state.fbAuth) {
+ try {
+ await signInWithEmailAndPassword(state.fbAuth, emailInput, passInput);
+ ui.studioAuthModal.classList.add('hidden');
+ ui.studioAuthForm.reset();
+ if (isMatchedAdmin) {
+ goToAdminStudio();
+ } else {
+ toast('Signed in');
+ }
+ return;
+ } catch (fbErr) {
+ if (!isMatchedAdmin) {
+ throw fbErr;
+ }
+ }
+ }
+
+ if (isMatchedAdmin) {
+ state.user = { email: ADMIN_EMAIL };
+ syncUi();
+ ui.studioAuthModal.classList.add('hidden');
+ ui.studioAuthForm.reset();
+ goToAdminStudio();
+ } else {
+ ui.studioAuthError.textContent = 'Invalid admin email or password.';
+ ui.studioAuthError.classList.remove('hidden');
+ }
+ } catch (err) {
+ ui.studioAuthError.textContent = err?.message || 'Sign-in failed';
+ ui.studioAuthError.classList.remove('hidden');
+ } finally {
+ ui.submitStudioAuthBtn.disabled = false;
+ }
+ });
+
+ ui.studioLogoutBtn.addEventListener('click', async () => {
+ if (state.fbAuth) await signOut(state.fbAuth);
+ sessionStorage.removeItem('vongvilay_studio_authed_v1');
+ state.user = null;
+ syncUi();
+ toast('Signed out');
+ });
+
+ ui.studioAvatarInput.addEventListener('change', async (e) => {
+ const file = e.target.files?.[0];
+ if (!file) return;
+ state.draftAvatarDataUrl = await compressImage(file, 512, 0.82);
+ renderAvatar();
+ });
+
+ async function saveProfile(photoUrl) {
+ if (!state.user) return;
+ let finalUrl = photoUrl || '';
+ if (finalUrl && state.fbDb && state.fbConfig?.useStorage && state.fbStorage) {
+ const sRef = ref(state.fbStorage, `profile_avatars/avatar_${Date.now()}.jpg`);
+ await uploadString(sRef, finalUrl, 'data_url');
+ finalUrl = await getDownloadURL(sRef);
+ }
+ state.profilePhotoUrl = finalUrl;
+ state.draftAvatarDataUrl = '';
+ localStorage.setItem(STORAGE_KEYS.PROFILE_PHOTO, finalUrl);
+ if (state.fbDb) {
+ await setDoc(
+ doc(state.fbDb, 'site_profile', 'main'),
+ { photoUrl: finalUrl, updatedAt: Date.now(), serverUpdatedAt: serverTimestamp() },
+ { merge: true }
+ );
+ }
+ renderAvatar();
+ toast('Profile saved');
+ }
+
+ ui.studioSaveAvatarBtn.addEventListener('click', async () => {
+ try {
+ await saveProfile(state.draftAvatarDataUrl || state.profilePhotoUrl);
+ } catch (err) {
+ toast(err?.message || 'Save failed');
+ }
+ });
+
+ ui.studioResetAvatarBtn.addEventListener('click', async () => {
+ try {
+ await saveProfile('');
+ } catch (err) {
+ toast(err?.message || 'Reset failed');
+ }
+ });
+
+ ui.studioPostPhoto.addEventListener('change', async (e) => {
+ const file = e.target.files?.[0];
+ if (!file) return;
+ const compressed = await compressImage(file);
+ state.draftPostPhotoDataUrl = compressed;
+ ui.studioPostPreviewImg.src = compressed;
+ ui.studioPostPreviewBox.classList.remove('hidden');
+ });
+
+ ui.studioRemovePhotoBtn.addEventListener('click', () => {
+ state.draftPostPhotoDataUrl = '';
+ ui.studioPostPhoto.value = '';
+ ui.studioPostPreviewImg.src = '';
+ ui.studioPostPreviewBox.classList.add('hidden');
+ });
+
+ ui.studioPostForm.addEventListener('submit', async (e) => {
+ e.preventDefault();
+ if (!state.user) return;
+ const title = ui.studioPostTitle.value.trim();
+ const section = ui.studioPostSection.value;
+ const caption = ui.studioPostCaption.value.trim();
+ const tags = ui.studioPostTags.value.split(',').map((s) => s.trim()).filter(Boolean);
+ const photoData = state.draftPostPhotoDataUrl;
+
+ if (!title && !caption && !photoData) {
+ toast('Please enter a title, caption, or attach a photo.');
+ return;
+ }
+
+ ui.studioPublishBtn.disabled = true;
+ try {
+ let photoUrl = photoData || '';
+ if (photoData && state.fbDb && state.fbConfig?.useStorage && state.fbStorage) {
+ const pRef = ref(state.fbStorage, `blog_images/${Date.now()}_studio.jpg`);
+ await uploadString(pRef, photoData, 'data_url');
+ photoUrl = await getDownloadURL(pRef);
+ }
+
+ const record = {
+ title,
+ section,
+ caption,
+ tags,
+ photoUrl,
+ createdAt: Date.now(),
+ createdAtLabel: new Date().toLocaleDateString(),
+ };
+
+ if (state.fbDb) {
+ await addDoc(collection(state.fbDb, 'blog_posts'), {
+ ...record,
+ serverCreatedAt: serverTimestamp(),
+ });
+ } else {
+ state.posts = [{ id: `local_${Date.now()}`, ...record }, ...state.posts];
+ localStorage.setItem(STORAGE_KEYS.POSTS, JSON.stringify(state.posts));
+ renderPosts();
+ }
+
+ ui.studioPostForm.reset();
+ state.draftPostPhotoDataUrl = '';
+ ui.studioPostPreviewImg.src = '';
+ ui.studioPostPreviewBox.classList.add('hidden');
+ toast('Published');
+ } catch (err) {
+ toast(err?.message || 'Publish failed');
+ } finally {
+ ui.studioPublishBtn.disabled = false;
+ }
+ });
+
+ ui.studioSearchInput.addEventListener('input', (e) => {
+ state.search = e.target.value;
+ renderPosts();
+ });
+
+ ui.closeStudioLightboxBtn.addEventListener('click', () => ui.studioLightbox.classList.add('hidden'));
+ ui.studioLightbox.addEventListener('click', (e) => {
+ if (e.target === ui.studioLightbox) ui.studioLightbox.classList.add('hidden');
+ });
+
+ initFirebase();
+ </script>
 </body>
 </html>
