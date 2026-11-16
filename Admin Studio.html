@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="lo">
 <head>
@@ -17,7 +16,8 @@
       --muted: #a6b0aa;
       --border: #2a302d;
       --accent: #389874;
-      --warn: #eab308;
+      --accent-hover: #45b088;
+      --danger: #f04438;
     }
     * { box-sizing: border-box; }
     body {
@@ -25,218 +25,248 @@
       font-family: 'Noto Sans Lao', 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.7;
+      line-height: 1.75;
     }
-    .wrap {
-      max-width: 820px;
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(14, 16, 15, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar-inner {
+      max-width: 860px;
       margin: 0 auto;
-      padding: 28px 18px 60px;
-    }
-    .top-bar {
+      padding: 14px 18px;
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-    .nav {
-      display: flex;
+      gap: 12px;
       flex-wrap: wrap;
-      gap: 8px;
     }
-    .nav button, .btn-link {
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--border);
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-decoration: none;
+    .brand {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--soft);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
     }
-    .nav button.active {
+    .btn:hover {
+      background: #272e2b;
+    }
+    .btn-primary {
       background: var(--accent);
       border-color: var(--accent);
-      color: #09110e;
+      color: #08100d;
     }
-    .btn-link.locked {
-      opacity: 0.55;
-      border-style: dashed;
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
     }
-    .lock-btn.is-locked {
-      border-color: var(--warn);
-      color: var(--warn);
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 28px 18px 64px;
     }
-    .card {
+    .article-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 22px;
-      margin-bottom: 16px;
+      padding: 26px;
+      margin-bottom: 18px;
     }
-    h1, h2, h3 { margin: 0 0 10px; }
-    p { margin: 0 0 12px; color: var(--muted); }
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .meta {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(1.4rem, 3vw, 1.95rem);
+      line-height: 1.32;
+    }
+    h2 {
+      margin: 20px 0 8px;
+      font-size: 1.12rem;
+      color: var(--text);
+    }
+    p {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
     .tag {
       background: var(--soft);
       border: 1px solid var(--border);
-      padding: 3px 10px;
+      padding: 4px 10px;
       border-radius: 999px;
       font-size: 0.78rem;
       color: var(--text);
     }
-    .hidden { display: none; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin-top: 12px;
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(0, 0, 0, 0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
     }
-    .box {
-      background: var(--soft);
+    .hidden {
+      display: none !important;
+    }
+    .modal-box {
+      width: 100%;
+      max-width: 400px;
+      background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
+      border-radius: 14px;
+      padding: 22px;
     }
-    .box h3 { font-size: 1rem; margin-bottom: 6px; }
-    .box p { margin: 0; font-size: 0.88rem; }
-    .status-note {
-      font-size: 0.84rem;
-      color: var(--muted);
+    .modal-box h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+    .modal-box p {
+      font-size: 0.88rem;
       margin-bottom: 14px;
+    }
+    .input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--soft);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .input:focus {
+      outline: 2px solid rgba(56, 152, 116, 0.45);
+      border-color: var(--accent);
+    }
+    .error-msg {
+      color: var(--danger);
+      font-size: 0.84rem;
+      margin-bottom: 10px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 6px;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="top-bar">
-      <div class="nav" id="roomNav">
-        <button class="active" data-room="intro">ບລັອກແນະນຳຕົນເອງ</button>
-        <button data-room="skills">ທັກສະ</button>
-        <button data-room="projects">ໂຄງການ</button>
-        <button data-room="lit">ກອນ &amp; ນິຍາຍ</button>
-      </div>
-
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button type="button" id="lockIndexBtn" class="btn-link lock-btn">🔒 ລັອກລິ້ງ index.html</button>
-        <a href="index.html" id="indexLink" class="btn-link">ໄປຫາ index.html →</a>
-      </div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Saisathone Vongvilay</div>
+      <button type="button" id="openAdminLoginBtn" class="btn btn-primary">ເຂົ້າສູ່ລະບົບແອັດມິນ</button>
     </div>
+  </header>
 
-    <div id="lockStatusNote" class="status-note">ສະຖານະລິ້ງ index.html: ເປີດໃຊ້ງານຢູ່</div>
-
-    <section id="room-intro" class="card">
+  <main class="wrap">
+    <article class="article-card">
+      <div class="meta">ບົດຄວາມແນະນຳຕົນເອງ • Saisathone Vongvilay</div>
       <h1>ແນະນຳຕົນເອງ — Saisathone Vongvilay</h1>
+
       <p>
-        ສະບາຍດີ! ຂ້ອຍຊື່ Saisathone Vongvilay ສຶກສາຢູ່ປີທີ 4 ສາຂາວິສະວະກຳຄອມພິວເຕີ ແລະ ເອເລັກໂຕຣນິກ
-        (ລະບົບຝັງຕົວ ແລະ IoT) ທີ່ VKU ນະຄອນດານັງ, ຫວຽດນາມ.
+        ສະບາຍດີ! ຂ້ອຍຊື່ Saisathone Vongvilay ປະຈຸບັນສຶກສາຢູ່ປີທີ 4 ສາຂາວິສະວະກຳຄອມພິວເຕີ ແລະ ເອເລັກໂຕຣນິກ
+        (ຊ່ຽວຊານລະບົບຝັງຕົວ ແລະ IoT) ທີ່ມະຫາວິທະຍາໄລເຕັກໂນໂລຊີຂໍ້ມູນຂ່າວສານ ແລະ ການສື່ສານ ຫວຽດນາມ-ເກົາຫຼີ (VKU)
+        ນະຄອນດານັງ ປະເທດຫວຽດນາມ.
+      </p>
+
+      <h2>ຄວາມສົນໃຈ ແລະ ວຽກທີ່ເຮັດ</h2>
+      <p>
+        ສົນໃຈດ້ານ Embedded Systems, IoT, ການອອກແບບວົງຈອນ/PCB, ໄມໂຄຣຄອນໂທຣເລີ (ESP32, STM32F103C8T6, AT89C51)
+        ແລະ ໂປຣໂຕຄໍການສື່ສານ (UART, I2C, SPI, MQTT, WebRTC).
       </p>
       <p>
-        ສົນໃຈດ້ານ Embedded Systems, IoT, ວົງຈອນ/PCB, ການຂຽນໂປຣແກຣມ ແລະ ເວັບແອັບແບບເບົາບາງ
-        ລວມທັງກອນລາວ ແລະ ການຂຽນນິຍາຍ.
+        ນອກຈາກນີ້ ຍັງມັກການຂຽນໂປຣແກຣມ ແລະ ພັດທະນາເວັບແອັບແບບເບົາບາງ (C, C++, Python, MicroPython, Java,
+        JavaScript, HTML/CSS, SQL, React) ລວມທັງວັນນະຄະດີ/ກອນລາວ ແລະ ການຂຽນນິຍາຍ.
       </p>
+
       <div class="tags">
         <span class="tag">#ແນະນຳຕົນເອງ</span>
-        <span class="tag">#Embedded</span>
+        <span class="tag">#EmbeddedSystems</span>
         <span class="tag">#IoT</span>
         <span class="tag">#VKU</span>
       </div>
-    </section>
+    </article>
+  </main>
 
-    <section id="room-skills" class="card hidden">
-      <h2>ທັກສະ</h2>
-      <div class="grid">
-        <div class="box">
-          <h3>Hardware &amp; PCB</h3>
-          <p>ESP32, STM32F103C8T6, AT89C51, PCB, LTspice, Proteus 8, Keil uVision</p>
+  <div id="adminLoginModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="adminLoginTitle">
+    <div class="modal-box">
+      <h3 id="adminLoginTitle">ເຂົ້າສູ່ລະບົບແອັດມິນ</h3>
+      <p>ປ້ອນລະຫັດຜ່ານແອັດມິນເພື່ອໄປຫາ Admin Studio.html</p>
+      <form id="adminLoginForm">
+        <input type="password" id="adminPassInput" class="input" placeholder="ປ້ອນລະຫັດຜ່ານ..." autocomplete="current-password" required />
+        <div id="adminPassError" class="error-msg hidden">ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ</div>
+        <div class="modal-actions">
+          <button type="button" id="cancelAdminLoginBtn" class="btn">ຍົກເລີກ</button>
+          <button type="submit" class="btn btn-primary">ເຂົ້າສູ່ລະບົບ</button>
         </div>
-        <div class="box">
-          <h3>Protocols</h3>
-          <p>UART, I2C, SPI, MQTT, WebRTC</p>
-        </div>
-        <div class="box">
-          <h3>Code &amp; Web</h3>
-          <p>C, C++, Python, MicroPython, Java, JavaScript, HTML/CSS, SQL, React</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="room-projects" class="card hidden">
-      <h2>ໂຄງການ</h2>
-      <div class="grid">
-        <div class="box">
-          <h3>Smart Home ESP32</h3>
-          <p>ຫົວໜ້າທີມ ໂຄງການພື້ນຖານ 4 (Grade A)</p>
-        </div>
-        <div class="box">
-          <h3>IoT Weather</h3>
-          <p>ESP32 + Open-Meteo API + MQTT + Web Dashboard</p>
-        </div>
-        <div class="box">
-          <h3>YOLOv8 &amp; U-Net</h3>
-          <p>ກວດຈັບປ້າຍລົດ ແລະ ແບ່ງສ່ວນຮູບພາບດ້ວຍ PyTorch</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="room-lit" class="card hidden">
-      <h2>ກອນ &amp; ນິຍາຍ</h2>
-      <div class="grid">
-        <div class="box">
-          <h3>ກອນລາວ</h3>
-          <p>ສຶກສາ, ແຕ່ງ ແລະ ວິເຄາະກອນລາວ</p>
-        </div>
-        <div class="box">
-          <h3>Light Novel</h3>
-          <p>บันทึกเวทมนตร์ของจอมเวทฝึกหัด (Leo &amp; Cookie)</p>
-        </div>
-      </div>
-    </section>
+      </form>
+    </div>
   </div>
 
   <script>
-    const buttons = document.querySelectorAll('#roomNav button');
-    const rooms = document.querySelectorAll('section[id^="room-"]');
-    const lockBtn = document.getElementById('lockIndexBtn');
-    const indexLink = document.getElementById('indexLink');
-    const lockNote = document.getElementById('lockStatusNote');
-    const LOCK_KEY = 'lock_index_link_v1';
+    const ADMIN_CODE = '99922246';
+    const openBtn = document.getElementById('openAdminLoginBtn');
+    const modal = document.getElementById('adminLoginModal');
+    const cancelBtn = document.getElementById('cancelAdminLoginBtn');
+    const form = document.getElementById('adminLoginForm');
+    const passInput = document.getElementById('adminPassInput');
+    const errorMsg = document.getElementById('adminPassError');
 
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.room;
-        buttons.forEach((b) => b.classList.toggle('active', b === btn));
-        rooms.forEach((sec) => sec.classList.toggle('hidden', sec.id !== 'room-' + target));
-      });
+    openBtn.addEventListener('click', () => {
+      errorMsg.classList.add('hidden');
+      passInput.value = '';
+      modal.classList.remove('hidden');
+      passInput.focus();
     });
 
-    function renderLockState(isLocked) {
-      lockBtn.classList.toggle('is-locked', isLocked);
-      indexLink.classList.toggle('locked', isLocked);
-      lockBtn.textContent = isLocked ? '🔓 ປົດລັອກລິ້ງ index.html' : '🔒 ລັອກລິ້ງ index.html';
-      lockNote.textContent = isLocked
-        ? 'ສະຖານະລິ້ງ index.html: ຖືກລັອກໄວ້ (ກົດປົດລັອກກ່ອນຈຶ່ງເຂົ້າ index.html ໄດ້)'
-        : 'ສະຖານະລິ້ງ index.html: ເປີດໃຊ້ງານຢູ່';
-    }
-
-    let locked = localStorage.getItem(LOCK_KEY) === '1';
-    renderLockState(locked);
-
-    lockBtn.addEventListener('click', () => {
-      locked = !locked;
-      localStorage.setItem(LOCK_KEY, locked ? '1' : '0');
-      renderLockState(locked);
+    cancelBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
     });
 
-    indexLink.addEventListener('click', (e) => {
-      if (locked) {
-        e.preventDefault();
-        alert('ລິ້ງ index.html ຖືກລັອກໄວ້ ກະລຸນາກົດປົດລັອກກ່ອນ');
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.add('hidden');
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (passInput.value.trim() === ADMIN_CODE) {
+        errorMsg.classList.add('hidden');
+        sessionStorage.setItem('vongvilay_studio_authed_v1', '1');
+        window.location.href = 'Admin%20Studio.html';
+      } else {
+        errorMsg.classList.remove('hidden');
+        passInput.focus();
       }
     });
   </script>
