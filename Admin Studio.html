@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Studio — Blog, Photo &amp; Profile Manager (Firebase)</title>
+  <title>Admin Studio — Blog, Photo &amp; Profile Manager</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,11 +13,6 @@
   />
 
   <style>
-
-
-    /* =========================================================================
-       DESIGN TOKENS & SYSTEM THEME SUPPORT
-       ========================================================================= */
     :root {
       --bg-page: #f7f6f2;
       --bg-surface: #ffffff;
@@ -69,31 +64,6 @@
       }
     }
 
-    :root[data-theme="dark"] {
-      --bg-page: #111312;
-      --bg-surface: #191c1a;
-      --bg-subtle: #222624;
-      --bg-accent-soft: #1a2d25;
-      --text-primary: #f2f4f2;
-      --text-secondary: #c5cbc6;
-      --text-muted: #8f9791;
-      --border-subtle: #2a2f2c;
-      --border-strong: #3c433f;
-      --accent: #389874;
-      --accent-hover: #45b088;
-      --accent-text: #0c1411;
-      --danger: #f04438;
-      --danger-soft: #2e1615;
-      --warn: #eab308;
-      --warn-soft: #2c2410;
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-      --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.45);
-      --shadow-lg: 0 24px 56px rgba(0, 0, 0, 0.65);
-    }
-
-    /* =========================================================================
-       BASE & LAYOUT
-       ========================================================================= */
     *, *::before, *::after {
       box-sizing: border-box;
     }
@@ -121,20 +91,14 @@
       font-family: inherit;
     }
 
-    .container {
-      width: 100%;
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
     .hidden {
       display: none !important;
     }
 
-    /* =========================================================================
-       TOP HEADER & NAVIGATION
-       ========================================================================= */
+    .hide-fb {
+      display: none !important;
+    }
+
     .site-header {
       position: sticky;
       top: 0;
@@ -279,236 +243,6 @@
       font-size: 0.8rem;
     }
 
-    .page-nav-bar {
-      border-top: 1px solid var(--border-subtle);
-      background-color: var(--bg-page);
-    }
-
-    .page-nav-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 8px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .nav-tabs {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .nav-tab {
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-secondary);
-      padding: 7px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 0.86rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .nav-tab:hover {
-      background-color: var(--bg-subtle);
-      color: var(--text-primary);
-    }
-
-    .nav-tab.active {
-      background-color: var(--bg-surface);
-      color: var(--accent);
-      border-color: var(--border-subtle);
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* =========================================================================
-       HERO & EDITORIAL CARDS
-       ========================================================================= */
-    .hero-banner {
-      margin-top: 28px;
-      padding: 28px;
-      border-radius: var(--radius-lg);
-      background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-accent-soft) 100%);
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      flex-wrap: wrap;
-    }
-
-    .profile-avatar-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .profile-avatar-box {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 2px solid var(--accent);
-      background-color: var(--bg-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .profile-avatar-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .profile-avatar-placeholder {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent);
-      user-select: none;
-    }
-
-    .hero-text-col {
-      flex: 1 1 320px;
-      min-width: 0;
-    }
-
-    .hero-title {
-      margin: 0 0 10px;
-      font-size: clamp(1.45rem, 2.8vw, 2.05rem);
-      line-height: 1.28;
-      letter-spacing: -0.02em;
-    }
-
-    .hero-subtitle {
-      margin: 0;
-      font-size: 0.98rem;
-      color: var(--text-secondary);
-      max-width: 76ch;
-    }
-
-    .main-content {
-      padding-bottom: 64px;
-    }
-
-    .page-view {
-      margin-top: 24px;
-    }
-
-    .page-header-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 26px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 18px;
-    }
-
-    .page-tag {
-      display: inline-block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .page-headline {
-      margin: 0;
-      font-size: clamp(1.22rem, 2.2vw, 1.58rem);
-      line-height: 1.38;
-    }
-
-    .section-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 22px 26px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .section-card h2 {
-      margin: 0 0 10px;
-      font-size: 1.15rem;
-      line-height: 1.4;
-    }
-
-    .section-card p {
-      margin: 0 0 12px;
-      color: var(--text-secondary);
-    }
-
-    .section-card p:last-child {
-      margin-bottom: 0;
-    }
-
-    .bullet-list {
-      margin: 10px 0 16px;
-      padding-left: 20px;
-      color: var(--text-secondary);
-    }
-
-    .bullet-list li {
-      margin-bottom: 6px;
-    }
-
-    .contact-box {
-      margin-top: 16px;
-      padding: 16px 18px;
-      border-radius: var(--radius-md);
-      background-color: var(--bg-subtle);
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .contact-value {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--accent);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .page-footer-nav {
-      margin-top: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    /* =========================================================================
-       BLOG & PHOTO STREAM
-       ========================================================================= */
-    .blog-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .search-filter-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      flex: 1 1 320px;
-    }
-
     .input, .textarea, .select {
       width: 100%;
       padding: 10px 12px;
@@ -517,11 +251,6 @@
       background-color: var(--bg-surface);
       color: var(--text-primary);
       font-size: 0.9rem;
-    }
-
-    .input:focus, .textarea:focus, .select:focus {
-      outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
-      border-color: var(--accent);
     }
 
     .textarea {
@@ -533,10 +262,6 @@
       max-width: 300px;
     }
 
-    .filter-select {
-      max-width: 260px;
-    }
-
     .notice-banner {
       padding: 12px 16px;
       border-radius: var(--radius-md);
@@ -545,12 +270,6 @@
       border: 1px solid var(--border-subtle);
       background-color: var(--bg-subtle);
       color: var(--text-secondary);
-    }
-
-    .notice-banner.owner {
-      background-color: var(--bg-accent-soft);
-      border-color: color-mix(in srgb, var(--accent) 30%, transparent);
-      color: var(--text-primary);
     }
 
     .posts-grid {
@@ -654,16 +373,6 @@
       color: var(--text-secondary);
     }
 
-    /* =========================================================================
-       ADMIN STUDIO WORKSPACE (AFTER LOGIN)
-       ========================================================================= */
-    .admin-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 18px;
-      margin-top: 14px;
-    }
-
     .admin-card {
       background-color: var(--bg-surface);
       border: 1px solid var(--border-subtle);
@@ -696,9 +405,13 @@
       object-fit: cover;
     }
 
-    /* =========================================================================
-       MODALS, LIGHTBOX & TOASTS
-       ========================================================================= */
+    .profile-avatar-placeholder {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      user-select: none;
+    }
+
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -783,18 +496,6 @@
       margin-top: 6px;
     }
 
-    .rules-box {
-      background-color: var(--bg-subtle);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-      font-size: 0.75rem;
-      overflow-x: auto;
-      white-space: pre;
-      color: var(--text-secondary);
-      margin-top: 8px;
-    }
-
     .lightbox-panel {
       max-width: 860px;
       background-color: var(--bg-surface);
@@ -831,37 +532,7 @@
       font-size: 0.85rem;
       box-shadow: var(--shadow-md);
     }
-  
-    .room-shell {
-      max-width: 1040px;
-      margin: 24px auto 64px;
-      padding: 0 20px;
-    }
 
-    .room-top-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-      gap: 18px;
-      margin-bottom: 22px;
-    }
-
-    .room-feed-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .status-strip {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-  
     .studio-wrap {
       max-width: 1040px;
       margin: 24px auto 64px;
@@ -898,9 +569,9 @@
     <div class="header-inner">
       <div class="brand-group">
         <h1 class="brand-title">Admin Studio</h1>
-        <span id="studioBadge" class="pill pill-accent">Firebase Sync · Profile &amp; Blog</span>
-        <span id="studioAuthBadge" class="pill pill-warn">Checking Auth...</span>
-        <span id="studioFbBadge" class="pill">Checking Firebase...</span>
+        <span id="studioBadge" class="pill pill-accent hide-fb">Profile &amp; Blog</span>
+        <span id="studioAuthBadge" class="pill pill-warn">Ready</span>
+        <span id="studioFbBadge" class="pill hide-fb">Checking...</span>
       </div>
 
       <div class="header-actions">
@@ -912,24 +583,26 @@
         </div>
 
         <a href="index.html" id="backHomeLink" class="btn btn-sm" style="text-decoration: none;">← Home</a>
-        <button type="button" id="studioLoginBtn" class="btn btn-primary btn-sm">Admin Sign In</button>
+        <a href="Admin%20Studio.html" id="studioLoginBtn" class="btn btn-primary btn-sm" style="text-decoration: none;">Admin Sign In</a>
         <button type="button" id="studioLogoutBtn" class="btn btn-danger btn-sm hidden">Sign Out</button>
       </div>
     </div>
   </header>
 
   <main class="studio-wrap">
-    <div id="studioLockBanner" class="notice-banner">
-      Please sign in with your admin account (Email + Password) to change your profile photo, publish blog &amp; photo posts, and manage Firebase entries.
+    <div id="studioLockBanner" class="notice-banner" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+      <span id="studioLockText">
+        ກົດປຸ່ມ <strong>Admin Sign In</strong> ຢູ່ແຈຂວາເທິງ ເພື່ອເຂົ້າສູ່ຫ້ອງ <strong>Admin Studio</strong> (ປ່ຽນຮູບໂປຣໄຟລ໌, ໂພສບລັອກ/ຮູບພາບ ແລະ ຈັດການໂພສ).
+      </span>
+      <a href="Admin%20Studio.html" class="btn btn-primary btn-sm" style="text-decoration: none;">ໄປຫ້ອງ Admin Studio →</a>
     </div>
 
     <div id="studioWorkspace" class="hidden">
       <div class="studio-top-grid">
-        <!-- 1. Profile Photo Manager -->
         <article class="admin-card">
-          <h3 id="sec1Heading">1. Profile Photo &amp; Firebase Sync</h3>
+          <h3 id="sec1Heading">1. Profile Photo &amp; Sync</h3>
           <p id="sec1Desc" class="field-hint" style="margin-top: 0; margin-bottom: 14px;">
-            Upload a new avatar (auto-compressed to 512px) and save to <code>site_profile/main</code> or Firebase Storage.
+            Upload a new avatar (auto-compressed to 512px) and save to <code>site_profile/main</code> or Cloud Storage.
           </p>
 
           <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
@@ -944,16 +617,15 @@
           </div>
 
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" id="studioSaveAvatarBtn" class="btn btn-primary btn-sm">Save Profile to Firebase</button>
+            <button type="button" id="studioSaveAvatarBtn" class="btn btn-primary btn-sm">Save Profile</button>
             <button type="button" id="studioResetAvatarBtn" class="btn btn-danger btn-sm">Reset Photo</button>
           </div>
         </article>
 
-        <!-- 2. Blog & Photo Publisher -->
         <article class="admin-card">
           <h3 id="sec2Heading">2. Publish Blog &amp; Photo Post</h3>
           <p id="sec2Desc" class="field-hint" style="margin-top: 0; margin-bottom: 14px;">
-            Write a blog note, attach an optional photo, and publish directly to <code>blog_posts</code> in Firestore.
+            Write a blog note, attach an optional photo, and publish directly to <code>blog_posts</code>.
           </p>
 
           <form id="studioPostForm">
@@ -993,20 +665,19 @@
 
             <div class="field-group">
               <label for="studioPostTags" class="field-label">Tags (comma separated)</label>
-              <input type="text" id="studioPostTags" class="input" placeholder="blog, photo, firebase, VKU" />
+              <input type="text" id="studioPostTags" class="input" placeholder="blog, photo, VKU" />
             </div>
 
-            <button type="submit" id="studioPublishBtn" class="btn btn-primary">Publish to Firebase</button>
+            <button type="submit" id="studioPublishBtn" class="btn btn-primary">Publish</button>
           </form>
         </article>
       </div>
 
-      <!-- 3. Published Posts List -->
       <section class="studio-feed-card" aria-labelledby="sec3Heading">
         <div class="studio-toolbar">
           <div>
             <h2 id="sec3Heading" style="margin: 0; font-size: 1.15rem;">3. Published Blog &amp; Photo Posts</h2>
-            <p class="field-hint" style="margin: 4px 0 0;">Click any photo to view full size or delete posts from Firebase.</p>
+            <p class="field-hint" style="margin: 4px 0 0;">Click any photo to view full size or delete posts.</p>
           </div>
           <input type="search" id="studioSearchInput" class="input search-input" placeholder="Search title, caption, or tag..." />
         </div>
@@ -1020,32 +691,6 @@
     </div>
   </main>
 
-  <!-- Admin Auth Modal -->
-  <div id="studioAuthModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="studioAuthTitle">
-    <div class="modal-panel">
-      <div class="modal-header">
-        <h3 id="studioAuthTitle">Admin Sign In</h3>
-        <button type="button" id="closeStudioAuthBtn" class="btn btn-sm">✕</button>
-      </div>
-      <form id="studioAuthForm">
-        <div class="field-group">
-          <label for="studioAuthEmail" class="field-label">Admin Email</label>
-          <input type="email" id="studioAuthEmail" class="input" autocomplete="email" required />
-        </div>
-        <div class="field-group">
-          <label for="studioAuthPassword" class="field-label">Password</label>
-          <input type="password" id="studioAuthPassword" class="input" autocomplete="current-password" required />
-        </div>
-        <div id="studioAuthError" class="error-text hidden"></div>
-        <div class="modal-footer">
-          <button type="button" id="cancelStudioAuthBtn" class="btn">Cancel</button>
-          <button type="submit" id="submitStudioAuthBtn" class="btn btn-primary">Sign In</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Lightbox Modal -->
   <div id="studioLightbox" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="studioLightboxTitle">
     <div class="lightbox-panel">
       <div class="modal-header">
@@ -1060,14 +705,12 @@
   <div id="studioToastContainer" class="toast-container" aria-live="polite"></div>
 
   <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js';
-    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
     import {
       getAuth,
-      signInWithEmailAndPassword,
       signOut,
       onAuthStateChanged,
-    } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js';
+    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
     import {
       getFirestore,
       collection,
@@ -1079,24 +722,16 @@
       query,
       orderBy,
       serverTimestamp,
-    } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js';
+    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
     import {
       getStorage,
       ref,
       uploadString,
       getDownloadURL,
-    } from 'https://www.gstatic.com/firebasejs/13.3.0/firebase-storage.js';
+    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
-    const DEFAULT_FIREBASE_CONFIG = {
-      apiKey: "AIzaSyDzIqu-QdM9EDVF6jj-zwYC91PsdjGy8a4",
-      authDomain: "block-84d5e.firebaseapp.com",
-      projectId: "block-84d5e",
-      storageBucket: "block-84d5e.firebasestorage.app",
-      messagingSenderId: "837445677050",
-      appId: "1:837445677050:web:8c75077350bd8b8a22be43",
-      measurementId: "G-TQ3QEZ6HSS",
-      useStorage: true
-    };
+    const ADMIN_EMAIL = 'saisathomevongvilay@gmail.com';
+    const STUDIO_PAGE = 'Admin%20Studio.html';
 
     const STORAGE_KEYS = {
       LANG: 'vongvilay_blog_lang_v1',
@@ -1110,36 +745,36 @@
         backHome: '← Home',
         signIn: 'Admin Sign In',
         signOut: 'Sign Out',
-        saveAvatar: 'Save Profile to Firebase',
+        saveAvatar: 'Save Profile',
         resetAvatar: 'Reset Photo',
-        publish: 'Publish to Firebase',
+        publish: 'Publish',
         deletePost: 'Delete',
       },
       lo: {
         backHome: '← ໜ້າຫຼັກ',
         signIn: 'ລັອກອິນແອັດມິນ',
         signOut: 'ອອກຈາກລະບົບ',
-        saveAvatar: 'ບັນທຶກຮູບໂປຣໄຟລ໌ລົງ Firebase',
+        saveAvatar: 'ບັນທຶກຮູບໂປຣໄຟລ໌',
         resetAvatar: 'ລ້າງຮູບໂປຣໄຟລ໌',
-        publish: 'ໂພສບັນທຶກລົງ Firebase',
+        publish: 'ໂພສບັນທຶກ',
         deletePost: 'ລຶບໂພສ',
       },
       th: {
         backHome: '← หน้าหลัก',
         signIn: 'เข้าสู่ระบบแอดมิน',
         signOut: 'ออกจากระบบ',
-        saveAvatar: 'บันทึกโปรไฟล์ลง Firebase',
+        saveAvatar: 'บันทึกโปรไฟล์',
         resetAvatar: 'ล้างรูปโปรไฟล์',
-        publish: 'โพสต์บันทึกลง Firebase',
+        publish: 'โพสต์บันทึก',
         deletePost: 'ลบโพสต์',
       },
       vi: {
         backHome: '← Trang Chủ',
         signIn: 'Admin Đăng Nhập',
         signOut: 'Đăng Xuất',
-        saveAvatar: 'Lưu Ảnh Đại Diện Lên Firebase',
+        saveAvatar: 'Lưu Ảnh Đại Diện',
         resetAvatar: 'Xóa Ảnh Đại Diện',
-        publish: 'Đăng Lên Firebase',
+        publish: 'Đăng',
         deletePost: 'Xóa Bài',
       },
     };
@@ -1188,15 +823,6 @@
       studioSearchInput: document.getElementById('studioSearchInput'),
       studioPostsGrid: document.getElementById('studioPostsGrid'),
       studioEmptyState: document.getElementById('studioEmptyState'),
-
-      studioAuthModal: document.getElementById('studioAuthModal'),
-      closeStudioAuthBtn: document.getElementById('closeStudioAuthBtn'),
-      cancelStudioAuthBtn: document.getElementById('cancelStudioAuthBtn'),
-      studioAuthForm: document.getElementById('studioAuthForm'),
-      studioAuthEmail: document.getElementById('studioAuthEmail'),
-      studioAuthPassword: document.getElementById('studioAuthPassword'),
-      studioAuthError: document.getElementById('studioAuthError'),
-      submitStudioAuthBtn: document.getElementById('submitStudioAuthBtn'),
 
       studioLightbox: document.getElementById('studioLightbox'),
       studioLightboxTitle: document.getElementById('studioLightboxTitle'),
@@ -1277,7 +903,7 @@
         ui.studioAuthBadge.textContent = `Admin: ${state.user.email || 'Signed In'}`;
         ui.studioAuthBadge.className = 'pill pill-accent';
       } else {
-        ui.studioAuthBadge.textContent = 'Signed Out';
+        ui.studioAuthBadge.textContent = 'Ready';
         ui.studioAuthBadge.className = 'pill pill-warn';
       }
       renderPosts();
@@ -1387,7 +1013,7 @@
       });
     }
 
-    function initFirebase() {
+    function initAppState() {
       const savedLang = localStorage.getItem(STORAGE_KEYS.LANG);
       if (savedLang && LABELS[savedLang]) {
         state.lang = savedLang;
@@ -1396,25 +1022,36 @@
 
       try {
         const rawCfg = localStorage.getItem(STORAGE_KEYS.FB_CONFIG);
-        const parsedCfg = rawCfg ? JSON.parse(rawCfg) : null;
-        const cfg = {
-          ...DEFAULT_FIREBASE_CONFIG,
-          ...(parsedCfg && parsedCfg.apiKey && parsedCfg.projectId ? parsedCfg : {}),
-        };
-        localStorage.setItem(STORAGE_KEYS.FB_CONFIG, JSON.stringify(cfg));
+        const cfg = rawCfg ? JSON.parse(rawCfg) : null;
+        if (!cfg || !cfg.apiKey || !cfg.projectId) {
+          ui.studioFbBadge.textContent = 'Local Mode';
+          if (sessionStorage.getItem('vongvilay_studio_authed_v1') === '1') {
+            state.user = { email: ADMIN_EMAIL };
+          }
+          state.profilePhotoUrl = localStorage.getItem(STORAGE_KEYS.PROFILE_PHOTO) || '';
+          const rawPosts = localStorage.getItem(STORAGE_KEYS.POSTS);
+          state.posts = rawPosts ? JSON.parse(rawPosts) : [];
+          renderAvatar();
+          renderPosts();
+          syncUi();
+          return;
+        }
 
         state.fbConfig = cfg;
-        const app = initializeApp(cfg);
-        if (typeof window !== 'undefined' && cfg.measurementId) {
-          try { getAnalytics(app); } catch (_) {}
-        }
+        const app = initializeApp({
+          apiKey: cfg.apiKey,
+          authDomain: cfg.authDomain || '',
+          projectId: cfg.projectId,
+          storageBucket: cfg.storageBucket || '',
+          appId: cfg.appId || '',
+        });
         state.fbApp = app;
         state.fbAuth = getAuth(app);
         state.fbDb = getFirestore(app);
         state.fbStorage = cfg.useStorage ? getStorage(app) : null;
 
-        ui.studioFbBadge.textContent = `Firebase: ${cfg.projectId}`;
-        ui.studioFbBadge.className = 'pill pill-accent';
+        ui.studioFbBadge.textContent = `${cfg.projectId}`;
+        ui.studioFbBadge.className = 'pill pill-accent hide-fb';
 
         onAuthStateChanged(state.fbAuth, (user) => {
           state.user = user || null;
@@ -1438,7 +1075,7 @@
         });
       } catch (err) {
         console.error(err);
-        ui.studioFbBadge.textContent = 'Firebase Error';
+        ui.studioFbBadge.textContent = 'Connection Error';
       }
     }
 
@@ -1446,67 +1083,9 @@
       btn.addEventListener('click', () => applyLang(btn.dataset.lang));
     });
 
-    ui.studioLoginBtn.addEventListener('click', () => {
-      ui.studioAuthError.classList.add('hidden');
-      ui.studioAuthModal.classList.remove('hidden');
-    });
-    ui.closeStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
-    ui.cancelStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
-
-    const ADMIN_EMAIL = 'saisathomevongvilay@gmail.com';
-    const ADMIN_PASS = '99922246';
-    const STUDIO_PAGE = 'Admin%20Studio.html';
-
-    function goToAdminStudio() {
-      sessionStorage.setItem('vongvilay_studio_authed_v1', '1');
-      window.location.href = STUDIO_PAGE;
-    }
-
-    ui.studioAuthForm.addEventListener('submit', async (e) => {
+    ui.studioLoginBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      const emailInput = ui.studioAuthEmail.value.trim().toLowerCase();
-      const passInput = ui.studioAuthPassword.value;
-
-      ui.submitStudioAuthBtn.disabled = true;
-      ui.studioAuthError.classList.add('hidden');
-
-      try {
-        const isMatchedAdmin = emailInput === ADMIN_EMAIL.toLowerCase() && passInput === ADMIN_PASS;
-
-        if (state.fbAuth) {
-          try {
-            await signInWithEmailAndPassword(state.fbAuth, emailInput, passInput);
-            ui.studioAuthModal.classList.add('hidden');
-            ui.studioAuthForm.reset();
-            if (isMatchedAdmin) {
-              goToAdminStudio();
-            } else {
-              toast('Signed in');
-            }
-            return;
-          } catch (fbErr) {
-            if (!isMatchedAdmin) {
-              throw fbErr;
-            }
-          }
-        }
-
-        if (isMatchedAdmin) {
-          state.user = { email: ADMIN_EMAIL };
-          syncUi();
-          ui.studioAuthModal.classList.add('hidden');
-          ui.studioAuthForm.reset();
-          goToAdminStudio();
-        } else {
-          ui.studioAuthError.textContent = 'Invalid admin email or password.';
-          ui.studioAuthError.classList.remove('hidden');
-        }
-      } catch (err) {
-        ui.studioAuthError.textContent = err?.message || 'Sign-in failed';
-        ui.studioAuthError.classList.remove('hidden');
-      } finally {
-        ui.submitStudioAuthBtn.disabled = false;
-      }
+      window.location.href = STUDIO_PAGE;
     });
 
     ui.studioLogoutBtn.addEventListener('click', async () => {
@@ -1543,7 +1122,7 @@
         );
       }
       renderAvatar();
-      toast('Profile saved to Firebase');
+      toast('Profile saved');
     }
 
     ui.studioSaveAvatarBtn.addEventListener('click', async () => {
@@ -1626,7 +1205,7 @@
         state.draftPostPhotoDataUrl = '';
         ui.studioPostPreviewImg.src = '';
         ui.studioPostPreviewBox.classList.add('hidden');
-        toast('Published to Firebase');
+        toast('Published');
       } catch (err) {
         toast(err?.message || 'Publish failed');
       } finally {
@@ -1644,7 +1223,19 @@
       if (e.target === ui.studioLightbox) ui.studioLightbox.classList.add('hidden');
     });
 
-    initFirebase();
+    initAppState();
+  </script>
+
+  <script>
+    (function() {
+      var loginBtn = document.getElementById('studioLoginBtn');
+      if (loginBtn) {
+        loginBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.location.href = 'Admin%20Studio.html';
+        });
+      }
+    })();
   </script>
 </body>
 </html>
