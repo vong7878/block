@@ -573,7 +573,7 @@
     </div>
   </div>
 
-  <!-- Complete Application Logic: 2,000-Line Generator, Search, Bookmarks, Theme & Modes -->
+  <!-- Complete Application Logic: Sequential 2,000-Line Generator, Search, Bookmarks, Theme & Modes -->
   <script>
     (function () {
       'use strict';
@@ -586,7 +586,7 @@
       };
 
       // =========================================================================
-      // 1. 20 CHAPTERS & THEMATIC SENTENCE POOLS FOR 2,000 LINES
+      // 1. 20 CHAPTERS & SEQUENTIAL NARRATIVE PROGRESSION POOLS
       // =========================================================================
       const CHAPTERS = [
         { id: 1, title: 'ບົດທີ 1: ການເປີດບັນທຶກແນະນຳຕົນເອງ', theme: 'identity', summary: 'ຄວາມຕັ້ງໃຈໃນການບັນທຶກເລື່ອງລາວຊີວິດ, ຕົວຕົນ ແລະ ການເດີນທາງຂອງ ວົງວິໄລ ໃສສະທອນ.' },
@@ -605,7 +605,7 @@
         { id: 14, title: 'ບົດທີ 14: ຄວາມກົດດັນ, ຄວາມທໍ້ຖອຍ ແລະ ການຟື້ນຕົວ', theme: 'resilience', summary: 'ການຮັບມືກັບຊ່ວງເວລາທີ່ໜັກໜ່ວງ, ການພັກຟື້ນຢ່າງມີສະຕິ ແລະ ການກັບມາຍືນຢັດ.' },
         { id: 15, title: 'ບົດທີ 15: ຈັນຍາບັນ, ຄວາມຮັບຜິດຊອບ ແລະ ຄຸນນະພາບງານ', theme: 'ethics', summary: 'ຄວາມຊື່ສັດຕໍ່ວິຊາຊີບ, ຄວາມປອດໄພຂອງລະບົບ ແລະ ການເຮັດວຽກທີ່ເປັນປະໂຫຍດຕໍ່ສັງຄົມ.' },
         { id: 16, title: 'ບົດທີ 16: ການອອກແບບຜະລິດຕະພັນທີ່ເຂົ້າໃຈຜູ້ໃຊ້', theme: 'product', summary: 'ການເຊື່ອມໂຍງເທັກໂນໂລຊີເຂົ້າກັບຄວາມຕ້ອງການຕົວຈິງຂອງຜູ້ໃຊ້ງານຢ່າງລຽບງ່າຍ.' },
-        { id: 17, title: 'ບົດທີ 17: ການເງິນສ່ວນບຸກຄົນ ແລະ ການວາງແຜນຊີວິດ', theme: 'finance', summary: 'ການໃຊ້ຈ່າຍຢ່າງມີສະຕິ, ການເກັບອอม ແລະ ການລົງທຶນໃນຄວາມຮູ້ ແລະ ສຸຂະພາບ.' },
+        { id: 17, title: 'ບົດທີ 17: ການເງິນສ່ວນບຸກຄົນ ແລະ ການວາງແຜນຊີວິດ', theme: 'finance', summary: 'ການໃຊ້ຈ່າຍຢ່າງມີສະຕິ, ການເກັບອອມ ແລະ ການລົງທຶນໃນຄວາມຮູ້ ແລະ ສຸຂະພາບ.' },
         { id: 18, title: 'ບົດທີ 18: ສຸຂະພາບກາຍ, ສຸຂະພາບໃຈ ແລະ ຄວາມສົມດຸນ', theme: 'balance', summary: 'ການຮັກສາພະລັງງານຊີວິດ, ການນອນພັກຜ່ອນ ແລະ ການສ້າງຄວາມສົມດຸນລະຫວ່າງງານກັບຊີວິດ.' },
         { id: 19, title: 'ບົດທີ 19: ວິໄສທັດ ແລະ ເປົ້າໝາຍໃນອະນາຄົດ', theme: 'vision_future', summary: 'ທິດທາງການພັດທະນາຕົນເອງ, ໂຄງການທີ່ຢາກສ້າງ ແລະ ຄຸນຄ່າທີ່ຢາກມອບໃຫ້ຄົນອ້ອມຂ້າງ.' },
         { id: 20, title: 'ບົດທີ 20: ບົດສະຫຼຸບ 2,000 ແຖວ ແລະ ຄຳຂອບໃຈ', theme: 'conclusion', summary: 'ການທົບທວນການເດີນທາງທັງໝົດ, ຄຳຂອບໃຈ ແລະ ບາດກ້າວຕໍ່ໄປຂອງ ວົງວິໄລ ໃສສະທອນ.' }
@@ -630,7 +630,7 @@
         ],
         childhood: [
           'ໄວເດັກຂອງຂ້ອຍເຕັມໄປດ້ວຍຄຳຖາມງ່າຍໆ ຢ່າງເຊັ່ນ ເປັນຫຍັງໄຟຈຶ່ງຕິດ ເປັນຫຍັງສາຍໄຟເສັ້ນນີ້ຈຶ່ງຕໍ່ກັບອີກເສັ້ນໜຶ່ງ',
-          'ຫຼາຍຄັ້ງເຄື່ອງຫຼິ້ນພັງບໍ່ແມ່ນເພາະບໍ່ຮັກษา ແຕ່ເພາະຢາກຮູ້ວ່າຂ້າງໃນມັນມີຫຍັງຊ່ອນຢູ່',
+          'ຫຼາຍຄັ້ງເຄື່ອງຫຼິ້ນພັງບໍ່ແມ່ນເພາະບໍ່ຮັກສາ ແຕ່ເພາະຢາກຮູ້ວ່າຂ້າງໃນມັນມີຫຍັງຊ່ອນຢູ່',
           'ການໄດ້ລອງເຮັດຜິດຕັ້ງແຕ່ນ້ອຍເຮັດໃຫ້ໂຕມາບໍ່ຄ່ອຍຢ້ານການເລີ່ມຕົ້ນໃໝ່ ຖ້າຜິດກໍແກ້ໄຂ ຖ້າພັງກໍເບິ່ງວ່າເສຍບ່ອນໃດ',
           'ຄວາມຊົງຈຳໃນໄວເດັກບໍ່ໄດ້ມີແຕ່ເລື່ອງສົດໃສ ບາງເລື່ອງກໍເປັນຄວາມງຽບ ຫຼື ຄວາມບໍ່ເຂົ້າໃຈ ແຕ່ທັງໝົດນັ້ນກໍສ້າງຄວາມເຂັ້ມແຂງໃຫ້',
           'ເວລາເມື່ອຍຈາກວຽກໃຫຍ່ໆ ການນຶກເຖິງຄວາມສຸກເລັກໆໃນໄວເດັກຊ່ວຍໃຫ້ຫາຍໃຈໄດ້ໂລ່ງຂຶ້ນຫຼາຍ',
@@ -728,7 +728,7 @@
           'ຄວາມຊື່ສັດກັບວຽກທີ່ເຮັດເປັນເລື່ອງທີ່ເຫັນຜົນໃນໄລຍະຍາວ ໂດຍສະເພາະເວລາບໍ່ມີໃຜກວດສອບ',
           'ລະບົບທີ່ເຮົາສ້າງອາດໄປຢູ່ໃນບ່ອນທີ່ມີຄົນໃຊ້ງານຈິງ ຄວາມປອດໄພຈຶ່ງຕ້ອງມາກ່ອນຄວາມໄວ',
           'ການບອກຕາມຄວາມຈິງວ່າວຽກຮອດໃສແລ້ວ ແລະ ຍັງຕິດບ່ອນໃດ ດີກວ່າການປິດບັງແລ້ວມາແຕກຕອນສຸດທ້າຍ',
-          'ການເຄົາລົບຜົນງານ ແລະ ຄວາມພະຍາຍາມຂອງຄົນອື່ນຄືພື້ນຖານຂອງການເຮັດວຽກຮ່ວມກັນอย่างຍືນຍົງ',
+          'ການເຄົາລົບຜົນງານ ແລະ ຄວາມພະຍາຍາມຂອງຄົນອື່ນຄືພື້ນຖານຂອງການເຮັດວຽກຮ່ວມກັນຢ່າງຍືນຍົງ',
           'ຄຸນນະພາບງານສະທ້ອນເຖິງຄວາມໃສ່ໃຈຂອງຜູ້ສ້າງ ຫຼາຍກວ່າຄຳໂຄສະນາໃດໆ',
           'ເຮັດວຽກໃຫ້ດີທີ່ສຸດໃນສ່ວນທີ່ເຮົາຮັບຜິດຊອບ ຄືການໃຫ້ກຽດທັງຕົນເອງ ແລະ ຜູ້ຮ່ວມງານ'
         ],
@@ -863,10 +863,71 @@
         'ເພື່ອໃຫ້ທຸກຄວາມພະຍາຍາມມີຄວາມໝາຍຕໍ່ທັງຕົນເອງ ແລະ ທີມ'
       ];
 
+      const EXTRA_OBSERVATIONS = [
+        'ເມື່ອເບິ່ງຈາກຈຸດນີ້ ລາຍລະອຽດນ້ອຍໆກໍບອກເລື່ອງໃຫຍ່ໄດ້ຫຼາຍກວ່າທີ່ຄິດ',
+        'ບາງຄັ້ງການຢຸດຄິດພຽງໜຶ່ງນາທີກໍຊ່ວຍປ່ຽນທິດທາງຂອງທັງມື້ໄດ້',
+        'ຄວາມຊັດເຈນມັກເກີດຂຶ້ນຫຼັງຈາກເຮົາລອງອະທິບາຍສິ່ງທີ່ເຮັດໃຫ້ຄົນອື່ນຟັງ',
+        'ການບໍ່ຟ້າວເກີນໄປເຮັດໃຫ້ເຫັນຈຸດເຊື່ອມຕໍ່ລະຫວ່າງງານແຕ່ລະສ່ວນໄດ້ດີຂຶ້ນ',
+        'ທຸກຄັ້ງທີ່ເລີ່ມຕົ້ນໃໝ່ ປະສົບການເກົ່າກໍຍັງຢູ່ເປັນເຄື່ອງນຳທາງສະເໝີ',
+        'ສິ່ງທີ່ເຮັດໃຫ້ໃຈນິ່ງຄືການຮູ້ວ່າມື້ນີ້ເຮົາໄດ້ເຮັດສ່ວນຂອງຕົນເອງເຕັມທີ່ແລ້ວ',
+        'ບົດຮຽນທີ່ຄົງທົນທີ່ສຸດມັກມາຈາກວັນທີ່ເຮົາຕ້ອງປັບຕົວແບບບໍ່ມີສູດສຳເລັດ',
+        'ການຮັກສາຄວາມຢາກຮູ້ຢາກເຫັນໄວ້ຄືການຮັກສາພະລັງການຮຽນຮູ້ໃຫ້ສົດໃໝ່ສະເໝີ'
+      ];
+
+      const EXTRA_CLAUSES_A = [
+        'ການລອງຜິດລອງຖືກດ້ວຍຕົນເອງເຮັດໃຫ້ຈື່ລາຍລະອຽດໄດ້ດົນຂຶ້ນ',
+        'ບາງວຽກເບິ່ງຄືງ່າຍໃນເຈ້ຍ ແຕ່ພໍຕໍ່ກັບລະບົບຈິງກໍມີຈຸດໃຫ້ປັບຫຼາຍ',
+        'ການອ່ານຄູ່ມື ແລະ ບັນທຶກເກົ່າຊ່ວຍຫຼຸດເວລາຄົ້ນຫາສາເຫດໄດ້ຫຼາຍ',
+        'ຄວາມງຽບໃນຕອນເຊົ້າຊ່ວຍໃຫ້ແຍກແຍະສິ່ງສຳຄັນອອກຈາກສິ່ງລົບກວນໄດ້',
+        'ການຖາມຄົນທີ່ເຄີຍເຮັດມາກ່ອນເຮັດໃຫ້ເຫັນທາງລັດທີ່ປອດໄພຂຶ້ນ',
+        'ການທົດສອບແບບຄ່ອຍເປັນຄ່ອຍໄປປອດໄພກວ່າການປ່ຽນຫຼາຍຈຸດພ້ອມກັນ',
+        'ຄວາມເຂົ້າໃຈພື້ນຖານແໜ້ນເຮັດໃຫ້ປັບຕົວເຂົ້າກັບເຄື່ອງມືໃໝ່ໄດ້ໄວ',
+        'ການຈົດບັນທຶກສັ້ນໆຫຼັງເຮັດວຽກຊ່ວຍໃຫ້ບໍ່ລືມຈຸດທີ່ຍັງຄ້າງຄາ',
+        'ບາງມື້ຄວາມກ້າວໜ້າກໍຄືການຮູ້ວ່າສິ່ງໃດທີ່ຄວນຢຸດເຮັດກ່ອນ',
+        'ການເບິ່ງພາບລວມກ່ອນລົງລາຍລະອຽດຊ່ວຍບໍ່ໃຫ້ຫຼົງທາງໃນຈຸດຍ່ອຍ',
+        'ການຮັບຟັງດ້ວຍຄວາມເຂົ້າໃຈຊ່ວຍໃຫ້ການປຶກສາຫາລືມີປະໂຫຍດຫຼາຍຂຶ້ນ',
+        'ການກຽມແຜນສຳຮອງໄວ້ສະເໝີຊ່ວຍຫຼຸດຄວາມກັງວົນເວລາເກີດເຫດບໍ່ຄາດຄິດ'
+      ];
+
+      const EXTRA_CLAUSES_B = [
+        'ເຊິ່ງເປັນສິ່ງທີ່ຄ່ອຍໆສ້າງຄວາມໝັ້ນໃຈໃຫ້ກັບການເຮັດວຽກແຕ່ລະມື້',
+        'ອັນເປັນຜົນມາຈາກການຍອມຮັບຄວາມຈິງ ແລະ ປັບວິທີເຮັດໃຫ້ເໝາະສົມ',
+        'ເພື່ອໃຫ້ທຸກສ່ວນຂອງລະບົບສາມາດເຮັດວຽກຮ່ວມກັນໄດ້ຢ່າງກົມກຽວ',
+        'ເຮັດໃຫ້ມອງເຫັນວ່າຄວາມພະຍາຍາມນ້ອຍໆທີ່ຕໍ່ເນື່ອງກໍມີພະລັງ',
+        'ຊ່ວຍໃຫ້ການຕັດສິນໃຈໃນຊ່ວງທີ່ເວລາຈຳກັດມີຄວາມຊັດເຈນຫຼາຍຂຶ້ນ',
+        'ເພື່ອຮັກສາຄຸນນະພາບຂອງງານໃຫ້ຢູ່ໃນລະດັບທີ່ຕົນເອງຍອມຮັບໄດ້',
+        'ເຮັດໃຫ້ເຂົ້າໃຈຄວາມແຕກຕ່າງລະຫວ່າງຄວາມຮີບຮ້ອນກັບຄວາມຕັ້ງໃຈແທ້',
+        'ຊ່ວຍໃຫ້ກັບມາເລີ່ມຕົ້ນໃໝ່ໄດ້ໂດຍບໍ່ຮູ້ສຶກເສຍດາຍເວລາທີ່ຜ່ານໄປ'
+      ];
+
+      const TIME_AND_PLACE_NOTES = [
+        'ໃນຍາມທີ່ແສງແດດຍາມບ່າຍສ່ອງເຂົ້າມາໃນຫ້ອງເຮັດວຽກ',
+        'ຫຼັງຈາກສຳເລັດການທົດສອບຮອບສຸດທ້າຍກ່ອນເກັບອຸປະກອນ',
+        'ໃນຊ່ວງເວລາທີ່ນັ່ງທົບທວນບັນທຶກຕັ້ງແຕ່ມື້ທຳອິດ',
+        'ຕອນທີ່ກຳລັງປຽບທຽບຜົນລັບລະຫວ່າງການທົດລອງສອງຄັ້ງ',
+        'ໃນມື້ທີ່ອາກາດປ່ຽນຈາກຮ້ອນອົບເອົາມາເປັນລົມເຢັນ',
+        'ເວລາທີ່ນັ່ງລົມກັນແບບສະບາຍໆຫຼັງເລີກງານ',
+        'ຕອນທີ່ລອງຈັດລະບຽບໄຟລ໌ ແລະ ໂຄງສ້າງງານຄືນໃໝ່',
+        'ໃນຊ່ວງທີ່ຕ້ອງຕັດສິນໃຈເລືອກວິທີທີ່ລຽບງ່າຍແຕ່ໝັ້ນຄົງ'
+      ];
+
+      // Sequential progression stages within each 100-line chapter (1..100)
+      const STAGE_PHASES = [
+        'ເລີ່ມຕົ້ນຈາກຈຸດສັງເກດທຳອິດ',
+        'ຄ່ອຍໆທຳຄວາມເຂົ້າໃຈລາຍລະອຽດ',
+        'ລອງທົດລອງ ແລະ ປຽບທຽບຜົນ',
+        'ເຈີຈຸດຕິດຂັດ ແລະ ປັບວິທີຄິດ',
+        'ຈັດລະບຽບຂັ້ນຕອນໃຫ້ຊັດເຈນຂຶ້ນ',
+        'ເຮັດໃຫ້ລະບົບເຮັດວຽກໄດ້ສະໝ່ຳສະເໝີ',
+        'ທົບທວນຜົນລັບໃນສະພາບຈິງ',
+        'ຕໍ່ຍອດສິ່ງທີ່ໄດ້ເປັນບົດຮຽນຖັດໄປ',
+        'ວາງແນວທາງສຳລັບໄລຍະຕໍ່ໄປ',
+        'ສະຫຼຸບສິ່ງທີ່ຍຶດຖືໄວ້ຈາກຂັ້ນຕອນນີ້'
+      ];
+
       /**
-       * Builds 2,000 distinct lines across the 20 chapters (100 lines per chapter)
-       * using multi-pool combinations and varied structures so lines don't repeat
-       * back-and-forth across the book.
+       * Builds 2,000 lines in strict sequential order (chapter 1 -> 20, line 1 -> 100)
+       * with smooth phase progression and zero shuffling or line-order swapping.
        */
       function buildAll2000Lines() {
         const lines = [];
@@ -878,76 +939,57 @@
           const topicName = ch.title.split(':')[1] ? ch.title.split(':')[1].trim() : ch.title;
 
           for (let i = 1; i <= 100; i++) {
-            const idx1 = (i * 7 + ch.id * 3) % basePool.length;
-            const idx2 = (i * 11 + ch.id * 5 + 2) % basePool.length;
-            const s1 = basePool[idx1];
-            const s2 = basePool[idx2 === idx1 ? (idx2 + 1) % basePool.length : idx2];
+            const stageIdx = Math.floor((i - 1) / 10);
+            const stepInStage = (i - 1) % 10;
 
-            const angle = SUB_ANGLES[(i * 13 + ch.id * 7 + Math.floor(i / 10)) % SUB_ANGLES.length];
-            const ctx = UNIQUE_CONTEXTS[(i * 17 + ch.id * 11 + i) % UNIQUE_CONTEXTS.length];
-            const act = UNIQUE_ACTIONS[(i * 19 + ch.id * 13 + ch.id) % UNIQUE_ACTIONS.length];
-            const out = UNIQUE_OUTCOMES[(i * 23 + ch.id * 17 + i * 2) % UNIQUE_OUTCOMES.length];
-            const opener = EXTRA_OPENERS[(i * 29 + ch.id * 19 + i * 3) % EXTRA_OPENERS.length];
-            const detail = EXTRA_DETAILS[(i * 31 + ch.id * 23 + i * 5) % EXTRA_DETAILS.length];
-            const closing = EXTRA_CLOSINGS[(i * 37 + ch.id * 29 + i * 7) % EXTRA_CLOSINGS.length];
+            const stageLabel = STAGE_PHASES[stageIdx % STAGE_PHASES.length];
+            const s1 = basePool[(stageIdx + stepInStage) % basePool.length];
+            const s2 = basePool[(stageIdx + stepInStage + 1) % basePool.length];
+            const angle = SUB_ANGLES[stageIdx % SUB_ANGLES.length];
+            const ctx = UNIQUE_CONTEXTS[i % UNIQUE_CONTEXTS.length];
+            const act = UNIQUE_ACTIONS[(i + stageIdx) % UNIQUE_ACTIONS.length];
+            const out = UNIQUE_OUTCOMES[(i + stepInStage) % UNIQUE_OUTCOMES.length];
+            const opener = EXTRA_OPENERS[stageIdx % EXTRA_OPENERS.length];
+            const detail = EXTRA_DETAILS[i % EXTRA_DETAILS.length];
+            const closing = EXTRA_CLOSINGS[stageIdx % EXTRA_CLOSINGS.length];
+            const obs = EXTRA_OBSERVATIONS[(i + stageIdx) % EXTRA_OBSERVATIONS.length];
+            const clauseA = EXTRA_CLAUSES_A[i % EXTRA_CLAUSES_A.length];
+            const clauseB = EXTRA_CLAUSES_B[stageIdx % EXTRA_CLAUSES_B.length];
+            const timeNote = TIME_AND_PLACE_NOTES[(i + stepInStage) % TIME_AND_PLACE_NOTES.length];
 
             const cleanAct = act.replace(/^ຈຶ່ງ/, '');
             const lowerS1 = s1.charAt(0).toLowerCase() + s1.slice(1);
             const lowerS2 = s2.charAt(0).toLowerCase() + s2.slice(1);
             const lowerCtx = ctx.charAt(0).toLowerCase() + ctx.slice(1);
             const lowerAngle = angle.charAt(0).toLowerCase() + angle.slice(1);
+            const lowerObs = obs.charAt(0).toLowerCase() + obs.slice(1);
+            const lowerClauseA = clauseA.charAt(0).toLowerCase() + clauseA.slice(1);
+            const lowerClauseB = clauseB.charAt(0).toLowerCase() + clauseB.slice(1);
+            const lowerTimeNote = timeNote.charAt(0).toLowerCase() + timeNote.slice(1);
+            const lowerStage = stageLabel.charAt(0).toLowerCase() + stageLabel.slice(1);
 
-            let lineText = '';
-            const pattern = (i * 3 + ch.id * 5) % 12;
+            const seqTemplates = [
+              `${stageLabel}ໃນເລື່ອງ${topicName}: ${s1}, ${lowerCtx} ຈຶ່ງ${cleanAct} ${detail}.`,
+              `ຕໍ່ມາ${lowerAngle}, ${lowerS2} ພ້ອມທັງ${lowerClauseA} ${out}.`,
+              `${opener} — ${lowerStage}ຈຶ່ງເຮັດໃຫ້${lowerS1} ${closing}.`,
+              `${ctx}, ${lowerS2}; ຈາກນັ້ນ${lowerClauseA} ${lowerClauseB}.`,
+              `ໃນຂັ້ນຕອນທີ່${lowerStage}, ${lowerS1} ແລ້ວ${cleanAct} ${detail}.`,
+              `${timeNote}, ${lowerS2} ຈຶ່ງເຮັດໃຫ້${lowerObs} ${closing}.`,
+              `ເມື່ອ${lowerStage}, ${lowerS1} ໂດຍ${lowerClauseA} ${out}.`,
+              `ສືບຕໍ່ຈາກຈຸດນັ້ນ, ${lowerS2} ພ້ອມກັບ${lowerClauseA} ${lowerClauseB}.`
+            ];
 
-            switch (pattern) {
-              case 0:
-                lineText = `${ctx}, ${lowerS1} — ${act}, ${out}.`;
-                break;
-              case 1:
-                lineText = `${angle}, ຂ້ອຍມັກຄິດເຖິງ${topicName} ເພາະ${lowerS2}, ຈຶ່ງ${cleanAct}.`;
-                break;
-              case 2:
-                lineText = `${s1} ແຕ່${lowerCtx} ກໍເຮັດໃຫ້${out}.`;
-                break;
-              case 3:
-                lineText = `ໃນມุมຂອງ${topicName}, ${lowerS2}; ${lowerAngle}, ຂ້ອຍ${cleanAct}.`;
-                break;
-              case 4:
-                lineText = `${ctx} ໄດ້ສອນໃຫ້ເຫັນວ່າ ${lowerS1} ແລະ ${out}.`;
-                break;
-              case 5:
-                lineText = `${s2} ໂດຍສະເພາະ${lowerAngle}, ${act}, ${out}.`;
-                break;
-              case 6:
-                lineText = `ເລື່ອງຂອງ${topicName} ບໍ່ໄດ້ຢຸດຢູ່ແຄ່ທິດສະດີ; ${lowerCtx}, ${lowerS1}.`;
-                break;
-              case 7:
-                lineText = `${angle}, ${lowerS2} ພ້ອມກັບ${lowerCtx}, ເຊິ່ງ${out}.`;
-                break;
-              case 8:
-                lineText = `${opener}, ຂ້ອຍຈຶ່ງ${cleanAct} ${detail} ${closing}.`;
-                break;
-              case 9:
-                lineText = `ເມື່ອເວົ້າເຖິງ${topicName}, ${lowerS1} ${detail}, ຈຶ່ງ${cleanAct}.`;
-                break;
-              case 10:
-                lineText = `${ctx} ເຮັດໃຫ້${lowerS2} ${closing}, ບໍ່ແມ່ນພຽງ${lowerS1}.`;
-                break;
-              default:
-                lineText = `${opener}; ${lowerAngle}, ຂ້ອຍ${cleanAct} ${detail}, ເຊິ່ງ${out}.`;
-                break;
-            }
-
-            lineText = lineText
+            let lineText = seqTemplates[(stepInStage + stageIdx) % seqTemplates.length]
               .replace(/\.\./g, '.')
               .replace(/\s+\./g, '.')
               .replace(/\s+,/g, ',');
 
-            // Guarantee zero duplicate lines across all 2,000 lines
-            if (usedTexts.has(lineText)) {
-              const fallbackSuffix = EXTRA_OPENERS[counter % EXTRA_OPENERS.length].split(',')[0];
-              lineText = `${lineText.slice(0, -1)} — ${fallbackSuffix}.`;
+            let attempt = 0;
+            while (usedTexts.has(lineText)) {
+              attempt++;
+              const altA = EXTRA_CLAUSES_A[(i + attempt) % EXTRA_CLAUSES_A.length];
+              const altB = EXTRA_CLAUSES_B[(stageIdx + attempt) % EXTRA_CLAUSES_B.length];
+              lineText = `${lineText.slice(0, -1)} — ${altA} ${altB}.`;
             }
             usedTexts.add(lineText);
 
@@ -984,7 +1026,7 @@
       const state = {
         theme: localStorage.getItem(STORAGE_KEYS.THEME) || 'light',
         fontScale: Number(localStorage.getItem(STORAGE_KEYS.FONT_SCALE)) || 100,
-        viewMode: 'prose', // Always keep '2,000 ແຖວ' button hidden and default to 'prose'
+        viewMode: 'prose',
         searchQuery: '',
         activeChapter: Number(localStorage.getItem(STORAGE_KEYS.LAST_CHAPTER)) || 1,
         bookmark: JSON.parse(localStorage.getItem(STORAGE_KEYS.BOOKMARK) || 'null') || {
@@ -993,7 +1035,7 @@
           note: 'ເລີ່ມຕົ້ນອ່ານແຖວທີ #0001 — ບົດທີ 1'
         },
         ledgerPage: Number(localStorage.getItem(STORAGE_KEYS.LEDGER_PAGE)) || 1,
-        ledgerPageSize: 200 // 200 lines per page -> 10 pages for 2,000 lines
+        ledgerPageSize: 200
       };
 
       // =========================================================================
@@ -1113,7 +1155,6 @@
         state.fontScale = clamped;
         localStorage.setItem(STORAGE_KEYS.FONT_SCALE, String(clamped));
         dom.fontSizeLabel.textContent = `${clamped}%`;
-        // Apply scaling to content area
         dom.viewProse.style.fontSize = `${clamped}%`;
         dom.viewLedger.style.fontSize = `${clamped}%`;
       }
@@ -1180,7 +1221,6 @@
         const pct = docHeight > 0 ? Math.min(100, Math.max(0, Math.round((scrollTop / docHeight) * 100))) : 0;
         dom.progressBar.style.width = `${pct}%`;
 
-        // Detect visible chapter in prose mode
         if (state.viewMode === 'prose') {
           const chapterEls = dom.viewProse.querySelectorAll('[data-chapter-id]');
           for (const el of chapterEls) {
@@ -1238,7 +1278,7 @@
       // DUPLICATE WORD & ADJACENT REPEAT CHECKER (ACROSS ALL 2,000 LINES)
       // =========================================================================
       const duplicateState = {
-        tab: 'all', // 'all' | 'adjacent'
+        tab: 'all',
         filter: '',
         allWords: [],
         adjacentRepeats: []
@@ -1254,8 +1294,6 @@
       function analyzeDuplicateWords() {
         const wordMap = new Map();
         const adjacentMap = new Map();
-
-        // Extract Lao words/phrases and technical tokens
         const tokenRegex = /[ກ-ໝ]+|[A-Za-z0-9_+#.-]{2,}/g;
 
         for (const item of ALL_LINES) {
@@ -1271,7 +1309,6 @@
               continue;
             }
 
-            // Track frequent/repeated content words across lines
             if (!LAO_STOP_WORDS.has(norm)) {
               if (!wordMap.has(norm)) {
                 wordMap.set(norm, {
@@ -1287,7 +1324,6 @@
               }
             }
 
-            // Track consecutive duplicate words (e.g., "ດີ ດີ", "test test")
             if (prevNormalized && prevNormalized === norm && !LAO_STOP_WORDS.has(norm)) {
               const pairKey = `${prevRaw} ${rawToken}`;
               if (!adjacentMap.has(pairKey)) {
@@ -1453,13 +1489,11 @@
           const startLine = String((ch.id - 1) * 100 + 1).padStart(4, '0');
           const endLine = String(ch.id * 100).padStart(4, '0');
 
-          // Option in top jump dropdown
           const opt = document.createElement('option');
           opt.value = String(ch.id);
           opt.textContent = `${ch.title} (${startLine}–${endLine})`;
           dom.chapterJumpSelect.appendChild(opt);
 
-          // Sidebar TOC item
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.setAttribute('data-toc-chapter', String(ch.id));
@@ -1547,7 +1581,6 @@
         const matchingLines = getFilteredLines();
         updateSearchCounter(matchingLines.length);
 
-        // Group matching lines by chapter
         const byChapter = new Map();
         for (const ch of CHAPTERS) {
           byChapter.set(ch.id, []);
@@ -1574,10 +1607,7 @@
 
         for (const ch of chaptersToShow) {
           const chLines = byChapter.get(ch.id);
-          const startGlobal = (ch.id - 1) * 100 + 1;
-          const endGlobal = ch.id * 100;
 
-          // Group every 5 lines into a cohesive prose paragraph while keeping clean reading flow
           const paragraphsHtml = [];
           for (let idx = 0; idx < chLines.length; idx += 5) {
             const chunk = chLines.slice(idx, idx + 5);
@@ -1650,7 +1680,6 @@
         dom.viewProse.innerHTML = '';
         dom.viewProse.appendChild(fragment);
 
-        // Attach event delegation for bookmark buttons and chapter nav buttons
         dom.viewProse.querySelectorAll('[data-bookmark-line]').forEach((btn) => {
           btn.addEventListener('click', () => {
             saveCurrentBookmark(Number(btn.getAttribute('data-bookmark-line')));
@@ -1738,7 +1767,6 @@
       }
 
       function setViewMode(mode) {
-        // Keep the '2,000 ແຖວ' button hidden and default to book prose view
         state.viewMode = 'prose';
         localStorage.setItem(STORAGE_KEYS.VIEW_MODE, state.viewMode);
 
@@ -1819,7 +1847,6 @@
         dom.btnSaveBookmark.addEventListener('click', () => saveCurrentBookmark());
         dom.btnJumpBookmark.addEventListener('click', jumpToBookmark);
 
-        // Debounced search across all 2,000 lines
         let searchTimer = null;
         dom.searchInput.addEventListener('input', (e) => {
           clearTimeout(searchTimer);
@@ -1834,7 +1861,6 @@
           }, 120);
         });
 
-        // Ledger pagination & jump to line (1..2000)
         dom.btnLedgerPrev.addEventListener('click', () => {
           if (state.ledgerPage > 1) {
             state.ledgerPage--;
@@ -1874,7 +1900,6 @@
         window.addEventListener('scroll', updateScrollProgress, { passive: true });
       }
 
-      // Initialize app on load
       function init() {
         setupProfileAvatars();
         applyTheme(state.theme);
