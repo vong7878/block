@@ -895,7 +895,15 @@
  .hide-fb {
  display: none !important;
  }
- </style>
+ 
+    .lang-switcher,
+    .hide-fb,
+    #studioFbBadge,
+    #studioBadge {
+      display: none !important;
+    }
+
+  </style>
 </head>
 <body>
  <header class="site-header">
@@ -908,7 +916,7 @@
  </div>
 
  <div class="header-actions">
- <div class="lang-switcher" role="group" aria-label="Language switcher">
+ <div class="lang-switcher hidden" role="group" aria-label="Language switcher">
  <button type="button" class="lang-btn active" data-lang="en">English (EN)</button>
  <button type="button" class="lang-btn" data-lang="lo">ພາສາລາວ (LO)</button>
  <button type="button" class="lang-btn" data-lang="th">ภาษาไทย (TH)</button>
@@ -924,8 +932,38 @@
 
  <main class="studio-wrap">
  <div id="studioLockBanner" class="notice-banner" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
- <span id="studioLockText">ກົດປຸ່ມ <strong>Admin Sign In</strong> ຢູ່ແຈຂວາເທິງ ເພື່ອເຂົ້າສູ່ຫ້ອງ <strong>Admin Studio</strong> (ປ່ຽນຮູບໂປຣໄຟລ໌, ໂພສບລັອກ/ຮູບພາບ ແລະ ຈັດການໂພສ).</span>
+ <span id="studioLockText">ກົດປຸ່ມ <strong>Admin Sign In</strong> ຢູ່ແຈຂວາເທິງ ເພື່ອເຂົ້າສູ່ຫ້ອງ <strong>Admin Studio</strong> (<strong>ບ່ອນປ່ຽນຮູບໂປຣໄຟລ໌</strong>, <strong>ບ່ອນໂພສບລັອກ</strong> ແລະ ຈັດການໂພສ).</span>
+ <div style="display: flex; gap: 8px; flex-wrap: wrap;">
  <a href="Admin%20Studio.html" class="btn btn-primary btn-sm" style="text-decoration: none;">ໄປຫ້ອງ Admin Studio →</a>
+ </div>
+ </div>
+
+ <div id="studioFeaturePreview" class="studio-top-grid" style="margin-bottom: 22px;">
+ <article class="admin-card">
+ <h3>1. ບ່ອນປ່ຽນຮູບໂປຣໄຟລ໌ (Profile Photo)</h3>
+ <p class="field-hint" style="margin-top: 0; margin-bottom: 12px;">
+ ເລືອກຮູບພາບໃໝ່ (JPG, PNG, WebP), ບີບອັດຂະໜາດອັດຕະໂນມັດ ແລະ ບັນທຶກຮູບໂປຣໄຟລ໌.
+ </p>
+ <div style="display: flex; align-items: center; gap: 14px;">
+ <div class="admin-avatar-preview">
+ <img id="previewAvatarImg" src="" alt="Profile preview" class="hidden" />
+ <span id="previewAvatarFallback" class="profile-avatar-placeholder">VS</span>
+ </div>
+ <div style="font-size: 0.85rem; color: var(--text-secondary);">
+ ເຂົ້າສູ່ລະບົບແອັດມິນເພື່ອອັບໂຫຼດ ແລະ ບັນທຶກຮູບໂປຣໄຟລ໌ໃໝ່.
+ </div>
+ </div>
+ </article>
+
+ <article class="admin-card">
+ <h3>2. ບ່ອນໂພສບລັອກ (Blog &amp; Photo Post)</h3>
+ <p class="field-hint" style="margin-top: 0; margin-bottom: 12px;">
+ ຂຽນຫົວຂໍ້, ແນບຮູບພາບ, ຂຽນເນື້ອຫາບລັອກ/ຄຳບັນຍາຍ ແລະ ໃສ່ແທັກ ເພື່ອໂພສຂຶ້ນໜ້າຫຼັກ.
+ </p>
+ <div style="font-size: 0.85rem; color: var(--text-secondary);">
+ ຮອງຮັບທັງບົດຄວາມບລັອກ, ຮູບພາບປະກອບ, ການຄົ້ນຫາ ແລະ ການລຶບໂພສ.
+ </div>
+ </article>
  </div>
 
  <div id="studioWorkspace" class="hidden">
@@ -1257,13 +1295,23 @@
  ui.studioAvatarImg.classList.toggle('hidden', !has);
  ui.studioAvatarFallback.classList.toggle('hidden', has);
  ui.studioAvatarImg.src = has ? url : '';
+
+ const pImg = document.getElementById('previewAvatarImg');
+ const pFb = document.getElementById('previewAvatarFallback');
+ if (pImg && pFb) {
+ pImg.classList.toggle('hidden', !has);
+ pFb.classList.toggle('hidden', has);
+ pImg.src = has ? url : '';
+ }
  }
 
  function syncUi() {
  const signedIn = Boolean(state.user);
+ const previewEl = document.getElementById('studioFeaturePreview');
  ui.studioLoginBtn.classList.toggle('hidden', signedIn);
  ui.studioLogoutBtn.classList.toggle('hidden', !signedIn);
  ui.studioLockBanner.classList.toggle('hidden', signedIn);
+ if (previewEl) previewEl.classList.toggle('hidden', signedIn);
  ui.studioWorkspace.classList.toggle('hidden', !signedIn);
 
  if (signedIn) {
