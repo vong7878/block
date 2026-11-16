@@ -916,15 +916,16 @@
  </div>
 
  <a href="index.html" id="backHomeLink" class="btn btn-sm" style="text-decoration: none;">← Home</a>
- <button type="button" id="studioLoginBtn" class="btn btn-primary btn-sm">Admin Sign In</button>
+ <a href="Admin%20Studio.html" id="studioLoginBtn" class="btn btn-primary btn-sm" style="text-decoration: none;">Admin Sign In</a>
  <button type="button" id="studioLogoutBtn" class="btn btn-danger btn-sm hidden">Sign Out</button>
  </div>
  </div>
  </header>
 
  <main class="studio-wrap">
- <div id="studioLockBanner" class="notice-banner">
- Please sign in with your admin account (Email + Password) to change your profile photo, publish blog &amp; photo posts, and manage entries.
+ <div id="studioLockBanner" class="notice-banner" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+ <span id="studioLockText">ກົດປຸ່ມ <strong>Admin Sign In</strong> ຢູ່ແຈຂວາເທິງ ເພື່ອເຂົ້າສູ່ຫ້ອງ <strong>Admin Studio</strong> (ປ່ຽນຮູບໂປຣໄຟລ໌, ໂພສບລັອກ/ຮູບພາບ ແລະ ຈັດການໂພສ).</span>
+ <a href="Admin%20Studio.html" class="btn btn-primary btn-sm" style="text-decoration: none;">ໄປຫ້ອງ Admin Studio →</a>
  </div>
 
  <div id="studioWorkspace" class="hidden">
@@ -1449,9 +1450,9 @@
  btn.addEventListener('click', () => applyLang(btn.dataset.lang));
  });
 
- ui.studioLoginBtn.addEventListener('click', () => {
- ui.studioAuthError.classList.add('hidden');
- ui.studioAuthModal.classList.remove('hidden');
+ ui.studioLoginBtn.addEventListener('click', (e) => {
+ e.preventDefault();
+ window.location.href = 'Admin%20Studio.html';
  });
  ui.closeStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
  ui.cancelStudioAuthBtn.addEventListener('click', () => ui.studioAuthModal.classList.add('hidden'));
@@ -1649,5 +1650,23 @@
 
  initFirebase();
  </script>
+
+<script>
+(function() {
+  var loginBtn = document.getElementById('studioLoginBtn');
+  var authBadge = document.getElementById('studioAuthBadge');
+  if (authBadge && authBadge.textContent === 'Checking Auth...') {
+    authBadge.textContent = 'Ready';
+    authBadge.className = 'pill pill-accent';
+  }
+  if (loginBtn) {
+    loginBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'Admin%20Studio.html';
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
