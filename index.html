@@ -1716,5 +1716,262 @@
 })();
 </script>
 
+
+<script>
+(function() {
+  var INTRO_POST = {"id": "intro_saisathone_vongvilay_2026", "title": "ແນະນຳຕົນເອງ — Saisathone Vongvilay", "section": "p1-sec-1", "caption": "ສະບາຍດີ! ຂ້ອຍຊື່ Saisathone Vongvilay ປະຈຸບັນສຶກສາຢູ່ປີທີ 4 ສາຂາວິສະວະກຳຄອມພິວເຕີ ແລະ ເອເລັກໂຕຣນິກ (ຊ່ຽວຊານລະບົບຝັງຕົວ ແລະ IoT) ທີ່ມະຫາວິທະຍາໄລເຕັກໂນໂລຊີຂໍ້ມູນຂ່າວສານ ແລະ ການສື່ສານ ຫວຽດນາມ-ເກົາຫຼີ (VKU) ນະຄອນດານັງ ປະເທດຫວຽດນາມ.\n\nສົນໃຈດ້ານ Embedded Systems, IoT, ການອອກແບບວົງຈອນ/PCB, ການຂຽນໂປຣແກຣມ (C/C++, Python, MicroPython, Java, JavaScript, HTML/CSS, React) ລວມທັງການພັດທະນາເວັບແອັບແບບເບົາບາງ, ວັນນະຄະດີ/ກອນລາວ ແລະ ການຂຽນນິຍາຍ.", "tags": ["ແນະນຳຕົນເອງ", "Embedded", "IoT", "VKU", "Blog"], "createdAt": 1794866640000, "createdAtLabel": "11/17/2026"};
+  var STORAGE_KEY_POSTS = 'vongvilay_blog_posts_v1';
+
+  function seedIntroPostToLocal() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY_POSTS);
+      var list = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(list)) list = [];
+      var exists = list.some(function(item) {
+        return item && (item.id === INTRO_POST.id || item.title === INTRO_POST.title);
+      });
+      if (!exists) {
+        list.unshift(INTRO_POST);
+        localStorage.setItem(STORAGE_KEY_POSTS, JSON.stringify(list));
+      }
+    } catch (e) {}
+  }
+
+  function renderFallbackIntroCard() {
+    var grid = document.getElementById('studioPostsGrid');
+    var emptyState = document.getElementById('studioEmptyState');
+    if (!grid) return;
+    var alreadyRendered = grid.querySelector('[data-intro-post="1"]');
+    if (alreadyRendered) return;
+
+    if (emptyState) emptyState.classList.add('hidden');
+
+    var card = document.createElement('article');
+    card.className = 'post-card';
+    card.setAttribute('data-intro-post', '1');
+
+    var body = document.createElement('div');
+    body.className = 'post-body';
+
+    var meta = document.createElement('div');
+    meta.className = 'post-meta';
+    meta.innerHTML = '<span>' + INTRO_POST.createdAtLabel + '</span><span>' + INTRO_POST.section + '</span>';
+
+    var h3 = document.createElement('h3');
+    h3.className = 'post-title';
+    h3.textContent = INTRO_POST.title;
+
+    var p = document.createElement('p');
+    p.className = 'post-caption';
+    p.textContent = INTRO_POST.caption;
+
+    var tags = document.createElement('div');
+    tags.className = 'post-tags';
+    INTRO_POST.tags.forEach(function(t) {
+      var chip = document.createElement('span');
+      chip.className = 'tag-chip';
+      chip.textContent = '#' + t;
+      tags.appendChild(chip);
+    });
+
+    body.appendChild(meta);
+    body.appendChild(h3);
+    body.appendChild(p);
+    body.appendChild(tags);
+    card.appendChild(body);
+    grid.prepend(card);
+  }
+
+  seedIntroPostToLocal();
+  window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(renderFallbackIntroCard, 120);
+  });
+  setTimeout(renderFallbackIntroCard, 350);
+})();
+</script>
+
+
+<style>
+  .room-switcher-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm);
+  }
+  .room-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .room-tab-btn.active {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-text);
+  }
+  .room-panel {
+    margin-bottom: 22px;
+  }
+  .room-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .room-mini-card {
+    background-color: var(--bg-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 14px;
+  }
+  .room-mini-card h4 {
+    margin: 0 0 6px;
+    font-size: 0.98rem;
+  }
+  .room-mini-card p {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--text-secondary);
+  }
+</style>
+
+<script>
+(function() {
+  var ROOM_HASH_KEY = 'vongvilay_active_room_v1';
+
+  function ensureMultiRoomUI() {
+    var mainWrap = document.querySelector('main.studio-wrap');
+    if (!mainWrap || document.getElementById('multiRoomSwitcher')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'multiRoomSwitcher';
+    bar.className = 'room-switcher-bar';
+    bar.innerHTML =
+      '<div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">ເລືອກຫ້ອງ / ໜ້າ (Rooms):</div>' +
+      '<div class="room-btn-group" role="tablist">' +
+        '<button type="button" class="btn btn-sm room-tab-btn active" data-room="studio">ຫ້ອງ Studio &amp; Blog</button>' +
+        '<button type="button" class="btn btn-sm room-tab-btn" data-room="profile">ຫ້ອງໂປຣໄຟລ໌ &amp; ທັກສະ</button>' +
+        '<button type="button" class="btn btn-sm room-tab-btn" data-room="projects">ຫ້ອງໂຄງການ IoT &amp; AI</button>' +
+        '<button type="button" class="btn btn-sm room-tab-btn" data-room="notes">ຫ້ອງບັນທຶກ &amp; ວັນນະຄະດີ</button>' +
+      '</div>';
+
+    var profileRoom = document.createElement('section');
+    profileRoom.id = 'room-profile';
+    profileRoom.className = 'studio-feed-card room-panel hidden';
+    profileRoom.innerHTML =
+      '<h2 style="margin:0 0 8px;font-size:1.18rem;">ຫ້ອງໂປຣໄຟລ໌ &amp; ທັກສະ (Profile &amp; Skills)</h2>' +
+      '<p style="margin:0 0 14px;color:var(--text-secondary);font-size:0.9rem;">' +
+        'Saisathone Vongvilay · ປີທີ 4 ສາຂາວິສະວະກຳຄອມພິວເຕີ ແລະ ເອເລັກໂຕຣນິກ (Embedded Systems &amp; IoT) ທີ່ VKU ນະຄອນດານັງ, ຫວຽດນາມ.' +
+      '</p>' +
+      '<div class="room-cards-grid">' +
+        '<div class="room-mini-card"><h4>Microcontrollers &amp; PCB</h4><p>ESP32, STM32F103C8T6, AT89C51 (8051 Assembly), PCB Design, LTspice, Proteus 8, Keil uVision</p></div>' +
+        '<div class="room-mini-card"><h4>Protocols &amp; IoT</h4><p>UART, I2C, SPI, MQTT, WebRTC, ອອກແບບລະບົບຝັງຕົວ ແລະ ເຊັນເຊີ</p></div>' +
+        '<div class="room-mini-card"><h4>Languages &amp; Web</h4><p>C, C++, Python, MicroPython, Java, JavaScript, HTML/CSS, SQL, React</p></div>' +
+      '</div>';
+
+    var projectsRoom = document.createElement('section');
+    projectsRoom.id = 'room-projects';
+    projectsRoom.className = 'studio-feed-card room-panel hidden';
+    projectsRoom.innerHTML =
+      '<h2 style="margin:0 0 8px;font-size:1.18rem;">ຫ້ອງໂຄງການ IoT &amp; AI (Projects)</h2>' +
+      '<div class="room-cards-grid">' +
+        '<div class="room-mini-card"><h4>Smart Home ESP32</h4><p>ຫົວໜ້າທີມ ໂຄງການພື້ນຖານ 4 (Grade A) — ຄວບຄຸມອຸປະກອນອັດສະລິຍະຜ່ານ ESP32</p></div>' +
+        '<div class="room-mini-card"><h4>IoT Weather Dashboard</h4><p>ESP32 + Open-Meteo API + Mosquitto MQTT Broker + Web Dashboard</p></div>' +
+        '<div class="room-mini-card"><h4>YOLOv8 &amp; U-Net Vision</h4><p>ລະບົບກວດຈັບປ້າຍລົດ (YOLOv8 + OpenCV + Serial UART) ແລະ ແບ່ງສ່ວນຮູບພາບ (PyTorch U-Net)</p></div>' +
+      '</div>';
+
+    var notesRoom = document.createElement('section');
+    notesRoom.id = 'room-notes';
+    notesRoom.className = 'studio-feed-card room-panel hidden';
+    notesRoom.innerHTML =
+      '<h2 style="margin:0 0 8px;font-size:1.18rem;">ຫ້ອງບັນທຶກ &amp; ວັນນະຄະດີ (Notes &amp; Literature)</h2>' +
+      '<div class="room-cards-grid">' +
+        '<div class="room-mini-card"><h4>ກອນ ແລະ ວັນນະຄະດີລາວ</h4><p>ສຶກສາ, ແຕ່ງ ແລະ ວິເຄາະກອນລາວ ພ້ອມຮັກສາຄວາມງາມຂອງພາສາ</p></div>' +
+        '<div class="room-mini-card"><h4>Light Novel</h4><p>ຜົນງານນິຍາຍແຟນຕາຊີ “บันทึกเวทมนตร์ของจอมเวทฝึกหัด” (Leo &amp; Cookie)</p></div>' +
+        '<div class="room-mini-card"><h4>Lightweight Web Apps</h4><p>ສ້າງເວັບແອັບ single-file HTML/JS ແບບປະຢັດດາຕ້າ ແລະ ໃຊ້ງານໄດ້ໄວ</p></div>' +
+      '</div>';
+
+    mainWrap.insertBefore(bar, mainWrap.firstChild);
+    mainWrap.appendChild(profileRoom);
+    mainWrap.appendChild(projectsRoom);
+    mainWrap.appendChild(notesRoom);
+
+    function switchRoom(roomKey) {
+      var target = roomKey || 'studio';
+      var studioOnlyIds = ['studioLockBanner', 'studioFeaturePreview', 'studioWorkspace'];
+      var isStudio = target === 'studio';
+
+      studioOnlyIds.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (id === 'studioWorkspace') {
+          var signedIn = Boolean(sessionStorage.getItem('vongvilay_studio_authed_v1') === '1' ||
+            (document.getElementById('studioAuthBadge') &&
+             document.getElementById('studioAuthBadge').textContent.indexOf('Admin:') === 0));
+          el.classList.toggle('hidden', !(isStudio && signedIn));
+        } else {
+          if (id === 'studioLockBanner' || id === 'studioFeaturePreview') {
+            var signedIn2 = Boolean(sessionStorage.getItem('vongvilay_studio_authed_v1') === '1' ||
+              (document.getElementById('studioAuthBadge') &&
+               document.getElementById('studioAuthBadge').textContent.indexOf('Admin:') === 0));
+            el.classList.toggle('hidden', !(isStudio && !signedIn2));
+          } else {
+            el.classList.toggle('hidden', !isStudio);
+          }
+        }
+      });
+
+      ['profile', 'projects', 'notes'].forEach(function(k) {
+        var sec = document.getElementById('room-' + k);
+        if (sec) sec.classList.toggle('hidden', target !== k);
+      });
+
+      bar.querySelectorAll('.room-tab-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.room === target);
+      });
+
+      try {
+        localStorage.setItem(ROOM_HASH_KEY, target);
+        if (window.location.hash !== '#room-' + target) {
+          history.replaceState(null, '', '#room-' + target);
+        }
+      } catch (e) {}
+    }
+
+    bar.addEventListener('click', function(e) {
+      var btn = e.target.closest('.room-tab-btn');
+      if (!btn) return;
+      e.preventDefault();
+      switchRoom(btn.dataset.room);
+    });
+
+    window.addEventListener('hashchange', function() {
+      var h = (window.location.hash || '').replace(/^#room-/, '');
+      if (['studio', 'profile', 'projects', 'notes'].indexOf(h) !== -1) {
+        switchRoom(h);
+      }
+    });
+
+    var initialHash = (window.location.hash || '').replace(/^#room-/, '');
+    var savedRoom = localStorage.getItem(ROOM_HASH_KEY);
+    if (['studio', 'profile', 'projects', 'notes'].indexOf(initialHash) !== -1) {
+      switchRoom(initialHash);
+    } else if (['studio', 'profile', 'projects', 'notes'].indexOf(savedRoom) !== -1) {
+      switchRoom(savedRoom);
+    } else {
+      switchRoom('studio');
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', ensureMultiRoomUI);
+  setTimeout(ensureMultiRoomUI, 100);
+})();
+</script>
+
 </body>
 </html>
