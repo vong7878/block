@@ -77,11 +77,41 @@
       background-color: #ca8a04;
       color: #fefce8;
     }
-    /* ປຸ່ມແບບຂອບ */
-.btn-outline {
-  background-color: transparent;
-  color: #1d4ed8;
-  border: 1.5px solid #2563eb;
+  .hero-open-box {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 16px;
+}
+
+.kaengkok-danang-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;          /* ປັບຄວາມຍາວລົງ 50% */
+  min-width: 160px;    /* ກັນບໍ່ໃຫ້ຫົດນ້ອຍເກີນໄປໃນຈໍແຄບ */
+  padding: 10px 16px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  border: 1.5px solid rgba(15, 23, 42, 0.25);
+  color: #000000;      /* ຕົວໜັງສືສີດຳ */
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kaengkok-danang-btn:hover {
+  background-color: #f8fafc;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.kaengkok-danang-btn:active {
+  transform: translateY(0);
 }
   </style>
 </head>
@@ -144,10 +174,11 @@
             </p>
           </div>
         </div>
-              <a href="ຈາກບ້ານແກ້ງກອກສູ່ດານັງ.html" target="_blank" rel="noopener noreferrer" class="btn-link btn-outline">
-    ເປີດຫນ້າຈາກບ້ານແກ້ງກອກສູ່ດານັງ
-    <span class="btn-arrow">↗</span>
+            <div class="hero-open-box">
+  <a href="ຈາກບ້ານແກ້ງກອກສູ່ດານັງ.html" class="kaengkok-danang-btn">
+    ເປີດໜ້າ: ຈາກບ້ານແກ້ງກອກສູ່ດານັງ ↗
   </a>
+</div>
         <!-- Center/Right Controls: Mode Switch, Font Controls, Bookmark, Theme -->
         <div class="flex items-center flex-wrap gap-1.5 sm:gap-2">
           <!-- View Mode Switcher: Book Prose vs 2,000-Line Ledger -->
