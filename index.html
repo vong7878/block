@@ -84,23 +84,31 @@
   padding: 16px;
 }
 
+.hero-open-box {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 0;
+}
+
 .kaengkok-danang-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 50%;          /* ປັບຄວາມຍາວລົງ 50% */
-  min-width: 160px;    /* ກັນບໍ່ໃຫ້ຫົດນ້ອຍເກີນໄປໃນຈໍແຄບ */
-  padding: 10px 16px;
+  gap: 6px;
+  width: 50%;          /* ຮັກສາຄວາມຍາວ 50% ຕາມທີ່ຕ້ອງການ */
+  min-width: 140px;
+  padding: 8px 12px;
   border-radius: 10px;
   background-color: #ffffff;
   border: 1.5px solid rgba(15, 23, 42, 0.25);
   color: #000000;      /* ຕົວໜັງສືສີດຳ */
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
+  line-height: 1.35;
   text-decoration: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal; /* ບໍ່ຕັດຂໍ້ຄວາມໃຫ້ຫາຍໄປ */
+  text-align: center;
   transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
