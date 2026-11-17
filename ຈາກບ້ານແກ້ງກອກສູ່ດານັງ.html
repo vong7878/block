@@ -107,10 +107,57 @@
     ::-webkit-scrollbar-thumb:hover {
       background: rgba(188, 117, 70, 0.6);
     }
+
+    .back-home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background-color: #ffffff;
+      color: #000000;
+      border: 1.5px solid rgba(0, 0, 0, 0.22);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-home-btn:hover {
+      background-color: #f4f4f5;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .back-home-btn:active {
+      transform: translateY(0);
+    }
+
+    .back-home-btn .home-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+    }
+
+    .back-home-btn:hover .home-icon {
+      transform: translateX(-3px);
+    }
+
+    /* ທາງເລືອກ: ຕິດມຸມຂວາລຸ່ມແບບ Floating ຕອນເລື່ອນອ່ານ */
+    .back-home-btn.is-floating {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 999;
+    }
   </style>
 </head>
 
-<body class="bg-earth-50 text-earth-950 dark:bg-nightsky-950 dark:text-earth-100 doc-grain antialiased selection:bg-earth-300 selection:text-earth-950 dark:selection:bg-coastal-700 dark:selection:text-white">
+<body id="top" class="bg-earth-50 text-earth-950 dark:bg-nightsky-950 dark:text-earth-100 doc-grain antialiased selection:bg-earth-300 selection:text-earth-950 dark:selection:bg-coastal-700 dark:selection:text-white">
   <!-- Reading Progress Bar fixed along top viewport edge -->
   <div class="fixed top-0 left-0 right-0 z-50 h-1.5 bg-earth-200/70 dark:bg-earth-900/70 backdrop-blur-sm">
     <div
@@ -129,24 +176,31 @@
       aria-label="ແຖບນຳທາງສາລະຄະດີ"
       class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-earth-200/90 bg-white/90 px-4 py-3 shadow-sm backdrop-blur-md dark:border-earth-800/80 dark:bg-nightsky-900/90"
     >
-      <!-- Brand / Documentary Title -->
-      <a href="#top" class="flex items-center gap-3 group min-w-0">
-        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-earth-600 to-coastal-600 text-white shadow-sm">
-          <!-- Inline SVG Route Compass Emblem -->
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="9" />
-            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
-          </svg>
-        </span>
-        <div class="min-w-0">
-          <p class="truncate text-sm sm:text-base font-bold text-earth-900 dark:text-earth-50 group-hover:text-earth-600 dark:group-hover:text-coastal-300 transition-colors">
-            ຈາກບ້ານແກ້ງກອກສູ່ດານັງ
-          </p>
-          <p class="truncate text-xs text-earth-600 dark:text-earth-300">
-            ບລັອກສາລະຄະດີເສັ້ນທາງສະຖານທີ່ ແລະ ການເຕີບໃຫຍ່
-          </p>
-        </div>
-      </a>
+      <!-- Back to Home Button & Brand / Documentary Title -->
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="index.html" class="back-home-btn shrink-0" aria-label="ກັບສູ່ໜ້າຫຼັກ">
+          <span class="home-icon">←</span>
+          <span>ກັບສູ່ໜ້າຫຼັກ</span>
+        </a>
+
+        <a href="#top" class="flex items-center gap-3 group min-w-0">
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-earth-600 to-coastal-600 text-white shadow-sm">
+            <!-- Inline SVG Route Compass Emblem -->
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9" />
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+            </svg>
+          </span>
+          <div class="min-w-0">
+            <p class="truncate text-sm sm:text-base font-bold text-earth-900 dark:text-earth-50 group-hover:text-earth-600 dark:group-hover:text-coastal-300 transition-colors">
+              ຈາກບ້ານແກ້ງກອກສູ່ດານັງ
+            </p>
+            <p class="truncate text-xs text-earth-600 dark:text-earth-300">
+              ບລັອກສາລະຄະດີເສັ້ນທາງສະຖານທີ່ ແລະ ການເຕີບໃຫຍ່
+            </p>
+          </div>
+        </a>
+      </div>
 
       <!-- Controls: Chapter Jump Menu, Font Size Toggle, Theme Toggle -->
       <div class="flex items-center gap-2 sm:gap-3">
